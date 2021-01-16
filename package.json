@@ -1,0 +1,45 @@
+{
+  "name": "@oladimillion/react-form",
+  "version": "1.0.0",
+  "description": "Fast and easy way to create React form",
+  "author": {
+    "name": "Oladimeji Akande",
+    "email": "akandeoladimeji9@hotmail.com"
+  },
+  "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "scripts": {
+    "build": "react-scripts build"
+  },
+  "keywords": [
+    "form",
+    "react-form",
+    "react"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "check-types": "^11.1.2",
+    "hoist-non-react-statics": "^3.3.2",
+    "lodash": "^4.17.20",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "3.4.1",
+    "prop-types": "^15.7.2",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^2.0.1",
+    "styled-components": "^5.2.1",
+    "styled-system": "^5.1.5",
+    "validatorjs": "^3.20.0"
+  },
+  "files": [
+    "LICENSE",
+    "README.md",
+    "dist/",
+    "src/"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oladimillion/react-form.git"
+  }
+}
