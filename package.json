@@ -30,8 +30,6 @@
     "hoist-non-react-statics": "^3.3.2",
     "lodash": "^4.17.20",
     "prop-types": "^15.7.2",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.1",
@@ -43,11 +41,16 @@
     "@babel/cli": "^7.12.10",
     "@babel/core": "^7.12.10",
     "@babel/plugin-proposal-class-properties": "^7.12.1",
+    "@babel/plugin-proposal-optional-chaining": "^7.12.7",
     "@babel/plugin-transform-react-jsx": "^7.12.12",
+    "@babel/plugin-transform-runtime": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
     "@babel/preset-react": "^7.12.10",
     "babel-eslint": "^10.1.0",
-    "eslint": "^7.18.0"
+    "babel-plugin-lodash": "^3.3.4",
+    "babel-plugin-styled-components": "^1.12.0",
+    "eslint": "^7.18.0",
+    "prettier": "^2.2.1"
   },
   "files": [
     "LICENSE",
@@ -55,6 +58,10 @@
     "dist/",
     "src/"
   ],
+  "peerDependencies": {
+    "react": "^16.3.1",
+    "react-dom": "^16.3.1"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/oladimillion/react-form.git"
