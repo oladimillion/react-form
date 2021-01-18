@@ -1,0 +1,205 @@
+import _extends from "@babel/runtime/helpers/extends";
+import _regeneratorRuntime from "@babel/runtime/regenerator";
+import _asyncToGenerator from "@babel/runtime/helpers/asyncToGenerator";
+import _construct from "@babel/runtime/helpers/construct";
+import _defineProperty from "@babel/runtime/helpers/defineProperty";
+import _slicedToArray from "@babel/runtime/helpers/slicedToArray";
+import _objectWithoutProperties from "@babel/runtime/helpers/objectWithoutProperties";
+import _cloneDeep from "lodash/cloneDeep";
+import _set from "lodash/set";
+import _get from "lodash/get";
+import React from 'react';
+import styled from 'styled-components';
+import check from 'check-types';
+import Validator from 'validatorjs';
+import PropTypes from 'prop-types';
+import { withErrorBoundary } from '../hoc';
+import { isEmptyValue } from '../helpers/isEmptyValue';
+import { getPath } from '../helpers/getPath';
+import { FormContext } from '../Context';
+import { buildValidationRules } from '../helpers/buildValidationRules';
+import { buildFieldValidationMessages, buildFormValidationMessages } from '../helpers/buildValidationMessages';
+import { fieldTypes } from '../helpers/fieldTypes';
+var StyledForm = styled.form.withConfig({
+  displayName: "Form__StyledForm",
+  componentId: "gl7an6-0"
+})([""]);
+
+var FormComponent = function FormComponent(props) {
+  var children = props.children,
+      initialValues = props.initialValues,
+      validationRules = props.validationRules,
+      render = props.render,
+      onSubmit = props.onSubmit,
+      readOnly = props.readOnly,
+      rest = _objectWithoutProperties(props, ["children", "initialValues", "validationRules", "render", "onSubmit", "readOnly"]);
+
+  var composedValidationRules = React.useMemo(function () {
+    return buildValidationRules(validationRules);
+  }, [validationRules]);
+
+  var _React$useState = React.useState(initialValues),
+      _React$useState2 = _slicedToArray(_React$useState, 2),
+      values = _React$useState2[0],
+      setValues = _React$useState2[1];
+
+  var _React$useState3 = React.useState({}),
+      _React$useState4 = _slicedToArray(_React$useState3, 2),
+      errors = _React$useState4[0],
+      setErrors = _React$useState4[1];
+
+  var _React$useState5 = React.useState(false),
+      _React$useState6 = _slicedToArray(_React$useState5, 2),
+      submitting = _React$useState6[0],
+      setSubmitting = _React$useState6[1];
+
+  var setFieldError = function setFieldError(fieldName, fieldError) {
+    var newErrors = _set(_cloneDeep(errors), fieldName, fieldError);
+
+    setErrors(newErrors);
+  };
+
+  var resetForm = function resetForm() {
+    setValues({});
+    setErrors({});
+    setSubmitting(false);
+  };
+
+  var setFieldValue = function setFieldValue(fieldName, fieldValue) {
+    var path = getPath(fieldName);
+
+    var rules = _get(validationRules, path, {});
+
+    var composedRules = _get(composedValidationRules, path, '');
+
+    var composedMessage = buildFieldValidationMessages(fieldName, rules.message);
+
+    if (rules.validation) {
+      var validatorParams = [_defineProperty({}, fieldName, fieldValue), _defineProperty({}, fieldName, composedRules), composedMessage];
+
+      var validator = _construct(Validator, validatorParams);
+
+      validator.fails();
+      setFieldError(fieldName, validator.errors.get(fieldName));
+    }
+
+    var newValues = _set(_cloneDeep(values), fieldName, fieldValue);
+
+    setValues(newValues);
+  };
+
+  var handleSubmit = /*#__PURE__*/function () {
+    var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime.mark(function _callee(event) {
+      var fails, validatorParams, validator;
+      return _regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              event && event.preventDefault();
+              fails = false;
+
+              if (!check.emptyObject(validationRules)) {
+                validatorParams = [values, composedValidationRules, buildFormValidationMessages(validationRules, values)];
+                validator = _construct(Validator, validatorParams);
+                fails = validator.fails();
+                setErrors(validator.errors.all());
+              }
+
+              if (!(check.emptyObject(validationRules) || !fails)) {
+                _context.next = 11;
+                break;
+              }
+
+              _context.prev = 4;
+              setSubmitting(true);
+              _context.next = 8;
+              return onSubmit({
+                values: values,
+                errors: errors,
+                submitting: submitting,
+                resetForm: resetForm
+              });
+
+            case 8:
+              _context.prev = 8;
+              setSubmitting(false);
+              return _context.finish(8);
+
+            case 11:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee, null, [[4,, 8, 11]]);
+    }));
+
+    return function handleSubmit(_x) {
+      return _ref3.apply(this, arguments);
+    };
+  }();
+
+  var handleChange = function handleChange(e, props) {
+    var _e$target = e.target,
+        files = _e$target.files,
+        targetName = _e$target.name,
+        targetValue = _e$target.value;
+    var propsName = props.name,
+        propsValue = props.value,
+        type = props.type,
+        multiple = props.multiple;
+    var name = !isEmptyValue(targetName) ? targetName : propsName;
+    var value = !isEmptyValue(targetValue) ? targetValue : propsValue;
+
+    if (type === fieldTypes.FILE && multiple) {
+      setFieldValue(name, files);
+    } else if (type === fieldTypes.FILE) {
+      setFieldValue(name, files[0]);
+    } else {
+      setFieldValue(name, value);
+    }
+  };
+
+  var contextValue = {
+    setFieldValue: setFieldValue,
+    setFieldError: setFieldError,
+    setSubmitting: setSubmitting,
+    resetForm: resetForm,
+    submitting: submitting,
+    dirty: !isEmptyValue(errors),
+    values: values,
+    errors: errors,
+    handleSubmit: handleSubmit,
+    handleChange: handleChange,
+    formValidationRules: composedValidationRules,
+    readOnly: readOnly
+  };
+
+  var renderChildren = function renderChildren() {
+    if (check["function"](children)) {
+      return children(contextValue);
+    } else if (check["function"](render)) {
+      return render(contextValue);
+    }
+
+    return children;
+  };
+
+  return /*#__PURE__*/React.createElement(FormContext.Provider, {
+    value: contextValue
+  }, /*#__PURE__*/React.createElement(StyledForm, _extends({}, rest, {
+    onSubmit: handleSubmit
+  }), renderChildren()));
+};
+
+FormComponent.defaultProps = {
+  validationRules: {},
+  initialValues: {},
+  readOnly: false
+};
+FormComponent.propTypes = {
+  validationRules: PropTypes.shape({}),
+  onSubmit: PropTypes.func,
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+  render: PropTypes.func
+};
+export var Form = withErrorBoundary(FormComponent);

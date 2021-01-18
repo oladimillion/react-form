@@ -90,4 +90,14 @@ module.exports = {
     hot: true, // enable HMR on the server
     port: 3000,
   },
+  devtool: "eval-source-map",
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        defaultVendors: {
+          reuseExistingChunk: true
+        }
+      }
+    }
+  },
 };

@@ -62,7 +62,7 @@ export const Form = () => {
       onSubmit={onSubmit}
       validationRules={validationRules}
       initialValues={initialValues}
-      readOnly={false}
+      readOnly={true}
     >
       <Field type='test' label='Unsupported' name='test' />
       <Field type='text' label='Text Field' name='text' placeholder='Text field' />

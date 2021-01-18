@@ -1,5 +1,4 @@
 {
-  "extends": "wojtekmaj/react",
   "parser": "babel-eslint",
   "rules": {
     "no-restricted-globals": "off"

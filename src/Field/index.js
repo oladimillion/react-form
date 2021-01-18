@@ -65,7 +65,7 @@ export const Field = (props) => {
   const errors = check.array(error) ? error : [error]
 
   return (
-    <FlexBox flexDirection='column' my={3}>
+    <FlexBox flexDirection='column' my={3} width='100%'>
       <FlexBox mb={2}>
         {label && <Label>{label}</Label>}
         {required && <Required as='span'>*</Required>}

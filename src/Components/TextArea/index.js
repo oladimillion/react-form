@@ -21,6 +21,7 @@ const StyledTextArea = styled(SemanticTextArea)(
       background: #fff;
       color: rgba(0,0,0,.8);
       box-shadow: none;
+      outline: none;
     }
   `
 )
