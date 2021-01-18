@@ -7,30 +7,47 @@
     "email": "akandeoladimeji9@hotmail.com"
   },
   "license": "MIT",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
+  "main": "dist/umd/index.js",
+  "module": "dist/esm/index.js",
+  "source": "src/index.js",
   "scripts": {
-    "build": "react-scripts build"
+    "build": "npm run build-js-all",
+    "build-js-all": "npm run build-js-esm && npm run build-js-umd",
+    "build-js-esm": "BABEL_ENV=production-esm babel src -d dist/esm --ignore \"**/*.spec.js,**/*.spec.jsx\"",
+    "build-js-umd": "BABEL_ENV=production-umd babel src -d dist/umd --ignore \"**/*.spec.js,**/*.spec.jsx\"",
+    "format": "prettier {src,src/**}/*.{md,js,jsx} --write"
   },
   "keywords": [
     "form",
     "react-form",
     "react"
   ],
-  "dependencies": {},
-  "devDependencies": {
+  "sideEffects": [
+    "*.css"
+  ],
+  "dependencies": {
     "check-types": "^11.1.2",
     "hoist-non-react-statics": "^3.3.2",
     "lodash": "^4.17.20",
+    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1",
-    "prop-types": "^15.7.2",
+    "react-router-dom": "^5.2.0",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.1",
     "styled-components": "^5.2.1",
     "styled-system": "^5.1.5",
     "validatorjs": "^3.20.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.12.10",
+    "@babel/core": "^7.12.10",
+    "@babel/plugin-proposal-class-properties": "^7.12.1",
+    "@babel/plugin-transform-react-jsx": "^7.12.12",
+    "@babel/preset-env": "^7.12.11",
+    "@babel/preset-react": "^7.12.10",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.18.0"
   },
   "files": [
     "LICENSE",
