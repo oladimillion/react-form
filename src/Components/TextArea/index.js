@@ -5,7 +5,6 @@ import { layout, space } from 'styled-system'
 import { TextArea as SemanticTextArea } from 'semantic-ui-react'
 import { disabled } from '../styled'
 
-
 const StyledTextArea = styled(SemanticTextArea)(
   {
     resize: 'none',
@@ -15,7 +14,7 @@ const StyledTextArea = styled(SemanticTextArea)(
   },
   space,
   layout,
-  (props) => `
+  props => `
     &:focus {
       border-color: #85b7d9;
       background: #fff;
@@ -28,7 +27,9 @@ const StyledTextArea = styled(SemanticTextArea)(
 
 const TextAreaWrapper = styled.div`
   textarea {
-    ${({ error }) => error && `
+    ${({ error }) =>
+      error &&
+      `
       background-color: #fff6f6;
       border-color: #e0b4b4;
       color: #9f3a38;
@@ -41,7 +42,7 @@ const TextAreaWrapper = styled.div`
   }
 `
 
-export const TextArea = (props) => {
+export const TextArea = props => {
   const { error, disabled, ...rest } = props
   return (
     <TextAreaWrapper error={error} disabled={disabled}>
@@ -58,9 +59,8 @@ TextArea.defaultProps = {
   error: false,
 }
 
-TextArea.propTypes = { 
+TextArea.propTypes = {
   ...space.propTypes,
   ...layout.propTypes,
   error: PropTypes.oneOfType([PropTypes.bool, PropTypes.any]),
 }
-

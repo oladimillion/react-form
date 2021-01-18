@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import hoistNonReactStatics from 'hoist-non-react-statics';
+import hoistNonReactStatics from 'hoist-non-react-statics'
 import { Radio as SemanticRadio } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 
@@ -18,5 +18,3 @@ Radio.propTypes = {
 }
 
 hoistNonReactStatics(Radio, SemanticRadio)
-
-

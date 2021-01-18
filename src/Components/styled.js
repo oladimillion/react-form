@@ -1,4 +1,3 @@
-
 const commonStyle = `
   border: 1px solid transparent !important;
   color: rgba(0,0,0,.87);
@@ -7,7 +6,9 @@ const commonStyle = `
   padding-right: 0 !important;
 `
 
-export const disabled = ({ disabled }) => disabled && `
+export const disabled = ({ disabled }) =>
+  disabled &&
+  `
   && input {
     ${commonStyle};
   }
