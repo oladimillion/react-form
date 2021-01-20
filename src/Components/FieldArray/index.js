@@ -8,11 +8,11 @@ import { Button } from '../Button'
 import { Label } from '../Label'
 import { useField } from '../../hooks/useField'
 import { useFormContext } from '../../hooks/useFormContext'
-import { isEmptyValue } from  '../../helpers/isEmptyValue'
+import { isEmptyValue } from '../../helpers/isEmptyValue'
 
-export const FieldArray = (props) => {
+export const FieldArray = props => {
   const { name, children, render, label, ...rest } = props
-  const { value, setValue, readOnly, submitting } = useField(name) 
+  const { value, setValue, readOnly, submitting } = useField(name)
   const disabled = readOnly || submitting || rest.disabled
 
   check.assert.string(name, 'name is required')
@@ -23,22 +23,21 @@ export const FieldArray = (props) => {
     if (isEmptyValue(value)) setValue([{}])
     return () => null
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const add = (defaultValue) => {
-
+  const add = defaultValue => {
     if (disabled) return
 
     // ensuring defaultValue is serializable
     try {
       JSON.stringify(defaultValue)
-    } catch(e) {
+    } catch (e) {
       defaultValue = null
     }
     setValue([...value, defaultValue || {}])
   }
-  const remove = (index) => {
+  const remove = index => {
     if (disabled) return
     if (value?.length > 1) {
       setValue(value.filter((_, i) => i !== index))
@@ -47,7 +46,7 @@ export const FieldArray = (props) => {
   const args = { values: value || [], add, remove }
 
   return (
-    <FlexBox flexDirection='column' {...rest}>
+    <FlexBox flexDirection="column" {...rest}>
       {label && <Label>{label}</Label>}
       <Wrapper>
         {children && children(args)}
@@ -66,15 +65,15 @@ const Wrapper = styled(Segment)`
 `
 
 const Item = styled(FlexBox).attrs(() => ({
-  flexDirection: 'column'
+  flexDirection: 'column',
 }))`
   position: relative;
 `
 
-const RemoveButton = styled((props) => {
+const RemoveButton = styled(props => {
   const { submitting, readOnly } = useFormContext()
   const disabled = submitting || readOnly
-  return <Icon {...props} name='cancel' disabled={disabled}/>
+  return <Icon {...props} name="cancel" disabled={disabled} />
 })`
   position: absolute;
   top: 9px;
@@ -84,16 +83,12 @@ const RemoveButton = styled((props) => {
   scale: 1.5;
 `
 
-const AddButton = styled((props) => {
+const AddButton = styled(props => {
   const { children, ...rest } = props
   const { submitting, readOnly } = useFormContext()
   const disabled = submitting || readOnly
   return (
-    <Button 
-      {...rest} 
-      disabled={disabled} 
-      type='button'
-    >
+    <Button {...rest} disabled={disabled} type="button">
       {children}
     </Button>
   )
@@ -105,7 +100,7 @@ const AddButton = styled((props) => {
 `
 
 AddButton.defaultProps = {
-  children: 'Add'
+  children: 'Add',
 }
 
 const StyledDivider = styled(Divider)`
@@ -130,4 +125,3 @@ FieldArray.propTypes = {
   children: PropTypes.func,
   render: PropTypes.func,
 }
-

@@ -3,22 +3,21 @@ import { get } from 'lodash'
 import PropTypes from 'prop-types'
 import { Checkbox } from 'semantic-ui-react'
 import styled from 'styled-components'
-import check from 'check-types';
+import check from 'check-types'
 import { useField } from '../hooks'
-import { 
+import {
   Text,
-  FlexBox, 
+  FlexBox,
   Radio,
   Select,
   TextArea,
   TextInput,
   Unsupported,
   ErrorMessage,
-  Label
+  Label,
 } from '../Components'
 import { RadioArray } from './Components/RadioArray'
 import { isEmptyValue, fieldTypes, castArray } from '../helpers'
-
 
 const InputComponentTypes = {
   [fieldTypes.TEXT]: TextInput,
@@ -27,75 +26,77 @@ const InputComponentTypes = {
   [fieldTypes.CHECKBOX]: Checkbox,
   [fieldTypes.RADIO]: Radio,
   [fieldTypes.RADIO_ARRAY]: RadioArray,
-  [fieldTypes.EMAIL]: (props) => <TextInput {...props} type='email' />,
-  [fieldTypes.URL]: (props) => <TextInput {...props} type='url' />,
-  [fieldTypes.PASSWORD]: (props) => <TextInput {...props} type='password' />,
-  [fieldTypes.FILE]: (props) => <TextInput {...props} type='file' />,
-  [fieldTypes.NUMBER]: (props) => <TextInput {...props} type='text' />,
+  [fieldTypes.EMAIL]: props => <TextInput {...props} type="email" />,
+  [fieldTypes.URL]: props => <TextInput {...props} type="url" />,
+  [fieldTypes.PASSWORD]: props => <TextInput {...props} type="password" />,
+  [fieldTypes.FILE]: props => <TextInput {...props} type="file" />,
+  [fieldTypes.NUMBER]: props => <TextInput {...props} type="text" />,
 }
 
-export const Field = (props) => {
-
-  const { 
-    label, 
-    type, 
+export const Field = props => {
+  const {
+    label,
+    type,
     includeFileLink,
-    Component: CustomField, 
+    Component: CustomField,
     disabled,
-    ...rest 
+    ...rest
   } = props
 
-  const {
-    error,
-    value,
-    onChange,
-    onBlur,
-    required,
-    readOnly,
-  } = useField(props.name)
+  const { error, value, onChange, onBlur, required, readOnly } = useField(
+    props.name
+  )
 
   const Component = CustomField || get(InputComponentTypes, type, Unsupported)
-  const FieldComponent = React.useCallback((props) => <Component  {...props} />, [])
+  const FieldComponent = React.useCallback(
+    props => <Component {...props} />,
+    []
+  )
   const isFileField = type === fieldTypes.FILE
 
   const fieldValue = React.useMemo(() => {
-    return isFileField ? {} : { value: value || ''} 
+    return isFileField ? {} : { value: value || '' }
   }, [value, isFileField])
 
   const errors = check.array(error) ? error : [error]
 
   return (
-    <FlexBox flexDirection='column' my={3} width='100%'>
+    <FlexBox flexDirection="column" my={3} width="100%">
       <FlexBox mb={2}>
         {label && <Label>{label}</Label>}
-        {required && <Required as='span'>*</Required>}
-        {(isFileField && includeFileLink) && castArray(value).map((link, index) => {
-          return check.string(link) && (
-            <FileLink 
-              key={index}
-              href={link} 
-              target='_blank'
-              rel='noopener'>
-              {link}
-            </FileLink>
-        )})}
+        {required && <Required as="span">*</Required>}
+        {isFileField &&
+          includeFileLink &&
+          castArray(value).map((link, index) => {
+            return (
+              check.string(link) && (
+                <FileLink
+                  key={index}
+                  href={link}
+                  target="_blank"
+                  rel="noopener"
+                >
+                  {link}
+                </FileLink>
+              )
+            )
+          })}
       </FlexBox>
-      <FieldComponent 
+      <FieldComponent
         {...rest}
         {...fieldValue}
         disabled={readOnly || disabled}
         type={type}
-        onChange={onChange} 
-        onBlur={onBlur} 
-        error={!isEmptyValue(error)} 
+        onChange={onChange}
+        onBlur={onBlur}
+        error={!isEmptyValue(error)}
       />
-      {errors.map((error, index) => (
-        !isEmptyValue(error) && (
-          <ErrorMessage key={index}>
-            {error}
-          </ErrorMessage>
-        )
-      ))}
+      {errors.map(
+        (error, index) =>
+          !isEmptyValue(error) && (
+            <ErrorMessage key={index}>{error}</ErrorMessage>
+          )
+      )}
     </FlexBox>
   )
 }
@@ -120,4 +121,3 @@ Field.propTypes = {
   name: PropTypes.string.isRequired,
   type: PropTypes.string,
 }
-

@@ -1,48 +1,45 @@
 import React from 'react'
 import styled from 'styled-components'
-import hoistNonReactStatics from 'hoist-non-react-statics';
+import hoistNonReactStatics from 'hoist-non-react-statics'
 import { Form, Radio as SemanticRadio } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
-
 
 const RadioContext = React.createContext({
   value: null,
   onChange: () => {},
 })
 
-const RadioComponent = (props) => {
-  const { 
+const RadioComponent = props => {
+  const {
     children,
-    onChange, 
-    name, 
-    disabled, 
-    value: fieldValue, 
+    onChange,
+    name,
+    disabled,
+    value: fieldValue,
     ...rest
   } = props
 
   const [value, setValue] = React.useState(fieldValue)
 
   return (
-    <RadioContext.Provider 
+    <RadioContext.Provider
       value={{
         value,
         name,
         disabled,
         setValue,
-        onChange: (value) => {
+        onChange: value => {
           setValue(value)
           onChange({
             target: {
               name: props.name,
               value,
-            }
+            },
           })
-        }
+        },
       }}
     >
-      <Form {...rest} >
-        {children}
-      </Form>
+      <Form {...rest}>{children}</Form>
     </RadioContext.Provider>
   )
 }
@@ -54,7 +51,7 @@ RadioComponent.defaultProps = {
   name: null,
 }
 
-const RadioComponentItem = (props) => {
+const RadioComponentItem = props => {
   const { value, name, onChange, disabled } = React.useContext(RadioContext)
   const { Component, value: fieldValue, text, ...rest } = props
   const dataProps = {
@@ -66,11 +63,11 @@ const RadioComponentItem = (props) => {
   }
   return (
     <Form.Field {...rest}>
-      {
-        Component ? 
-          <Component {...dataProps} /> :
-          <SemanticRadio {...dataProps} />
-      }
+      {Component ? (
+        <Component {...dataProps} />
+      ) : (
+        <SemanticRadio {...dataProps} />
+      )}
     </Form.Field>
   )
 }
@@ -88,10 +85,9 @@ RadioComponentItem.propTypes = {
 
 RadioComponent.Item = RadioComponentItem
 
-export const RadioArray = styled(RadioComponent)
-  .attrs(() => ({
-    className: 'RadioArray',
-  }))``
+export const RadioArray = styled(RadioComponent).attrs(() => ({
+  className: 'RadioArray',
+}))``
 
 RadioArray.propTypes = {
   value: PropTypes.any,
@@ -103,4 +99,3 @@ RadioArray.propTypes = {
 RadioArray.displayName = 'RadioArray'
 
 hoistNonReactStatics(RadioArray, RadioComponent)
-

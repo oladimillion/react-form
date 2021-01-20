@@ -9,11 +9,11 @@ const Info = styled.i`
 export class ErrorBoundary extends React.Component {
   state = { hasError: false }
 
-  static getDerivedStateFromError() {    
+  static getDerivedStateFromError() {
     return { hasError: true }
   }
 
-  componentDidCatch(error, errorInfo) {    
+  componentDidCatch(error, errorInfo) {
     this.setState({ error, errorInfo })
   }
 
@@ -23,23 +23,24 @@ export class ErrorBoundary extends React.Component {
     const { hasError, error, errorInfo } = this.state
     const { isDev } = this
 
-    if (hasError) {      
+    if (hasError) {
       return (
-        <FlexBox flexDirection='column'>
-          <h3>Something went wrong: {isDev && <Info>{error?.message}</Info>}</h3>
+        <FlexBox flexDirection="column">
+          <h3>
+            Something went wrong: {isDev && <Info>{error?.message}</Info>}
+          </h3>
           <pre>{isDev && errorInfo?.componentStack}</pre>
         </FlexBox>
       )
     }
-    return this.props.children 
+    return this.props.children
   }
 }
 
-export const withErrorBoundary = (WrappedComponet) => (props) => {
+export const withErrorBoundary = WrappedComponet => props => {
   return (
     <ErrorBoundary>
-      <WrappedComponet {...props} /> 
+      <WrappedComponet {...props} />
     </ErrorBoundary>
   )
 }
-

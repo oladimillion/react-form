@@ -2,7 +2,7 @@ import { get } from 'lodash'
 import { getPath } from '../helpers/getPath'
 import { useFormContext } from './useFormContext'
 
-export const useField = (fieldName) => {
+export const useField = fieldName => {
   const {
     values,
     errors,
@@ -23,14 +23,13 @@ export const useField = (fieldName) => {
     value,
     error,
     onChange: handleChange,
-    setValue: (value) => setFieldValue(fieldName, value),
-    setError: (error) => setFieldError(fieldName, error),
+    setValue: value => setFieldValue(fieldName, value),
+    setError: error => setFieldError(fieldName, error),
     onBlur: () => setFieldValue(fieldName, value),
     handleChange,
-    fieldValidationRules, 
+    fieldValidationRules,
     required,
     readOnly,
     submitting,
   }
 }
-

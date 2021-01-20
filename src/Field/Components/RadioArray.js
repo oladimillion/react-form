@@ -12,10 +12,12 @@ export const RadioArray = ({ name, value, options, ...rest }) => (
 
 RadioArray.propTypes = {
   onChange: PropTypes.func.isRequired,
-  options: PropTypes.arrayOf(PropTypes.shape({
-    value: PropTypes.string,
-    text: PropTypes.string,
-  })).isRequired,
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string,
+      text: PropTypes.string,
+    })
+  ).isRequired,
   name: PropTypes.string.isRequired,
   value: PropTypes.any,
-} 
+}

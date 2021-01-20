@@ -12,7 +12,7 @@ export const FlexBox = styled.div.attrs(() => ({
 
 FlexBox.displayName = 'FlexBox'
 
-FlexBox.propTypes = { 
+FlexBox.propTypes = {
   ...space.propTypes,
   ...layout.propTypes,
   ...flexbox.propTypes,
@@ -22,4 +22,3 @@ FlexBox.propTypes = {
 FlexBox.defaultProps = {
   display: 'flex',
 }
-

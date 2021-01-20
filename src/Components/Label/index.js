@@ -3,8 +3,10 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import { Text } from '../Text'
 
-export const Label = ({ children, ...rest }) =>  (
-  <StyledText {...rest} as='label'>{children}</StyledText>
+export const Label = ({ children, ...rest }) => (
+  <StyledText {...rest} as="label">
+    {children}
+  </StyledText>
 )
 
 const StyledText = styled(Text)`
@@ -13,5 +15,5 @@ const StyledText = styled(Text)`
 `
 
 Label.propTypes = {
-  children: PropTypes.any
+  children: PropTypes.any,
 }

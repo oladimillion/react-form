@@ -1,26 +1,25 @@
 import React from 'react'
 import styled from 'styled-components'
 import { get, set, cloneDeep } from 'lodash'
-import check from 'check-types';
-import Validator from 'validatorjs';
+import check from 'check-types'
+import Validator from 'validatorjs'
 import PropTypes from 'prop-types'
 import { withErrorBoundary } from '../hoc'
 import { isEmptyValue } from '../helpers/isEmptyValue'
 import { getPath } from '../helpers/getPath'
 import { FormContext } from '../Context'
 import { buildValidationRules } from '../helpers/buildValidationRules'
-import { 
-  buildFieldValidationMessages, 
-  buildFormValidationMessages, 
+import {
+  buildFieldValidationMessages,
+  buildFormValidationMessages,
 } from '../helpers/buildValidationMessages'
 import { fieldTypes } from '../helpers/fieldTypes'
 
 const StyledForm = styled.form``
 
-const FormComponent = (props) => {
-
-  const { 
-    children, 
+const FormComponent = props => {
+  const {
+    children,
     initialValues,
     validationRules,
     render,
@@ -53,14 +52,14 @@ const FormComponent = (props) => {
     const rules = get(validationRules, path, {})
     const composedRules = get(composedValidationRules, path, '')
     const composedMessage = buildFieldValidationMessages(
-      fieldName, 
-      rules.message, 
+      fieldName,
+      rules.message
     )
     if (rules.validation) {
       const validatorParams = [
-        { [fieldName]: fieldValue }, 
+        { [fieldName]: fieldValue },
         { [fieldName]: composedRules },
-        composedMessage, 
+        composedMessage,
       ]
       const validator = new Validator(...validatorParams)
       validator.fails()
@@ -70,7 +69,7 @@ const FormComponent = (props) => {
     setValues(newValues)
   }
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async event => {
     event && event.preventDefault()
 
     let fails = false
@@ -82,7 +81,7 @@ const FormComponent = (props) => {
         buildFormValidationMessages(validationRules, values),
       ]
       const validator = new Validator(...validatorParams)
-      fails = validator.fails();
+      fails = validator.fails()
       setErrors(validator.errors.all())
     }
 
@@ -158,4 +157,3 @@ FormComponent.propTypes = {
 }
 
 export const Form = withErrorBoundary(FormComponent)
-
