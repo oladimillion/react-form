@@ -18,5 +18,5 @@ module.exports = {
       ]
     }
   },
-  sourceMaps: process.env.NODE_ENV === 'development',
+  sourceMaps: true,
 }

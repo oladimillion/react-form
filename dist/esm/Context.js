@@ -1,5 +1,7 @@
 import React from 'react';
 export var FormContext = /*#__PURE__*/React.createContext({
+  setFormValue: function setFormValue() {},
+  setFormError: function setFormError() {},
   setFieldValue: function setFieldValue() {},
   setFieldError: function setFieldError() {},
   setSubmitting: function setSubmitting() {},
@@ -12,5 +14,6 @@ export var FormContext = /*#__PURE__*/React.createContext({
   readOnly: false,
   values: {},
   errors: {},
-  formValidationRules: {}
+  formValidationRules: {},
+  formValidationDependencies: {}
 });

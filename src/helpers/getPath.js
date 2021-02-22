@@ -15,7 +15,11 @@ export const getPath = (fieldName, hasRuleInName = false) => {
 
 export const getParentPath = fieldName => {
   if (fieldName.includes('.*.')) {
+    // parentPath for field array
     return fieldName.split('.*.')[0]
+  } else if (fieldName.includes('.')) {
+    // parentPath for object
+    return fieldName.split('.')[0]
   }
   return fieldName
 }

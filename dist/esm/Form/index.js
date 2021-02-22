@@ -8,6 +8,11 @@ import _objectWithoutProperties from "@babel/runtime/helpers/objectWithoutProper
 import _cloneDeep from "lodash/cloneDeep";
 import _set from "lodash/set";
 import _get from "lodash/get";
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 import React from 'react';
 import styled from 'styled-components';
 import check from 'check-types';
@@ -16,8 +21,10 @@ import PropTypes from 'prop-types';
 import { withErrorBoundary } from '../hoc';
 import { isEmptyValue } from '../helpers/isEmptyValue';
 import { getPath } from '../helpers/getPath';
+import { getCleanValues } from '../helpers/getCleanValues';
 import { FormContext } from '../Context';
 import { buildValidationRules } from '../helpers/buildValidationRules';
+import { buildValidationDependencies } from '../helpers/buildValidationDependencies';
 import { buildFieldValidationMessages, buildFormValidationMessages } from '../helpers/buildValidationMessages';
 import { fieldTypes } from '../helpers/fieldTypes';
 var StyledForm = styled.form.withConfig({
@@ -36,6 +43,9 @@ var FormComponent = function FormComponent(props) {
 
   var composedValidationRules = React.useMemo(function () {
     return buildValidationRules(validationRules);
+  }, [validationRules]);
+  var composedValidationDependencies = React.useMemo(function () {
+    return buildValidationDependencies(validationRules);
   }, [validationRules]);
 
   var _React$useState = React.useState(initialValues),
@@ -57,6 +67,18 @@ var FormComponent = function FormComponent(props) {
     var newErrors = _set(_cloneDeep(errors), fieldName, fieldError);
 
     setErrors(newErrors);
+  };
+
+  var setFormValue = function setFormValue() {
+    var newValues = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var useInitialValues = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+    setValues(_objectSpread(_objectSpread({}, useInitialValues && values), newValues));
+  };
+
+  var setFormError = function setFormError() {
+    var newErrors = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var useInitialErrors = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+    setErrors(_objectSpread(_objectSpread({}, useInitialErrors && errors), newErrors));
   };
 
   var resetForm = function resetForm() {
@@ -90,47 +112,51 @@ var FormComponent = function FormComponent(props) {
 
   var handleSubmit = /*#__PURE__*/function () {
     var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime.mark(function _callee(event) {
-      var fails, validatorParams, validator;
+      var cleanValues, fails, validatorParams, validator;
       return _regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              event && event.preventDefault();
+              event && event.preventDefault(); // removing fields whose depend rule returns false
+
+              cleanValues = getCleanValues(values, composedValidationDependencies);
               fails = false;
 
               if (!check.emptyObject(validationRules)) {
-                validatorParams = [values, composedValidationRules, buildFormValidationMessages(validationRules, values)];
+                validatorParams = [cleanValues, composedValidationRules, buildFormValidationMessages(validationRules, cleanValues)];
                 validator = _construct(Validator, validatorParams);
                 fails = validator.fails();
                 setErrors(validator.errors.all());
               }
 
               if (!(check.emptyObject(validationRules) || !fails)) {
-                _context.next = 11;
+                _context.next = 12;
                 break;
               }
 
-              _context.prev = 4;
+              _context.prev = 5;
               setSubmitting(true);
-              _context.next = 8;
+              _context.next = 9;
               return onSubmit({
-                values: values,
+                values: cleanValues,
                 errors: errors,
                 submitting: submitting,
-                resetForm: resetForm
+                resetForm: resetForm,
+                setFormError: setFormError,
+                setFormValue: setFormValue
               });
 
-            case 8:
-              _context.prev = 8;
+            case 9:
+              _context.prev = 9;
               setSubmitting(false);
-              return _context.finish(8);
+              return _context.finish(9);
 
-            case 11:
+            case 12:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[4,, 8, 11]]);
+      }, _callee, null, [[5,, 9, 12]]);
     }));
 
     return function handleSubmit(_x) {
@@ -171,19 +197,19 @@ var FormComponent = function FormComponent(props) {
     handleSubmit: handleSubmit,
     handleChange: handleChange,
     formValidationRules: composedValidationRules,
-    readOnly: readOnly
+    formValidationDependencies: composedValidationDependencies,
+    readOnly: readOnly,
+    setFormValue: setFormValue
   };
-
-  var renderChildren = function renderChildren() {
+  var renderChildren = React.useCallback(function () {
     if (check["function"](children)) {
       return children(contextValue);
     } else if (check["function"](render)) {
       return render(contextValue);
     }
 
-    return children;
-  };
-
+    return children; // eslint-disble-next-line 
+  }, []);
   return /*#__PURE__*/React.createElement(FormContext.Provider, {
     value: contextValue
   }, /*#__PURE__*/React.createElement(StyledForm, _extends({}, rest, {

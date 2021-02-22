@@ -8,8 +8,8 @@ export var SuccessMessage = function SuccessMessage(_ref) {
       rest = _objectWithoutProperties(_ref, ["children"]);
 
   return /*#__PURE__*/React.createElement(Text, _extends({
-    as: "small",
-    color: "#277927"
+    as: 'small',
+    color: '#277927'
   }, rest), children);
 };
 SuccessMessage.propTypes = {

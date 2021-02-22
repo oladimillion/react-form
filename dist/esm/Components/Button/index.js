@@ -24,6 +24,9 @@ export var Button = styled(ButtonComponent).withConfig({
   componentId: "sc-19mvw3p-0"
 })(space, layout);
 Button.displayName = 'Button';
+Button.defaultProps = {
+  type: 'button'
+};
 Button.propTypes = _objectSpread(_objectSpread(_objectSpread({}, space.propTypes), layout.propTypes), {}, {
   children: PropTypes.any
 });

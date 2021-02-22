@@ -1,7 +1,7 @@
 {
   "name": "@oladimillion/react-form",
   "version": "1.0.0",
-  "description": "Fast and easy way to create React form",
+  "description": "Fast and easy way to create form in React",
   "author": {
     "name": "Oladimeji Akande",
     "email": "akandeoladimeji9@hotmail.com"
@@ -39,11 +39,11 @@
     "babel-eslint": "^10.1.0",
     "babel-plugin-lodash": "^3.3.4",
     "babel-plugin-styled-components": "^1.12.0",
-    "eslint": "^7.18.0",
-    "prettier": "^2.2.1",
     "check-types": "^11.1.2",
+    "eslint": "^7.18.0",
     "hoist-non-react-statics": "^3.3.2",
     "lodash": "^4.17.20",
+    "prettier": "^2.2.1",
     "prop-types": "^15.7.2",
     "react": "^16.3.1",
     "react-dom": "^16.3.1",
@@ -52,7 +52,7 @@
     "semantic-ui-react": "^2.0.1",
     "styled-components": "^5.2.1",
     "styled-system": "^5.1.5",
-    "validatorjs": "^3.20.0"
+    "validatorjs": "^3.22.1"
   },
   "files": [
     "LICENSE",

@@ -46,7 +46,7 @@ export const FieldArray = props => {
   const args = { values: value || [], add, remove }
 
   return (
-    <FlexBox flexDirection="column" {...rest}>
+    <FlexBox flexDirection={'column'} {...rest}>
       {label && <Label>{label}</Label>}
       <Wrapper>
         {children && children(args)}
@@ -73,7 +73,7 @@ const Item = styled(FlexBox).attrs(() => ({
 const RemoveButton = styled(props => {
   const { submitting, readOnly } = useFormContext()
   const disabled = submitting || readOnly
-  return <Icon {...props} name="cancel" disabled={disabled} />
+  return <Icon {...props} name={'cancel'} disabled={disabled} />
 })`
   position: absolute;
   top: 9px;
@@ -88,7 +88,7 @@ const AddButton = styled(props => {
   const { submitting, readOnly } = useFormContext()
   const disabled = submitting || readOnly
   return (
-    <Button {...rest} disabled={disabled} type="button">
+    <Button {...rest} disabled={disabled} type={'button'}>
       {children}
     </Button>
   )

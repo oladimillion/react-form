@@ -61,7 +61,8 @@ export var ErrorBoundary = /*#__PURE__*/function (_React$Component) {
 
       if (hasError) {
         return /*#__PURE__*/React.createElement(FlexBox, {
-          flexDirection: "column"
+          flexDirection: 'column',
+          p: 1
         }, /*#__PURE__*/React.createElement("h3", null, "Something went wrong: ", isDev && /*#__PURE__*/React.createElement(Info, null, error === null || error === void 0 ? void 0 : error.message)), /*#__PURE__*/React.createElement("pre", null, isDev && (errorInfo === null || errorInfo === void 0 ? void 0 : errorInfo.componentStack)));
       }
 

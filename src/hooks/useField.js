@@ -2,6 +2,8 @@ import { get } from 'lodash'
 import { getPath } from '../helpers/getPath'
 import { useFormContext } from './useFormContext'
 
+const getDepend = () => true
+
 export const useField = fieldName => {
   const {
     values,
@@ -10,11 +12,23 @@ export const useField = fieldName => {
     setFieldError,
     handleChange,
     formValidationRules,
+    formValidationDependencies,
     readOnly,
     submitting,
   } = useFormContext()
 
+  // setting field index for array fields
+  let fieldIndex = null
+  if (fieldName.includes('.')) {
+    fieldIndex = parseInt(fieldName.split('.')[1])
+  }
+
   const fieldValidationRules = get(formValidationRules, getPath(fieldName), '')
+  const depend = get(formValidationDependencies, getPath(fieldName), getDepend)(
+    values,
+    fieldName,
+    fieldIndex
+  )
   const required = fieldValidationRules.includes('required')
   const value = get(values, fieldName)
   const error = get(errors, fieldName, [])
@@ -31,5 +45,6 @@ export const useField = fieldName => {
     required,
     readOnly,
     submitting,
+    depend,
   }
 }
