@@ -1,4 +1,7 @@
-export { buildFormValidationMessages, buildFieldValidationMessages } from './buildValidationMessages'
+export {
+  buildFormValidationMessages,
+  buildFieldValidationMessages,
+} from './buildValidationMessages'
 export { buildValidationRules } from './buildValidationRules'
 export { buildValidationDependencies } from './buildValidationDependencies'
 export { isNumber } from './isNumber'

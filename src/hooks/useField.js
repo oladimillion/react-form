@@ -24,11 +24,11 @@ export const useField = fieldName => {
   }
 
   const fieldValidationRules = get(formValidationRules, getPath(fieldName), '')
-  const depend = get(
-    formValidationDependencies, 
-    getPath(fieldName), 
-    getDepend
-  )(values, fieldName, fieldIndex)
+  const depend = get(formValidationDependencies, getPath(fieldName), getDepend)(
+    values,
+    fieldName,
+    fieldIndex
+  )
   const required = fieldValidationRules.includes('required')
   const value = get(values, fieldName)
   const error = get(errors, fieldName, [])

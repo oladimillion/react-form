@@ -9,7 +9,7 @@ const StyledTextArea = styled(SemanticTextArea)(
   {
     resize: 'none',
     border: '1px solid rgba(34,36,38,.15)',
-    'font-family': 'Lato,\'Helvetica Neue\',Arial,Helvetica,sans-serif',
+    'font-family': "Lato,'Helvetica Neue',Arial,Helvetica,sans-serif",
     'border-radius': '5px',
   },
   space,

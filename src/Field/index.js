@@ -45,9 +45,15 @@ export const Field = props => {
     ...rest
   } = props
 
-  const { error, value, onChange, onBlur, required, readOnly, depend } = useField(
-    props.name
-  )
+  const {
+    error,
+    value,
+    onChange,
+    onBlur,
+    required,
+    readOnly,
+    depend,
+  } = useField(props.name)
 
   const isReadOnly = readOnly || disabled
 
@@ -77,9 +83,9 @@ export const Field = props => {
     }
     return errors.map(
       (error, index) =>
-      !isEmptyValue(error) && (
-        <BaseErrorMessage key={index}>{error}</BaseErrorMessage>
-      )
+        !isEmptyValue(error) && (
+          <BaseErrorMessage key={index}>{error}</BaseErrorMessage>
+        )
     )
   }
 
@@ -92,21 +98,21 @@ export const Field = props => {
         {renderLabel()}
         {required && <Required as={'span'}>*</Required>}
         {isFileField &&
-            useFileLink &&
-            castArray(value).map((link, index) => {
-              return (
-                check.string(link) && (
-                  <FileLink
-                    key={index}
-                    href={link}
-                    target={'_blank'}
-                    rel={'noopener noreferrer'}
-                  >
-                    {link}
-                  </FileLink>
-                )
+          useFileLink &&
+          castArray(value).map((link, index) => {
+            return (
+              check.string(link) && (
+                <FileLink
+                  key={index}
+                  href={link}
+                  target={'_blank'}
+                  rel={'noopener noreferrer'}
+                >
+                  {link}
+                </FileLink>
               )
-            })}
+            )
+          })}
       </FlexBox>
       <FieldComponent
         {...rest}

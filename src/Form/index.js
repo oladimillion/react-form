@@ -47,11 +47,11 @@ const FormComponent = props => {
     setErrors(newErrors)
   }
 
-  const setFormValue = (newValues = {}, useInitialValues=true) => {
+  const setFormValue = (newValues = {}, useInitialValues = true) => {
     setValues({ ...(useInitialValues && values), ...newValues })
   }
 
-  const setFormError = (newErrors = {}, useInitialErrors=true) => {
+  const setFormError = (newErrors = {}, useInitialErrors = true) => {
     setErrors({ ...(useInitialErrors && errors), ...newErrors })
   }
 
@@ -104,10 +104,10 @@ const FormComponent = props => {
     if (check.emptyObject(validationRules) || !fails) {
       try {
         setSubmitting(true)
-        await onSubmit({ 
-          values: cleanValues, 
-          errors, 
-          submitting, 
+        await onSubmit({
+          values: cleanValues,
+          errors,
+          submitting,
           resetForm,
           setFormError,
           setFormValue,
@@ -158,7 +158,7 @@ const FormComponent = props => {
     }
     return children
 
-  // eslint-disble-next-line 
+    // eslint-disble-next-line
   }, [])
 
   return (
