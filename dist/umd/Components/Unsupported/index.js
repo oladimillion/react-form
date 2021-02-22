@@ -17,7 +17,7 @@ var Unsupported = function Unsupported(_ref) {
   var type = _ref.type;
   return /*#__PURE__*/_react["default"].createElement(_Text.Text, {
     mb: 2,
-    as: "div"
+    as: 'div'
   }, "Field Type ", /*#__PURE__*/_react["default"].createElement("b", null, type), " not supported");
 };
 

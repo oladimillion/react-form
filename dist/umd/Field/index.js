@@ -37,33 +37,35 @@ var _InputComponentTypes;
 
 var InputComponentTypes = (_InputComponentTypes = {}, (0, _defineProperty2["default"])(_InputComponentTypes, _helpers.fieldTypes.TEXT, _Components.TextInput), (0, _defineProperty2["default"])(_InputComponentTypes, _helpers.fieldTypes.TEXTAREA, _Components.TextArea), (0, _defineProperty2["default"])(_InputComponentTypes, _helpers.fieldTypes.SELECT, _Components.Select), (0, _defineProperty2["default"])(_InputComponentTypes, _helpers.fieldTypes.CHECKBOX, _semanticUiReact.Checkbox), (0, _defineProperty2["default"])(_InputComponentTypes, _helpers.fieldTypes.RADIO, _Components.Radio), (0, _defineProperty2["default"])(_InputComponentTypes, _helpers.fieldTypes.RADIO_ARRAY, _RadioArray.RadioArray), (0, _defineProperty2["default"])(_InputComponentTypes, _helpers.fieldTypes.EMAIL, function (props) {
   return /*#__PURE__*/_react["default"].createElement(_Components.TextInput, (0, _extends2["default"])({}, props, {
-    type: "email"
+    type: 'email'
   }));
 }), (0, _defineProperty2["default"])(_InputComponentTypes, _helpers.fieldTypes.URL, function (props) {
   return /*#__PURE__*/_react["default"].createElement(_Components.TextInput, (0, _extends2["default"])({}, props, {
-    type: "url"
+    type: 'url'
   }));
 }), (0, _defineProperty2["default"])(_InputComponentTypes, _helpers.fieldTypes.PASSWORD, function (props) {
   return /*#__PURE__*/_react["default"].createElement(_Components.TextInput, (0, _extends2["default"])({}, props, {
-    type: "password"
+    type: 'password'
   }));
 }), (0, _defineProperty2["default"])(_InputComponentTypes, _helpers.fieldTypes.FILE, function (props) {
   return /*#__PURE__*/_react["default"].createElement(_Components.TextInput, (0, _extends2["default"])({}, props, {
-    type: "file"
+    type: 'file'
   }));
 }), (0, _defineProperty2["default"])(_InputComponentTypes, _helpers.fieldTypes.NUMBER, function (props) {
   return /*#__PURE__*/_react["default"].createElement(_Components.TextInput, (0, _extends2["default"])({}, props, {
-    type: "text"
+    type: 'text'
   }));
 }), _InputComponentTypes);
 
 var Field = function Field(props) {
   var label = props.label,
       type = props.type,
-      includeFileLink = props.includeFileLink,
+      useFileLink = props.useFileLink,
       CustomField = props.Component,
       disabled = props.disabled,
-      rest = (0, _objectWithoutProperties2["default"])(props, ["label", "type", "includeFileLink", "Component", "disabled"]);
+      CustomErrorMessage = props.ErrorMessage,
+      CustomLabel = props.Label,
+      rest = (0, _objectWithoutProperties2["default"])(props, ["label", "type", "useFileLink", "Component", "disabled", "ErrorMessage", "Label"]);
 
   var _useField = (0, _hooks.useField)(props.name),
       error = _useField.error,
@@ -71,8 +73,10 @@ var Field = function Field(props) {
       onChange = _useField.onChange,
       onBlur = _useField.onBlur,
       required = _useField.required,
-      readOnly = _useField.readOnly;
+      readOnly = _useField.readOnly,
+      depend = _useField.depend;
 
+  var isReadOnly = readOnly || disabled;
   var Component = CustomField || (0, _get2["default"])(InputComponentTypes, type, _Components.Unsupported);
 
   var FieldComponent = _react["default"].useCallback(function (props) {
@@ -87,33 +91,57 @@ var Field = function Field(props) {
     };
   }, [value, isFileField]);
 
-  var errors = _checkTypes["default"].array(error) ? error : [error];
+  var errors = (0, _helpers.castArray)(error);
+
+  var renderLabel = function renderLabel() {
+    if (CustomLabel) {
+      return /*#__PURE__*/_react["default"].createElement(CustomLabel, {
+        required: required,
+        label: label
+      });
+    }
+
+    return label && /*#__PURE__*/_react["default"].createElement(_Components.Label, null, label);
+  };
+
+  var renderErrorMessage = function renderErrorMessage() {
+    if (CustomErrorMessage) {
+      return /*#__PURE__*/_react["default"].createElement(CustomErrorMessage, {
+        errors: errors
+      });
+    }
+
+    return errors.map(function (error, index) {
+      return !(0, _helpers.isEmptyValue)(error) && /*#__PURE__*/_react["default"].createElement(_Components.ErrorMessage, {
+        key: index
+      }, error);
+    });
+  }; // redering nothing if depend rule is not met
+
+
+  if (!depend) return null;
   return /*#__PURE__*/_react["default"].createElement(_Components.FlexBox, {
-    flexDirection: "column",
+    flexDirection: 'column',
     my: 3,
-    width: "100%"
+    width: '100%'
   }, /*#__PURE__*/_react["default"].createElement(_Components.FlexBox, {
     mb: 2
-  }, label && /*#__PURE__*/_react["default"].createElement(_Components.Label, null, label), required && /*#__PURE__*/_react["default"].createElement(Required, {
-    as: "span"
-  }, "*"), isFileField && includeFileLink && (0, _helpers.castArray)(value).map(function (link, index) {
+  }, renderLabel(), required && /*#__PURE__*/_react["default"].createElement(Required, {
+    as: 'span'
+  }, "*"), isFileField && useFileLink && (0, _helpers.castArray)(value).map(function (link, index) {
     return _checkTypes["default"].string(link) && /*#__PURE__*/_react["default"].createElement(FileLink, {
       key: index,
       href: link,
-      target: "_blank",
-      rel: "noopener"
+      target: '_blank',
+      rel: 'noopener noreferrer'
     }, link);
   })), /*#__PURE__*/_react["default"].createElement(FieldComponent, (0, _extends2["default"])({}, rest, fieldValue, {
-    disabled: readOnly || disabled,
+    disabled: isReadOnly,
     type: type,
     onChange: onChange,
     onBlur: onBlur,
     error: !(0, _helpers.isEmptyValue)(error)
-  })), errors.map(function (error, index) {
-    return !(0, _helpers.isEmptyValue)(error) && /*#__PURE__*/_react["default"].createElement(_Components.ErrorMessage, {
-      key: index
-    }, error);
-  }));
+  })), renderErrorMessage());
 };
 
 exports.Field = Field;
@@ -128,12 +156,16 @@ var FileLink = _styledComponents["default"].a.withConfig({
 })(["margin-left:8px;"]);
 
 Field.defaultProps = {
-  includeFileLink: true
+  useFileLink: true,
+  Label: null,
+  ErrorMessage: null
 };
 Field.propTypes = {
   Component: _propTypes["default"].oneOfType([_propTypes["default"].node, _propTypes["default"].elementType]),
+  Label: _propTypes["default"].oneOfType([_propTypes["default"].node, _propTypes["default"].elementType]),
+  ErrorMessage: _propTypes["default"].oneOfType([_propTypes["default"].node, _propTypes["default"].elementType]),
   label: _propTypes["default"].string,
-  includeFileLink: _propTypes["default"].bool,
+  useFileLink: _propTypes["default"].bool,
   name: _propTypes["default"].string.isRequired,
   type: _propTypes["default"].string
 };

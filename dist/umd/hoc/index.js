@@ -3,16 +3,11 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+Object.defineProperty(exports, "withErrorBoundary", {
+  enumerable: true,
+  get: function get() {
+    return _withErrorBoundary.withErrorBoundary;
+  }
+});
 
 var _withErrorBoundary = require("./withErrorBoundary");
-
-Object.keys(_withErrorBoundary).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  if (key in exports && exports[key] === _withErrorBoundary[key]) return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _withErrorBoundary[key];
-    }
-  });
-});

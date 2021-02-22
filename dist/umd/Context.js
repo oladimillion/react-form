@@ -10,6 +10,8 @@ exports.FormContext = void 0;
 var _react = _interopRequireDefault(require("react"));
 
 var FormContext = /*#__PURE__*/_react["default"].createContext({
+  setFormValue: function setFormValue() {},
+  setFormError: function setFormError() {},
   setFieldValue: function setFieldValue() {},
   setFieldError: function setFieldError() {},
   setSubmitting: function setSubmitting() {},
@@ -22,7 +24,8 @@ var FormContext = /*#__PURE__*/_react["default"].createContext({
   readOnly: false,
   values: {},
   errors: {},
-  formValidationRules: {}
+  formValidationRules: {},
+  formValidationDependencies: {}
 });
 
 exports.FormContext = FormContext;
