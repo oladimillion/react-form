@@ -39,6 +39,9 @@ var Button = (0, _styledComponents["default"])(ButtonComponent).withConfig({
 })(_styledSystem.space, _styledSystem.layout);
 exports.Button = Button;
 Button.displayName = 'Button';
+Button.defaultProps = {
+  type: 'button'
+};
 Button.propTypes = _objectSpread(_objectSpread(_objectSpread({}, _styledSystem.space.propTypes), _styledSystem.layout.propTypes), {}, {
   children: _propTypes["default"].any
 });

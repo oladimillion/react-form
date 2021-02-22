@@ -21,8 +21,8 @@ var SuccessMessage = function SuccessMessage(_ref) {
   var children = _ref.children,
       rest = (0, _objectWithoutProperties2["default"])(_ref, ["children"]);
   return /*#__PURE__*/_react["default"].createElement(_Text.Text, (0, _extends2["default"])({
-    as: "small",
-    color: "#277927"
+    as: 'small',
+    color: '#277927'
   }, rest), children);
 };
 

@@ -25,7 +25,11 @@ exports["default"] = exports.getPath = getPath;
 
 var getParentPath = function getParentPath(fieldName) {
   if (fieldName.includes('.*.')) {
+    // parentPath for field array
     return fieldName.split('.*.')[0];
+  } else if (fieldName.includes('.')) {
+    // parentPath for object
+    return fieldName.split('.')[0];
   }
 
   return fieldName;

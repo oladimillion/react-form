@@ -18,7 +18,7 @@ var StyledTextArea = styled(SemanticTextArea).withConfig({
 })({
   resize: 'none',
   border: '1px solid rgba(34,36,38,.15)',
-  'font-family': 'Lato,\'Helvetica Neue\',Arial,Helvetica,sans-serif',
+  'font-family': "Lato,'Helvetica Neue',Arial,Helvetica,sans-serif",
   'border-radius': '5px'
 }, space, layout, function (props) {
   return "\n    &:focus {\n      border-color: #85b7d9;\n      background: #fff;\n      color: rgba(0,0,0,.8);\n      box-shadow: none;\n      outline: none;\n    }\n  ";

@@ -91,7 +91,7 @@ var FieldArray = function FieldArray(props) {
     remove: remove
   };
   return /*#__PURE__*/_react["default"].createElement(_FlexBox.FlexBox, (0, _extends2["default"])({
-    flexDirection: "column"
+    flexDirection: 'column'
   }, rest), label && /*#__PURE__*/_react["default"].createElement(_Label.Label, null, label), /*#__PURE__*/_react["default"].createElement(Wrapper, null, children && children(args), render && render(args)));
 };
 
@@ -115,7 +115,7 @@ var RemoveButton = (0, _styledComponents["default"])(function (props) {
 
   var disabled = submitting || readOnly;
   return /*#__PURE__*/_react["default"].createElement(_semanticUiReact.Icon, (0, _extends2["default"])({}, props, {
-    name: "cancel",
+    name: 'cancel',
     disabled: disabled
   }));
 }).withConfig({
@@ -133,7 +133,7 @@ var AddButton = (0, _styledComponents["default"])(function (props) {
   var disabled = submitting || readOnly;
   return /*#__PURE__*/_react["default"].createElement(_Button.Button, (0, _extends2["default"])({}, rest, {
     disabled: disabled,
-    type: "button"
+    type: 'button'
   }), children);
 }).withConfig({
   displayName: "FieldArray__AddButton",
