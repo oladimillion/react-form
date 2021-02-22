@@ -8,8 +8,8 @@ export var ErrorMessage = function ErrorMessage(_ref) {
       rest = _objectWithoutProperties(_ref, ["children"]);
 
   return /*#__PURE__*/React.createElement(Text, _extends({
-    as: "small",
-    color: "#9f3a38"
+    as: 'small',
+    color: '#9f3a38'
   }, rest), children);
 };
 ErrorMessage.propTypes = {

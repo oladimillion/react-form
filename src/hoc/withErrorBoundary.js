@@ -25,7 +25,7 @@ export class ErrorBoundary extends React.Component {
 
     if (hasError) {
       return (
-        <FlexBox flexDirection="column">
+        <FlexBox flexDirection={'column'} p={1}>
           <h3>
             Something went wrong: {isDev && <Info>{error?.message}</Info>}
           </h3>

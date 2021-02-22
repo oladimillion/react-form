@@ -17,15 +17,18 @@ import { countries } from './consts'
 import 'semantic-ui-css/semantic.min.css'
 
 export const Sample = () => {
+
+  const [editMode, setEditMode] = React.useState(false)
+
   return (
     <Container p={20}>
       <Segment>
         <Header as='h3'>Buttons</Header>
         <Button>Click me</Button>
         <Divider />
-        <Button basic icon="stop" content="Click me" />
+        <Button basic icon='stop' content='Click me' />
         <Divider />
-        <Button basic loading color="blue">Click me</Button>
+        <Button basic loading color='blue'>Click me</Button>
       </Segment>
 
       <Segment>
@@ -131,8 +134,12 @@ export const Sample = () => {
       </Segment>
 
       <Segment>
+        <Button onClick={() => setEditMode(!editMode)}>
+          {editMode ? 'Edit Mode' : 'Read Mode'}
+        </Button>
+        <br />
         <Header as='h3'>Form</Header>
-        <Form />
+        <Form readOnly={editMode} />
       </Segment>
 
     </Container>

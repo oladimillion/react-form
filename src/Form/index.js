@@ -7,8 +7,10 @@ import PropTypes from 'prop-types'
 import { withErrorBoundary } from '../hoc'
 import { isEmptyValue } from '../helpers/isEmptyValue'
 import { getPath } from '../helpers/getPath'
+import { getCleanValues } from '../helpers/getCleanValues'
 import { FormContext } from '../Context'
 import { buildValidationRules } from '../helpers/buildValidationRules'
+import { buildValidationDependencies } from '../helpers/buildValidationDependencies'
 import {
   buildFieldValidationMessages,
   buildFormValidationMessages,
@@ -32,6 +34,10 @@ const FormComponent = props => {
     return buildValidationRules(validationRules)
   }, [validationRules])
 
+  const composedValidationDependencies = React.useMemo(() => {
+    return buildValidationDependencies(validationRules)
+  }, [validationRules])
+
   const [values, setValues] = React.useState(initialValues)
   const [errors, setErrors] = React.useState({})
   const [submitting, setSubmitting] = React.useState(false)
@@ -39,6 +45,14 @@ const FormComponent = props => {
   const setFieldError = (fieldName, fieldError) => {
     const newErrors = set(cloneDeep(errors), fieldName, fieldError)
     setErrors(newErrors)
+  }
+
+  const setFormValue = (newValues = {}, useInitialValues=true) => {
+    setValues({ ...(useInitialValues && values), ...newValues })
+  }
+
+  const setFormError = (newErrors = {}, useInitialErrors=true) => {
+    setErrors({ ...(useInitialErrors && errors), ...newErrors })
   }
 
   const resetForm = () => {
@@ -72,13 +86,15 @@ const FormComponent = props => {
   const handleSubmit = async event => {
     event && event.preventDefault()
 
+    // removing fields whose depend rule returns false
+    const cleanValues = getCleanValues(values, composedValidationDependencies)
     let fails = false
 
     if (!check.emptyObject(validationRules)) {
       const validatorParams = [
-        values,
+        cleanValues,
         composedValidationRules,
-        buildFormValidationMessages(validationRules, values),
+        buildFormValidationMessages(validationRules, cleanValues),
       ]
       const validator = new Validator(...validatorParams)
       fails = validator.fails()
@@ -88,7 +104,14 @@ const FormComponent = props => {
     if (check.emptyObject(validationRules) || !fails) {
       try {
         setSubmitting(true)
-        await onSubmit({ values, errors, submitting, resetForm })
+        await onSubmit({ 
+          values: cleanValues, 
+          errors, 
+          submitting, 
+          resetForm,
+          setFormError,
+          setFormValue,
+        })
       } finally {
         setSubmitting(false)
       }
@@ -122,17 +145,21 @@ const FormComponent = props => {
     handleSubmit,
     handleChange,
     formValidationRules: composedValidationRules,
+    formValidationDependencies: composedValidationDependencies,
     readOnly,
+    setFormValue,
   }
 
-  const renderChildren = () => {
+  const renderChildren = React.useCallback(() => {
     if (check.function(children)) {
       return children(contextValue)
     } else if (check.function(render)) {
       return render(contextValue)
     }
     return children
-  }
+
+  // eslint-disble-next-line 
+  }, [])
 
   return (
     <FormContext.Provider value={contextValue}>

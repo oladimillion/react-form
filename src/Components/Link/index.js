@@ -5,8 +5,7 @@ import { Text } from '../Text'
 export const Link = styled(BaseLink).attrs(props => ({
   className: 'Link',
 }))`
-  ${Text} {
-  } ;
+  ${Text}{};
 `
 
 Link.displayName = 'Link'

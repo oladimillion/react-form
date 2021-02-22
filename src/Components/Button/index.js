@@ -14,6 +14,10 @@ export const Button = styled(ButtonComponent)(space, layout)
 
 Button.displayName = 'Button'
 
+Button.defaultProps = {
+  type: 'button',
+}
+
 Button.propTypes = {
   ...space.propTypes,
   ...layout.propTypes,

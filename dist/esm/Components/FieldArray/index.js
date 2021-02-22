@@ -64,7 +64,7 @@ export var FieldArray = function FieldArray(props) {
     remove: remove
   };
   return /*#__PURE__*/React.createElement(FlexBox, _extends({
-    flexDirection: "column"
+    flexDirection: 'column'
   }, rest), label && /*#__PURE__*/React.createElement(Label, null, label), /*#__PURE__*/React.createElement(Wrapper, null, children && children(args), render && render(args)));
 };
 var Wrapper = styled(Segment).withConfig({
@@ -86,7 +86,7 @@ var RemoveButton = styled(function (props) {
 
   var disabled = submitting || readOnly;
   return /*#__PURE__*/React.createElement(Icon, _extends({}, props, {
-    name: "cancel",
+    name: 'cancel',
     disabled: disabled
   }));
 }).withConfig({
@@ -104,7 +104,7 @@ var AddButton = styled(function (props) {
   var disabled = submitting || readOnly;
   return /*#__PURE__*/React.createElement(Button, _extends({}, rest, {
     disabled: disabled,
-    type: "button"
+    type: 'button'
   }), children);
 }).withConfig({
   displayName: "FieldArray__AddButton",

@@ -13,6 +13,9 @@ const validationRules = {
   password: {
     validation: 'required|min:3',
   },
+  confirm_password: {
+    validation: 'same:password',
+  },
   url: {
     validation: 'url',
   },
@@ -29,20 +32,25 @@ const validationRules = {
     }
   },
   'fieldArray.*.number': {
-    validation: 'required',
+    validation: 'required|numeric',
     message: {
       required: 'The field is number'
     }
   },
   'fieldArray.*.myemail': {
-    validation: 'email|required',
+    validation: 'email',
     message: {
       required: 'The field is required',
+      email: 'Invalid email provided',
+    },
+    depend: ({ fieldArray }, name, index) => {
+      const { number } = fieldArray[index] || {}
+      return number === '2'
     }
   },
 }
 
-export const Form = () => {
+export const Form = ({ readOnly }) => {
 
   // const onSubmit = async () => { }
   const onSubmit = async (args) => { 
@@ -52,7 +60,7 @@ export const Form = () => {
   const initialValues = {
     email: 'test@email.com',
     number: '123349823983928',
-    password: '123349823983928',
+    password: '123',
     select: 'af',
     file_multiple: ['https://google.com', 'https://wikipedia.com']
   }
@@ -62,11 +70,12 @@ export const Form = () => {
       onSubmit={onSubmit}
       validationRules={validationRules}
       initialValues={initialValues}
-      readOnly={true}
+      readOnly={readOnly}
     >
       <Field type='test' label='Unsupported' name='test' />
       <Field type='text' label='Text Field' name='text' placeholder='Text field' />
       <Field type='password' label='Password Field' name='password' />
+      <Field type='password' label='Confirm Password Field' name='confirm_password' />
       <Field type='url' label='Url Field' name='url' />
       <Field type='email' label='Email Field' name='email' />
       <Field type='file' label='File Field' name='file' />

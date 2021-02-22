@@ -1,6 +1,6 @@
-export const buildValidationRules = validationRules => {
+export const buildValidationDependencies = validationRules => {
   return Object.entries(validationRules).reduce((accum, [field, rule]) => {
-    accum[field] = rule?.validation
+    accum[field] = rule.depend
     return accum
   }, {})
 }

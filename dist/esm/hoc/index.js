@@ -1,1 +1,1 @@
-export * from './withErrorBoundary';
+export { withErrorBoundary } from './withErrorBoundary';

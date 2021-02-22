@@ -1,6 +1,11 @@
 import _get from "lodash/get";
 import { getPath } from '../helpers/getPath';
 import { useFormContext } from './useFormContext';
+
+var getDepend = function getDepend() {
+  return true;
+};
+
 export var useField = function useField(fieldName) {
   var _useFormContext = useFormContext(),
       values = _useFormContext.values,
@@ -9,10 +14,20 @@ export var useField = function useField(fieldName) {
       setFieldError = _useFormContext.setFieldError,
       handleChange = _useFormContext.handleChange,
       formValidationRules = _useFormContext.formValidationRules,
+      formValidationDependencies = _useFormContext.formValidationDependencies,
       readOnly = _useFormContext.readOnly,
-      submitting = _useFormContext.submitting;
+      submitting = _useFormContext.submitting; // setting field index for array fields
+
+
+  var fieldIndex = null;
+
+  if (fieldName.includes('.')) {
+    fieldIndex = parseInt(fieldName.split('.')[1]);
+  }
 
   var fieldValidationRules = _get(formValidationRules, getPath(fieldName), '');
+
+  var depend = _get(formValidationDependencies, getPath(fieldName), getDepend)(values, fieldName, fieldIndex);
 
   var required = fieldValidationRules.includes('required');
 
@@ -37,6 +52,7 @@ export var useField = function useField(fieldName) {
     fieldValidationRules: fieldValidationRules,
     required: required,
     readOnly: readOnly,
-    submitting: submitting
+    submitting: submitting,
+    depend: depend
   };
 };
