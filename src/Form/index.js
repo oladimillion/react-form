@@ -38,9 +38,15 @@ const FormComponent = props => {
     return buildValidationDependencies(validationRules)
   }, [validationRules])
 
-  const [values, setValues] = React.useState(initialValues)
+  const [values, setValues] = React.useState({ ...initialValues })
   const [errors, setErrors] = React.useState({})
   const [submitting, setSubmitting] = React.useState(false)
+
+  // removing fields whose depend rule returns false
+  const cleanValues = React.useCallback(
+    getCleanValues(values, composedValidationDependencies),
+    [values]
+  )
 
   const setFieldError = (fieldName, fieldError) => {
     const newErrors = set(cloneDeep(errors), fieldName, fieldError)
@@ -71,7 +77,7 @@ const FormComponent = props => {
     )
     if (rules.validation) {
       const validatorParams = [
-        { [fieldName]: fieldValue },
+        { ...cleanValues, [fieldName]: fieldValue },
         { [fieldName]: composedRules },
         composedMessage,
       ]
@@ -86,8 +92,6 @@ const FormComponent = props => {
   const handleSubmit = async event => {
     event && event.preventDefault()
 
-    // removing fields whose depend rule returns false
-    const cleanValues = getCleanValues(values, composedValidationDependencies)
     let fails = false
 
     if (!check.emptyObject(validationRules)) {
@@ -121,8 +125,8 @@ const FormComponent = props => {
   const handleChange = (e, props) => {
     const { files, name: targetName, value: targetValue } = e.target
     const { name: propsName, value: propsValue, type, multiple } = props
-    const name = !isEmptyValue(targetName) ? targetName : propsName
-    const value = !isEmptyValue(targetValue) ? targetValue : propsValue
+    const name = targetName || propsName
+    const value = targetValue || propsValue
 
     if (type === fieldTypes.FILE && multiple) {
       setFieldValue(name, files)
@@ -140,7 +144,7 @@ const FormComponent = props => {
     resetForm,
     submitting,
     dirty: !isEmptyValue(errors),
-    values,
+    values: cleanValues,
     errors,
     handleSubmit,
     handleChange,
