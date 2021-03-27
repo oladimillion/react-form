@@ -13,8 +13,8 @@ import {
   TextArea,
   TextInput,
   Unsupported,
-  ErrorMessage as BaseErrorMessage,
-  Label as BaseLabel,
+  ErrorMessage,
+  Label,
 } from '../Components'
 import { RadioArray } from './Components/RadioArray'
 import { isEmptyValue, fieldTypes, castArray } from '../helpers'
@@ -38,10 +38,10 @@ export const Field = props => {
     label,
     type,
     useFileLink,
-    Component: CustomField,
+    as,
     disabled,
-    ErrorMessage: CustomErrorMessage,
-    Label: CustomLabel,
+    renderLabel,
+    renderErrorMessage,
     ...rest
   } = props
 
@@ -57,11 +57,8 @@ export const Field = props => {
 
   const isReadOnly = readOnly || disabled
 
-  const Component = CustomField || get(InputComponentTypes, type, Unsupported)
-  const FieldComponent = React.useCallback(
-    props => <Component {...props} />,
-    []
-  )
+  const Component = as || get(InputComponentTypes, type, Unsupported)
+  const FieldComponent = React.useCallback(Component, [])
   const isFileField = type === fieldTypes.FILE
 
   const fieldValue = React.useMemo(() => {
@@ -70,32 +67,13 @@ export const Field = props => {
 
   const errors = castArray(error)
 
-  const renderLabel = () => {
-    if (CustomLabel) {
-      return <CustomLabel required={required} label={label} />
-    }
-    return label && <BaseLabel>{label}</BaseLabel>
-  }
-
-  const renderErrorMessage = () => {
-    if (CustomErrorMessage) {
-      return <CustomErrorMessage errors={errors} />
-    }
-    return errors.map(
-      (error, index) =>
-        !isEmptyValue(error) && (
-          <BaseErrorMessage key={index}>{error}</BaseErrorMessage>
-        )
-    )
-  }
-
   // redering nothing if depend rule is not met
   if (!depend) return null
 
   return (
     <FlexBox flexDirection={'column'} my={3} width={'100%'}>
       <FlexBox mb={2}>
-        {renderLabel()}
+        {renderLabel({ required, label })}
         {required && <Required as={'span'}>*</Required>}
         {isFileField &&
           useFileLink &&
@@ -123,7 +101,7 @@ export const Field = props => {
         onBlur={onBlur}
         error={!isEmptyValue(error)}
       />
-      {renderErrorMessage()}
+      {renderErrorMessage({ errors })}
     </FlexBox>
   )
 }
@@ -139,14 +117,21 @@ const FileLink = styled.a`
 
 Field.defaultProps = {
   useFileLink: true,
-  Label: null,
-  ErrorMessage: null,
+  renderLabel: ({ label }) => {
+    return label && <Label>{label}</Label>
+  },
+  renderErrorMessage: ({ errors }) => {
+    return errors.map(
+      (error, index) =>
+        !isEmptyValue(error) && <ErrorMessage key={index}>{error}</ErrorMessage>
+    )
+  },
 }
 
 Field.propTypes = {
-  Component: PropTypes.oneOfType([PropTypes.node, PropTypes.elementType]),
-  Label: PropTypes.oneOfType([PropTypes.node, PropTypes.elementType]),
-  ErrorMessage: PropTypes.oneOfType([PropTypes.node, PropTypes.elementType]),
+  as: PropTypes.oneOfType([PropTypes.node, PropTypes.elementType]),
+  renderLabel: PropTypes.func,
+  renderErrorMessage: PropTypes.func,
   label: PropTypes.string,
   useFileLink: PropTypes.bool,
   name: PropTypes.string.isRequired,

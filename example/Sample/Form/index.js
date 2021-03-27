@@ -5,7 +5,7 @@ import { countries } from '../consts'
 
 const validationRules = {
   text: {
-    validation: 'required',
+    validation: ['required'],
     message: {
       required: 'The field is required'
     }
@@ -34,7 +34,8 @@ const validationRules = {
   'fieldArray.*.number': {
     validation: 'required|numeric',
     message: {
-      required: 'The field is number'
+      required: 'This field is number',
+      numeric: 'This field expect a number value'
     }
   },
   'fieldArray.*.myemail': {

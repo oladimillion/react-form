@@ -61,11 +61,11 @@ var Field = function Field(props) {
   var label = props.label,
       type = props.type,
       useFileLink = props.useFileLink,
-      CustomField = props.Component,
+      as = props.as,
       disabled = props.disabled,
-      CustomErrorMessage = props.ErrorMessage,
-      CustomLabel = props.Label,
-      rest = (0, _objectWithoutProperties2["default"])(props, ["label", "type", "useFileLink", "Component", "disabled", "ErrorMessage", "Label"]);
+      renderLabel = props.renderLabel,
+      renderErrorMessage = props.renderErrorMessage,
+      rest = (0, _objectWithoutProperties2["default"])(props, ["label", "type", "useFileLink", "as", "disabled", "renderLabel", "renderErrorMessage"]);
 
   var _useField = (0, _hooks.useField)(props.name),
       error = _useField.error,
@@ -77,11 +77,9 @@ var Field = function Field(props) {
       depend = _useField.depend;
 
   var isReadOnly = readOnly || disabled;
-  var Component = CustomField || (0, _get2["default"])(InputComponentTypes, type, _Components.Unsupported);
+  var Component = as || (0, _get2["default"])(InputComponentTypes, type, _Components.Unsupported);
 
-  var FieldComponent = _react["default"].useCallback(function (props) {
-    return /*#__PURE__*/_react["default"].createElement(Component, props);
-  }, []);
+  var FieldComponent = _react["default"].useCallback(Component, []);
 
   var isFileField = type === _helpers.fieldTypes.FILE;
 
@@ -91,33 +89,7 @@ var Field = function Field(props) {
     };
   }, [value, isFileField]);
 
-  var errors = (0, _helpers.castArray)(error);
-
-  var renderLabel = function renderLabel() {
-    if (CustomLabel) {
-      return /*#__PURE__*/_react["default"].createElement(CustomLabel, {
-        required: required,
-        label: label
-      });
-    }
-
-    return label && /*#__PURE__*/_react["default"].createElement(_Components.Label, null, label);
-  };
-
-  var renderErrorMessage = function renderErrorMessage() {
-    if (CustomErrorMessage) {
-      return /*#__PURE__*/_react["default"].createElement(CustomErrorMessage, {
-        errors: errors
-      });
-    }
-
-    return errors.map(function (error, index) {
-      return !(0, _helpers.isEmptyValue)(error) && /*#__PURE__*/_react["default"].createElement(_Components.ErrorMessage, {
-        key: index
-      }, error);
-    });
-  }; // redering nothing if depend rule is not met
-
+  var errors = (0, _helpers.castArray)(error); // redering nothing if depend rule is not met
 
   if (!depend) return null;
   return /*#__PURE__*/_react["default"].createElement(_Components.FlexBox, {
@@ -126,7 +98,10 @@ var Field = function Field(props) {
     width: '100%'
   }, /*#__PURE__*/_react["default"].createElement(_Components.FlexBox, {
     mb: 2
-  }, renderLabel(), required && /*#__PURE__*/_react["default"].createElement(Required, {
+  }, renderLabel({
+    required: required,
+    label: label
+  }), required && /*#__PURE__*/_react["default"].createElement(Required, {
     as: 'span'
   }, "*"), isFileField && useFileLink && (0, _helpers.castArray)(value).map(function (link, index) {
     return _checkTypes["default"].string(link) && /*#__PURE__*/_react["default"].createElement(FileLink, {
@@ -141,7 +116,9 @@ var Field = function Field(props) {
     onChange: onChange,
     onBlur: onBlur,
     error: !(0, _helpers.isEmptyValue)(error)
-  })), renderErrorMessage());
+  })), renderErrorMessage({
+    errors: errors
+  }));
 };
 
 exports.Field = Field;
@@ -157,13 +134,23 @@ var FileLink = _styledComponents["default"].a.withConfig({
 
 Field.defaultProps = {
   useFileLink: true,
-  Label: null,
-  ErrorMessage: null
+  renderLabel: function renderLabel(_ref) {
+    var label = _ref.label;
+    return label && /*#__PURE__*/_react["default"].createElement(_Components.Label, null, label);
+  },
+  renderErrorMessage: function renderErrorMessage(_ref2) {
+    var errors = _ref2.errors;
+    return errors.map(function (error, index) {
+      return !(0, _helpers.isEmptyValue)(error) && /*#__PURE__*/_react["default"].createElement(_Components.ErrorMessage, {
+        key: index
+      }, error);
+    });
+  }
 };
 Field.propTypes = {
-  Component: _propTypes["default"].oneOfType([_propTypes["default"].node, _propTypes["default"].elementType]),
-  Label: _propTypes["default"].oneOfType([_propTypes["default"].node, _propTypes["default"].elementType]),
-  ErrorMessage: _propTypes["default"].oneOfType([_propTypes["default"].node, _propTypes["default"].elementType]),
+  as: _propTypes["default"].oneOfType([_propTypes["default"].node, _propTypes["default"].elementType]),
+  renderLabel: _propTypes["default"].func,
+  renderErrorMessage: _propTypes["default"].func,
   label: _propTypes["default"].string,
   useFileLink: _propTypes["default"].bool,
   name: _propTypes["default"].string.isRequired,

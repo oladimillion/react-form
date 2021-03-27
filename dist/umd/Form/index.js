@@ -81,7 +81,7 @@ var FormComponent = function FormComponent(props) {
     return (0, _buildValidationDependencies.buildValidationDependencies)(validationRules);
   }, [validationRules]);
 
-  var _React$useState = _react["default"].useState(initialValues),
+  var _React$useState = _react["default"].useState(_objectSpread({}, initialValues)),
       _React$useState2 = (0, _slicedToArray2["default"])(_React$useState, 2),
       values = _React$useState2[0],
       setValues = _React$useState2[1];
@@ -94,7 +94,10 @@ var FormComponent = function FormComponent(props) {
   var _React$useState5 = _react["default"].useState(false),
       _React$useState6 = (0, _slicedToArray2["default"])(_React$useState5, 2),
       submitting = _React$useState6[0],
-      setSubmitting = _React$useState6[1];
+      setSubmitting = _React$useState6[1]; // removing fields whose depend rule returns false
+
+
+  var cleanValues = _react["default"].useCallback((0, _getCleanValues.getCleanValues)(values, composedValidationDependencies), [values]);
 
   var setFieldError = function setFieldError(fieldName, fieldError) {
     var newErrors = (0, _set2["default"])((0, _cloneDeep2["default"])(errors), fieldName, fieldError);
@@ -126,7 +129,7 @@ var FormComponent = function FormComponent(props) {
     var composedMessage = (0, _buildValidationMessages.buildFieldValidationMessages)(fieldName, rules.message);
 
     if (rules.validation) {
-      var validatorParams = [(0, _defineProperty2["default"])({}, fieldName, fieldValue), (0, _defineProperty2["default"])({}, fieldName, composedRules), composedMessage];
+      var validatorParams = [_objectSpread(_objectSpread({}, cleanValues), {}, (0, _defineProperty2["default"])({}, fieldName, fieldValue)), (0, _defineProperty2["default"])({}, fieldName, composedRules), composedMessage];
       var validator = (0, _construct2["default"])(_validatorjs["default"], validatorParams);
       validator.fails();
       setFieldError(fieldName, validator.errors.get(fieldName));
@@ -137,15 +140,13 @@ var FormComponent = function FormComponent(props) {
   };
 
   var handleSubmit = /*#__PURE__*/function () {
-    var _ref3 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(event) {
-      var cleanValues, fails, validatorParams, validator;
+    var _ref2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(event) {
+      var fails, validatorParams, validator;
       return _regenerator["default"].wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              event && event.preventDefault(); // removing fields whose depend rule returns false
-
-              cleanValues = (0, _getCleanValues.getCleanValues)(values, composedValidationDependencies);
+              event && event.preventDefault();
               fails = false;
 
               if (!_checkTypes["default"].emptyObject(validationRules)) {
@@ -156,13 +157,13 @@ var FormComponent = function FormComponent(props) {
               }
 
               if (!(_checkTypes["default"].emptyObject(validationRules) || !fails)) {
-                _context.next = 12;
+                _context.next = 11;
                 break;
               }
 
-              _context.prev = 5;
+              _context.prev = 4;
               setSubmitting(true);
-              _context.next = 9;
+              _context.next = 8;
               return onSubmit({
                 values: cleanValues,
                 errors: errors,
@@ -172,21 +173,21 @@ var FormComponent = function FormComponent(props) {
                 setFormValue: setFormValue
               });
 
-            case 9:
-              _context.prev = 9;
+            case 8:
+              _context.prev = 8;
               setSubmitting(false);
-              return _context.finish(9);
+              return _context.finish(8);
 
-            case 12:
+            case 11:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[5,, 9, 12]]);
+      }, _callee, null, [[4,, 8, 11]]);
     }));
 
     return function handleSubmit(_x) {
-      return _ref3.apply(this, arguments);
+      return _ref2.apply(this, arguments);
     };
   }();
 
@@ -199,8 +200,8 @@ var FormComponent = function FormComponent(props) {
         propsValue = props.value,
         type = props.type,
         multiple = props.multiple;
-    var name = !(0, _isEmptyValue.isEmptyValue)(targetName) ? targetName : propsName;
-    var value = !(0, _isEmptyValue.isEmptyValue)(targetValue) ? targetValue : propsValue;
+    var name = targetName || propsName;
+    var value = targetValue || propsValue;
 
     if (type === _fieldTypes.fieldTypes.FILE && multiple) {
       setFieldValue(name, files);
@@ -218,7 +219,7 @@ var FormComponent = function FormComponent(props) {
     resetForm: resetForm,
     submitting: submitting,
     dirty: !(0, _isEmptyValue.isEmptyValue)(errors),
-    values: values,
+    values: cleanValues,
     errors: errors,
     handleSubmit: handleSubmit,
     handleChange: handleChange,
