@@ -6,7 +6,7 @@ import { Form } from './Form'
 import { 
   Text,
   FlexBox,
-  RadioArray, 
+  Switchery, 
   Radio,
   Select,
   TextInput,
@@ -87,22 +87,22 @@ export const Sample = () => {
       </Segment>
 
       <Segment>
-        <Header as='h3'>Radio</Header>
-        <Radio label='Radio' />
+        <Header as='h3'>Switchery</Header>
+        <Switchery label='Switchery' />
       </Segment>
 
       <Segment>
-        <Header as='h3'>RadioArray</Header>
-        <RadioArray name='radio' value='this'>
-          <RadioArray.Item text='This label' value='this' />
-          <RadioArray.Item text='That label' value='that' />
-          <RadioArray.Item text='Them label' value='them' />
-        </RadioArray>
+        <Header as='h3'>Radio</Header>
+        <Radio name='radio' value='this'>
+          <Radio.Item text='This label' value='this' />
+          <Radio.Item text='That label' value='that' />
+          <Radio.Item text='Them label' value='them' />
+        </Radio>
         <Divider />
-        <RadioArray name='select' value={true}>
-          <RadioArray.Item text='Yes' value={false} />
-          <RadioArray.Item text='No' value={true} />
-        </RadioArray>
+        <Radio name='select' value={true}>
+          <Radio.Item text='Yes' value={false} />
+          <Radio.Item text='No' value={true} />
+        </Radio>
       </Segment>
 
       <Segment>

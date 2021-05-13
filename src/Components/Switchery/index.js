@@ -3,18 +3,18 @@ import hoistNonReactStatics from 'hoist-non-react-statics'
 import { Radio as SemanticRadio } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 
-export const Radio = styled(SemanticRadio).attrs(() => ({
-  className: 'Radio',
+export const Switchery = styled(SemanticRadio).attrs(() => ({
+  className: 'Switchery',
 }))``
 
-Radio.displayName = 'Radio'
+Switchery.displayName = 'Switchery'
 
-Radio.defaultProps = {
+Switchery.defaultProps = {
   toggle: true,
 }
 
-Radio.propTypes = {
+Switchery.propTypes = {
   toggle: PropTypes.bool,
 }
 
-hoistNonReactStatics(Radio, SemanticRadio)
+hoistNonReactStatics(Switchery, SemanticRadio)

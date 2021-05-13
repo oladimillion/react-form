@@ -11,10 +11,9 @@ import { Checkbox } from 'semantic-ui-react';
 import styled from 'styled-components';
 import check from 'check-types';
 import { useField } from '../hooks';
-import { Text, FlexBox, Radio, Select, TextArea, TextInput, Unsupported, ErrorMessage, Label } from '../Components';
-import { RadioArray } from './Components/RadioArray';
+import { Text, FlexBox, Radio, Switchery, Select, TextArea, TextInput, Unsupported, ErrorMessage, Link, Label } from '../Components';
 import { isEmptyValue, fieldTypes, castArray } from '../helpers';
-var InputComponentTypes = (_InputComponentTypes = {}, _defineProperty(_InputComponentTypes, fieldTypes.TEXT, TextInput), _defineProperty(_InputComponentTypes, fieldTypes.TEXTAREA, TextArea), _defineProperty(_InputComponentTypes, fieldTypes.SELECT, Select), _defineProperty(_InputComponentTypes, fieldTypes.CHECKBOX, Checkbox), _defineProperty(_InputComponentTypes, fieldTypes.RADIO, Radio), _defineProperty(_InputComponentTypes, fieldTypes.RADIO_ARRAY, RadioArray), _defineProperty(_InputComponentTypes, fieldTypes.EMAIL, function (props) {
+var InputComponentTypes = (_InputComponentTypes = {}, _defineProperty(_InputComponentTypes, fieldTypes.TEXT, TextInput), _defineProperty(_InputComponentTypes, fieldTypes.TEXTAREA, TextArea), _defineProperty(_InputComponentTypes, fieldTypes.SELECT, Select), _defineProperty(_InputComponentTypes, fieldTypes.CHECKBOX, Checkbox), _defineProperty(_InputComponentTypes, fieldTypes.RADIO, Radio), _defineProperty(_InputComponentTypes, fieldTypes.SWITCH, Switchery), _defineProperty(_InputComponentTypes, fieldTypes.EMAIL, function (props) {
   return /*#__PURE__*/React.createElement(TextInput, _extends({}, props, {
     type: 'email'
   }));
@@ -56,7 +55,8 @@ export var Field = function Field(props) {
 
   var isReadOnly = readOnly || disabled;
 
-  var Component = as || _get(InputComponentTypes, type, Unsupported);
+  var Component = as || _get(InputComponentTypes, type, Unsupported); // eslint-disable-next-line react-hooks/exhaustive-deps
+
 
   var FieldComponent = React.useCallback(Component, []);
   var isFileField = type === fieldTypes.FILE;
@@ -100,7 +100,7 @@ var Required = styled(Text).withConfig({
   displayName: "Field__Required",
   componentId: "blzmvn-0"
 })(["font-size:1.3rem;color:#9f3a38;"]);
-var FileLink = styled.a.withConfig({
+var FileLink = styled(Link).withConfig({
   displayName: "Field__FileLink",
   componentId: "blzmvn-1"
 })(["margin-left:8px;"]);

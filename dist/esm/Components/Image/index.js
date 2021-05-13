@@ -7,10 +7,9 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 import styled from 'styled-components';
 import { border, background, layout } from 'styled-system';
 import { Image as SemanticImage } from 'semantic-ui-react';
-export var Image = styled(SemanticImage).attrs(function (props) {
+export var Image = styled(SemanticImage).attrs(function () {
   return {
-    className: 'Image',
-    as: props.as
+    className: 'Image'
   };
 }).withConfig({
   displayName: "Image",

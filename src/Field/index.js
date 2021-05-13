@@ -9,14 +9,15 @@ import {
   Text,
   FlexBox,
   Radio,
+  Switchery,
   Select,
   TextArea,
   TextInput,
   Unsupported,
   ErrorMessage,
+  Link,
   Label,
 } from '../Components'
-import { RadioArray } from './Components/RadioArray'
 import { isEmptyValue, fieldTypes, castArray } from '../helpers'
 
 const InputComponentTypes = {
@@ -25,7 +26,7 @@ const InputComponentTypes = {
   [fieldTypes.SELECT]: Select,
   [fieldTypes.CHECKBOX]: Checkbox,
   [fieldTypes.RADIO]: Radio,
-  [fieldTypes.RADIO_ARRAY]: RadioArray,
+  [fieldTypes.SWITCH]: Switchery,
   [fieldTypes.EMAIL]: props => <TextInput {...props} type={'email'} />,
   [fieldTypes.URL]: props => <TextInput {...props} type={'url'} />,
   [fieldTypes.PASSWORD]: props => <TextInput {...props} type={'password'} />,
@@ -58,6 +59,8 @@ export const Field = props => {
   const isReadOnly = readOnly || disabled
 
   const Component = as || get(InputComponentTypes, type, Unsupported)
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const FieldComponent = React.useCallback(Component, [])
   const isFileField = type === fieldTypes.FILE
 
@@ -111,7 +114,7 @@ const Required = styled(Text)`
   color: #9f3a38;
 `
 
-const FileLink = styled.a`
+const FileLink = styled(Link)`
   margin-left: 8px;
 `
 

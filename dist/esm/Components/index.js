@@ -1,6 +1,7 @@
 export { Button } from './Button';
 export { FlexBox } from './FlexBox';
-export { Radio, RadioArray } from './Radio';
+export { Radio } from './Radio';
+export { Switchery } from './Switchery';
 export { Select } from './Select';
 export { Text } from './Text';
 export { TextArea } from './TextArea';
