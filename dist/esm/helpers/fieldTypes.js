@@ -4,7 +4,7 @@ export var fieldTypes = {
   SELECT: 'select',
   CHECKBOX: 'checkbox',
   RADIO: 'radio',
-  RADIO_ARRAY: 'radioArray',
+  SWITCH: 'switch',
   EMAIL: 'email',
   URL: 'url',
   PASSWORD: 'password',

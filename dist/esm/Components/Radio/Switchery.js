@@ -7,8 +7,8 @@ export var Switchery = styled(SemanticRadio).attrs(function () {
     className: 'Switchery'
   };
 }).withConfig({
-  displayName: "Radio__Switchery",
-  componentId: "sc-1v8lucy-0"
+  displayName: "Switchery",
+  componentId: "sc-85156j-0"
 })([""]);
 Switchery.displayName = 'Switchery';
 Switchery.defaultProps = {

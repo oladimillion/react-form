@@ -1,4 +1,6 @@
+import _slicedToArray from "@babel/runtime/helpers/slicedToArray";
 import _get from "lodash/get";
+import check from 'check-types';
 import { getPath } from '../helpers/getPath';
 import { useFormContext } from './useFormContext';
 
@@ -27,7 +29,32 @@ export var useField = function useField(fieldName) {
 
   var fieldValidationRules = _get(formValidationRules, getPath(fieldName), '');
 
-  var depend = _get(formValidationDependencies, getPath(fieldName), getDepend)(values, fieldName, fieldIndex);
+  var computeDepend = _get(formValidationDependencies, getPath(fieldName), getDepend);
+
+  var depend = null; // computing depend
+
+  if (check["function"](computeDepend)) {
+    // depend is computed from the dependent function
+    depend = computeDepend(values, fieldName, fieldIndex);
+  } else if (check.string(computeDepend)) {
+    // depend is computed from the dependent field name
+    depend = _get(values, computeDepend, null);
+  } else if (check["boolean"](computeDepend)) {
+    // depend is computed from the dependent boolean value
+    depend = computeDepend;
+  } else if (check.object(computeDepend)) {
+    // depend is computed from one or more fields.
+    // making sure provided fields matches the target fields
+    depend = Object.entries(values).every(function (_ref) {
+      var _ref2 = _slicedToArray(_ref, 2),
+          field = _ref2[0],
+          dependValue = _ref2[1];
+
+      var fieldValue = _get(values, field);
+
+      return fieldValue === dependValue;
+    });
+  }
 
   var required = fieldValidationRules.includes('required');
 
