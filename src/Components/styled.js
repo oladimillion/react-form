@@ -4,6 +4,14 @@ const commonStyle = `
   opacity: 1 !important;
   padding-left: 0 !important;
   padding-right: 0 !important;
+
+  &:-internal-autofill-selected {
+    background-color: inherit;
+  }
+
+  &:-webkit-autofill {
+    background-color: inherit;
+  }
 `
 
 export const disabled = ({ disabled }) =>

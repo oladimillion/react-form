@@ -1,16 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { RadioArray as BaseRadioArray } from '../../Components'
+import { Radio as BaseRadio } from '../../Components/Radio'
 
-export const RadioArray = ({ name, value, options, ...rest }) => (
-  <BaseRadioArray name={name} value={value} {...rest}>
+export const Radio = ({ options, ...rest }) => (
+  <BaseRadio {...rest}>
     {options.map(({ text, value }, index) => (
-      <BaseRadioArray.Item key={index} text={text} value={value} />
+      <BaseRadio.Item key={index} text={text} value={value} />
     ))}
-  </BaseRadioArray>
+  </BaseRadio>
 )
 
-RadioArray.propTypes = {
+Radio.propTypes = {
   onChange: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(
     PropTypes.shape({

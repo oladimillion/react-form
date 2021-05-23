@@ -34,13 +34,13 @@ var RadioComponent = function RadioComponent(props) {
 
         _onChange({
           target: {
-            name: props.name,
+            name: name,
             value: value
           }
         });
       }
     }
-  }, /*#__PURE__*/React.createElement(Form, rest, children));
+  }, /*#__PURE__*/React.createElement(RadioWrapper, rest, children));
 };
 
 RadioComponent.defaultProps = {
@@ -83,6 +83,14 @@ RadioComponentItem.propTypes = {
   text: PropTypes.string.isRequired,
   Component: PropTypes.any
 };
+var RadioWrapper = styled.div.attrs(function () {
+  return {
+    className: 'ui form'
+  };
+}).withConfig({
+  displayName: "Radio__RadioWrapper",
+  componentId: "vegcz3-0"
+})(["position:relative;max-width:100%;font-size:1rem;"]);
 RadioComponent.Item = RadioComponentItem;
 export var Radio = styled(RadioComponent).attrs(function () {
   return {
@@ -90,7 +98,7 @@ export var Radio = styled(RadioComponent).attrs(function () {
   };
 }).withConfig({
   displayName: "Radio",
-  componentId: "vegcz3-0"
+  componentId: "vegcz3-1"
 })([""]);
 Radio.propTypes = {
   value: PropTypes.any,

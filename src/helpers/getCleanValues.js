@@ -1,9 +1,7 @@
-import { get } from 'lodash'
 import check from 'check-types'
 import { isEmptyValue } from './isEmptyValue'
 import { getParentPath } from './getPath'
-
-const getDepend = () => true
+import { getComputedDepend } from './getComputedDepend'
 
 export const getCleanValues = (values, dependencies) => {
   const getValue = (value, parentPath) => {
@@ -12,9 +10,9 @@ export const getCleanValues = (values, dependencies) => {
         if (!check.object(val)) return val
         return Object.entries(val).reduce((accum, [k, v]) => {
           if (!k) return accum
-          const path = `${parentPath}.*.${k}`
-          const fieldName = `${parentPath}.${idx}.${k}`
-          const depend = get(dependencies, path, getDepend)(
+          let path = `${parentPath}.*.${k}`
+          let fieldName = `${parentPath}.${idx}.${k}`
+          let depend = getComputedDepend(dependencies, path)(
             values,
             fieldName,
             idx
@@ -27,8 +25,8 @@ export const getCleanValues = (values, dependencies) => {
       })
     } else if (check.object(value)) {
       return Object.entries(value).reduce((accum, [k, v]) => {
-        const path = `${parentPath}.${k}`
-        const depend = get(dependencies, path, getDepend)(values, path)
+        let path = `${parentPath}.${k}`
+        let depend = getComputedDepend(dependencies, path)(values, path)
         if (depend && !isEmptyValue(v)) {
           return { ...accum, [k]: v }
         }
@@ -36,7 +34,7 @@ export const getCleanValues = (values, dependencies) => {
       }, {})
     }
 
-    const depend = get(dependencies, parentPath, getDepend)(values)
+    const depend = getComputedDepend(dependencies, parentPath)(values)
     if (depend && !isEmptyValue(value)) {
       return value
     }
@@ -44,10 +42,10 @@ export const getCleanValues = (values, dependencies) => {
   }
 
   return Object.entries(values).reduce((accum, [parentPath, value]) => {
-    const fieldValue = getValue(value, parentPath)
+    let fieldValue = getValue(value, parentPath)
     return {
       ...accum,
-      ...(fieldValue && { [parentPath]: fieldValue }),
+      ...(!isEmptyValue(fieldValue) && { [parentPath]: fieldValue }),
     }
   }, {})
 }

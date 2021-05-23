@@ -1,15 +1,17 @@
 import styled from 'styled-components';
-import hoistNonReactStatics from 'hoist-non-react-statics';
-import { Radio as SemanticRadio } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-export var Switchery = styled(SemanticRadio).attrs(function () {
+import { Radio as SemanticRadio } from 'semantic-ui-react';
+import hoistNonReactStatics from 'hoist-non-react-statics';
+import { withToggle } from '../../hoc/withToggle';
+var StyledSwitchery = styled(SemanticRadio).attrs(function () {
   return {
     className: 'Switchery'
   };
 }).withConfig({
-  displayName: "Switchery",
+  displayName: "Switchery__StyledSwitchery",
   componentId: "sc-1rqgb9k-0"
 })([""]);
+export var Switchery = withToggle(StyledSwitchery);
 Switchery.displayName = 'Switchery';
 Switchery.defaultProps = {
   toggle: true
