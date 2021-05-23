@@ -16,9 +16,12 @@ export var TextInput = styled(SemanticInput).withConfig({
 })(space, layout, disabled);
 TextInput.displayName = 'TextInput';
 TextInput.defaultProps = {
-  width: '100%'
+  error: false,
+  width: '100%',
+  value: ''
 };
 TextInput.propTypes = _objectSpread(_objectSpread(_objectSpread({}, space.propTypes), layout.propTypes), {}, {
-  error: PropTypes.oneOfType([PropTypes.bool, PropTypes.any])
+  error: PropTypes.oneOfType([PropTypes.bool, PropTypes.any]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 });
 hoistNonReactStatics(TextInput, SemanticInput);

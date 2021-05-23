@@ -1,24 +1,22 @@
 import React from 'react'
 import { get } from 'lodash'
 import PropTypes from 'prop-types'
-import { Checkbox } from 'semantic-ui-react'
-import styled from 'styled-components'
 import check from 'check-types'
 import { useField } from '../hooks'
 import {
-  Text,
   FlexBox,
-  Radio,
   Switchery,
   Select,
   TextArea,
   TextInput,
   Unsupported,
+  Checkbox,
   ErrorMessage,
-  Link,
   Label,
 } from '../Components'
+import { Radio } from './Components/Radio'
 import { isEmptyValue, fieldTypes, castArray } from '../helpers'
+import { Required, FieldWrapper, FileLink } from './styled'
 
 const InputComponentTypes = {
   [fieldTypes.TEXT]: TextInput,
@@ -26,7 +24,7 @@ const InputComponentTypes = {
   [fieldTypes.SELECT]: Select,
   [fieldTypes.CHECKBOX]: Checkbox,
   [fieldTypes.RADIO]: Radio,
-  [fieldTypes.SWITCH]: Switchery,
+  [fieldTypes.SWITCH]: props => <Switchery {...props} type={'radio'} />,
   [fieldTypes.EMAIL]: props => <TextInput {...props} type={'email'} />,
   [fieldTypes.URL]: props => <TextInput {...props} type={'url'} />,
   [fieldTypes.PASSWORD]: props => <TextInput {...props} type={'password'} />,
@@ -43,6 +41,7 @@ export const Field = props => {
     disabled,
     renderLabel,
     renderErrorMessage,
+    name,
     ...rest
   } = props
 
@@ -54,27 +53,28 @@ export const Field = props => {
     required,
     readOnly,
     depend,
-  } = useField(props.name)
+  } = useField(name)
 
   const isReadOnly = readOnly || disabled
-
   const Component = as || get(InputComponentTypes, type, Unsupported)
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const FieldComponent = React.useCallback(Component, [])
   const isFileField = type === fieldTypes.FILE
-
-  const fieldValue = React.useMemo(() => {
-    return isFileField ? {} : { value: value || '' }
-  }, [value, isFileField])
-
+  const isBooleanField =
+    type === fieldTypes.SWITCH || type === fieldTypes.CHECKBOX
   const errors = castArray(error)
 
   // redering nothing if depend rule is not met
   if (!depend) return null
 
   return (
-    <FlexBox flexDirection={'column'} my={3} width={'100%'}>
+    <FieldWrapper
+      flexDirection={'column'}
+      my={3}
+      width={'100%'}
+      isBooleanField={isBooleanField}
+    >
       <FlexBox mb={2}>
         {renderLabel({ required, label })}
         {required && <Required as={'span'}>*</Required>}
@@ -97,26 +97,18 @@ export const Field = props => {
       </FlexBox>
       <FieldComponent
         {...rest}
-        {...fieldValue}
+        {...(!isFileField && { value })}
         disabled={isReadOnly}
+        name={name}
         type={type}
         onChange={onChange}
         onBlur={onBlur}
-        error={!isEmptyValue(error)}
+        {...(!isBooleanField && { error: !isEmptyValue(error) })}
       />
       {renderErrorMessage({ errors })}
-    </FlexBox>
+    </FieldWrapper>
   )
 }
-
-const Required = styled(Text)`
-  font-size: 1.3rem;
-  color: #9f3a38;
-`
-
-const FileLink = styled(Link)`
-  margin-left: 8px;
-`
 
 Field.defaultProps = {
   useFileLink: true,

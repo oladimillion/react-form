@@ -43,22 +43,18 @@ const FormComponent = props => {
   const [submitting, setSubmitting] = React.useState(false)
 
   // removing fields whose depend rule returns false
-  const cleanValues = React.useCallback(
-    getCleanValues(values, composedValidationDependencies),
-    [values]
-  )
-
-  const setFieldError = (fieldName, fieldError) => {
-    const newErrors = set(cloneDeep(errors), fieldName, fieldError)
-    setErrors(newErrors)
-  }
+  const cleanValues = getCleanValues(values, composedValidationDependencies)
 
   const setFormValue = (newValues = {}, useInitialValues = true) => {
-    setValues({ ...(useInitialValues && values), ...newValues })
+    setValues(state => ({ ...(useInitialValues && state), ...newValues }))
   }
 
   const setFormError = (newErrors = {}, useInitialErrors = true) => {
-    setErrors({ ...(useInitialErrors && errors), ...newErrors })
+    setErrors(state => ({ ...(useInitialErrors && state), ...newErrors }))
+  }
+
+  const setFieldError = (fieldName, fieldError) => {
+    setFormError(set(cloneDeep(errors), fieldName, fieldError))
   }
 
   const resetForm = () => {
@@ -85,8 +81,7 @@ const FormComponent = props => {
       validator.fails()
       setFieldError(fieldName, validator.errors.get(fieldName))
     }
-    const newValues = set(cloneDeep(values), fieldName, fieldValue)
-    setValues(newValues)
+    setFormValue(set(cloneDeep(values), fieldName, fieldValue))
   }
 
   const handleSubmit = async event => {
@@ -102,7 +97,7 @@ const FormComponent = props => {
       ]
       const validator = new Validator(...validatorParams)
       fails = validator.fails()
-      setErrors(validator.errors.all())
+      setFormError(validator.errors.all())
     }
 
     if (check.emptyObject(validationRules) || !fails) {
@@ -122,11 +117,11 @@ const FormComponent = props => {
     }
   }
 
-  const handleChange = (e, props) => {
+  const handleChange = (e, props = {}) => {
     const { files, name: targetName, value: targetValue } = e.target
     const { name: propsName, value: propsValue, type, multiple } = props
-    const name = targetName || propsName
-    const value = targetValue || propsValue
+    const name = !isEmptyValue(targetName) ? targetName : propsName
+    const value = !isEmptyValue(targetValue) ? targetValue : propsValue
 
     if (type === fieldTypes.FILE && multiple) {
       setFieldValue(name, files)

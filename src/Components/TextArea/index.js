@@ -57,10 +57,12 @@ TextArea.defaultProps = {
   p: 3,
   width: '100%',
   error: false,
+  value: '',
 }
 
 TextArea.propTypes = {
   ...space.propTypes,
   ...layout.propTypes,
   error: PropTypes.oneOfType([PropTypes.bool, PropTypes.any]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 }

@@ -64,24 +64,26 @@ var FormComponent = function FormComponent(props) {
       setSubmitting = _React$useState6[1]; // removing fields whose depend rule returns false
 
 
-  var cleanValues = React.useCallback(getCleanValues(values, composedValidationDependencies), [values]);
-
-  var setFieldError = function setFieldError(fieldName, fieldError) {
-    var newErrors = _set(_cloneDeep(errors), fieldName, fieldError);
-
-    setErrors(newErrors);
-  };
+  var cleanValues = getCleanValues(values, composedValidationDependencies);
 
   var setFormValue = function setFormValue() {
     var newValues = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     var useInitialValues = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-    setValues(_objectSpread(_objectSpread({}, useInitialValues && values), newValues));
+    setValues(function (state) {
+      return _objectSpread(_objectSpread({}, useInitialValues && state), newValues);
+    });
   };
 
   var setFormError = function setFormError() {
     var newErrors = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     var useInitialErrors = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-    setErrors(_objectSpread(_objectSpread({}, useInitialErrors && errors), newErrors));
+    setErrors(function (state) {
+      return _objectSpread(_objectSpread({}, useInitialErrors && state), newErrors);
+    });
+  };
+
+  var setFieldError = function setFieldError(fieldName, fieldError) {
+    setFormError(_set(_cloneDeep(errors), fieldName, fieldError));
   };
 
   var resetForm = function resetForm() {
@@ -108,9 +110,7 @@ var FormComponent = function FormComponent(props) {
       setFieldError(fieldName, validator.errors.get(fieldName));
     }
 
-    var newValues = _set(_cloneDeep(values), fieldName, fieldValue);
-
-    setValues(newValues);
+    setFormValue(_set(_cloneDeep(values), fieldName, fieldValue));
   };
 
   var handleSubmit = /*#__PURE__*/function () {
@@ -127,7 +127,7 @@ var FormComponent = function FormComponent(props) {
                 validatorParams = [cleanValues, composedValidationRules, buildFormValidationMessages(validationRules, cleanValues)];
                 validator = _construct(Validator, validatorParams);
                 fails = validator.fails();
-                setErrors(validator.errors.all());
+                setFormError(validator.errors.all());
               }
 
               if (!(check.emptyObject(validationRules) || !fails)) {
@@ -165,7 +165,8 @@ var FormComponent = function FormComponent(props) {
     };
   }();
 
-  var handleChange = function handleChange(e, props) {
+  var handleChange = function handleChange(e) {
+    var props = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     var _e$target = e.target,
         files = _e$target.files,
         targetName = _e$target.name,
@@ -174,8 +175,8 @@ var FormComponent = function FormComponent(props) {
         propsValue = props.value,
         type = props.type,
         multiple = props.multiple;
-    var name = targetName || propsName;
-    var value = targetValue || propsValue;
+    var name = !isEmptyValue(targetName) ? targetName : propsName;
+    var value = !isEmptyValue(targetValue) ? targetValue : propsValue;
 
     if (type === fieldTypes.FILE && multiple) {
       setFieldValue(name, files);

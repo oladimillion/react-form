@@ -7,13 +7,17 @@ var _InputComponentTypes;
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Checkbox } from 'semantic-ui-react';
-import styled from 'styled-components';
 import check from 'check-types';
 import { useField } from '../hooks';
-import { Text, FlexBox, Radio, Switchery, Select, TextArea, TextInput, Unsupported, ErrorMessage, Link, Label } from '../Components';
+import { FlexBox, Switchery, Select, TextArea, TextInput, Unsupported, Checkbox, ErrorMessage, Label } from '../Components';
+import { Radio } from './Components/Radio';
 import { isEmptyValue, fieldTypes, castArray } from '../helpers';
-var InputComponentTypes = (_InputComponentTypes = {}, _defineProperty(_InputComponentTypes, fieldTypes.TEXT, TextInput), _defineProperty(_InputComponentTypes, fieldTypes.TEXTAREA, TextArea), _defineProperty(_InputComponentTypes, fieldTypes.SELECT, Select), _defineProperty(_InputComponentTypes, fieldTypes.CHECKBOX, Checkbox), _defineProperty(_InputComponentTypes, fieldTypes.RADIO, Radio), _defineProperty(_InputComponentTypes, fieldTypes.SWITCH, Switchery), _defineProperty(_InputComponentTypes, fieldTypes.EMAIL, function (props) {
+import { Required, FieldWrapper, FileLink } from './styled';
+var InputComponentTypes = (_InputComponentTypes = {}, _defineProperty(_InputComponentTypes, fieldTypes.TEXT, TextInput), _defineProperty(_InputComponentTypes, fieldTypes.TEXTAREA, TextArea), _defineProperty(_InputComponentTypes, fieldTypes.SELECT, Select), _defineProperty(_InputComponentTypes, fieldTypes.CHECKBOX, Checkbox), _defineProperty(_InputComponentTypes, fieldTypes.RADIO, Radio), _defineProperty(_InputComponentTypes, fieldTypes.SWITCH, function (props) {
+  return /*#__PURE__*/React.createElement(Switchery, _extends({}, props, {
+    type: 'radio'
+  }));
+}), _defineProperty(_InputComponentTypes, fieldTypes.EMAIL, function (props) {
   return /*#__PURE__*/React.createElement(TextInput, _extends({}, props, {
     type: 'email'
   }));
@@ -42,9 +46,10 @@ export var Field = function Field(props) {
       disabled = props.disabled,
       renderLabel = props.renderLabel,
       renderErrorMessage = props.renderErrorMessage,
-      rest = _objectWithoutProperties(props, ["label", "type", "useFileLink", "as", "disabled", "renderLabel", "renderErrorMessage"]);
+      name = props.name,
+      rest = _objectWithoutProperties(props, ["label", "type", "useFileLink", "as", "disabled", "renderLabel", "renderErrorMessage", "name"]);
 
-  var _useField = useField(props.name),
+  var _useField = useField(name),
       error = _useField.error,
       value = _useField.value,
       onChange = _useField.onChange,
@@ -60,18 +65,15 @@ export var Field = function Field(props) {
 
   var FieldComponent = React.useCallback(Component, []);
   var isFileField = type === fieldTypes.FILE;
-  var fieldValue = React.useMemo(function () {
-    return isFileField ? {} : {
-      value: value || ''
-    };
-  }, [value, isFileField]);
+  var isBooleanField = type === fieldTypes.SWITCH || type === fieldTypes.CHECKBOX;
   var errors = castArray(error); // redering nothing if depend rule is not met
 
   if (!depend) return null;
-  return /*#__PURE__*/React.createElement(FlexBox, {
+  return /*#__PURE__*/React.createElement(FieldWrapper, {
     flexDirection: 'column',
     my: 3,
-    width: '100%'
+    width: '100%',
+    isBooleanField: isBooleanField
   }, /*#__PURE__*/React.createElement(FlexBox, {
     mb: 2
   }, renderLabel({
@@ -86,24 +88,20 @@ export var Field = function Field(props) {
       target: '_blank',
       rel: 'noopener noreferrer'
     }, link);
-  })), /*#__PURE__*/React.createElement(FieldComponent, _extends({}, rest, fieldValue, {
+  })), /*#__PURE__*/React.createElement(FieldComponent, _extends({}, rest, !isFileField && {
+    value: value
+  }, {
     disabled: isReadOnly,
+    name: name,
     type: type,
     onChange: onChange,
-    onBlur: onBlur,
+    onBlur: onBlur
+  }, !isBooleanField && {
     error: !isEmptyValue(error)
   })), renderErrorMessage({
     errors: errors
   }));
 };
-var Required = styled(Text).withConfig({
-  displayName: "Field__Required",
-  componentId: "blzmvn-0"
-})(["font-size:1.3rem;color:#9f3a38;"]);
-var FileLink = styled(Link).withConfig({
-  displayName: "Field__FileLink",
-  componentId: "blzmvn-1"
-})(["margin-left:8px;"]);
 Field.defaultProps = {
   useFileLink: true,
   renderLabel: function renderLabel(_ref) {

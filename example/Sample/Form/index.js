@@ -7,7 +7,7 @@ const validationRules = {
   text: {
     validation: ['required'],
     message: {
-      required: 'The field is required'
+      required: 'This field is required'
     }
   },
   password: {
@@ -28,7 +28,7 @@ const validationRules = {
   'fieldArray.*.textarea': {
     validation: 'required',
     message: {
-      required: 'The field is required'
+      required: 'This field is required'
     }
   },
   'fieldArray.*.number': {
@@ -41,7 +41,7 @@ const validationRules = {
   'fieldArray.*.myemail': {
     validation: 'email',
     message: {
-      required: 'The field is required',
+      required: 'This field is required',
       email: 'Invalid email provided',
     },
     depend: ({ fieldArray }, name, index) => {
@@ -63,7 +63,9 @@ export const Form = ({ readOnly }) => {
     number: '123349823983928',
     password: '123',
     select: 'af',
-    file_multiple: ['https://google.com', 'https://wikipedia.com']
+    file_multiple: ['https://google.com', 'https://wikipedia.com'],
+    radio: 'yes',
+    switch: true,
   }
 
   return (
@@ -90,6 +92,29 @@ export const Form = ({ readOnly }) => {
                 <Field type='textarea' label='TextArea Field' name={`fieldArray.${index}.textarea`} />
                 <Field type='number' label='Number Field' name={`fieldArray.${index}.number`} />
                 <Field type='email' label='Email Field' name={`fieldArray.${index}.myemail`} />
+                <Field 
+                  label='Radio Field'
+                  options={[{ text: 'Yes', value: 'yes' }, {text: 'No', value: 'no' }]} 
+                  type='radio' 
+                  name={`fieldArray.${index}.radio`}                
+                />
+                <Field 
+                  label='Switch Field'
+                  type='switch' 
+                  name={`fieldArray.${index}.switch`}                
+                />
+                <Field 
+                  label='Checkbox Field'
+                  type='checkbox' 
+                  name={`fieldArray.${index}.checkbox`}                
+                />
+                <Field 
+                  label='Select Field'
+                  options={countries} 
+                  type='select' 
+                  name={`fieldArray.${index}.select`}                
+                  placeholder='Select your country'
+                />
                 <FieldArray.Divider />
               </FieldArray.Item>
             ))}
@@ -111,6 +136,22 @@ export const Form = ({ readOnly }) => {
         type='select' 
         name='select2'
         placeholder='Select your country'
+      />
+      <Field 
+        label='Radio Field'
+        options={[{ text: 'Yes', value: 'yes' }, {text: 'No', value: 'no' }]} 
+        type='radio' 
+        name='radio'
+      />
+      <Field 
+        label='Switch Field'
+        type='switch' 
+        name='switch'
+      />
+      <Field 
+        label='Checkbox Field'
+        type='checkbox' 
+        name='checkbox'
       />
       <Action primary>Save</Action>
     </BaseForm>

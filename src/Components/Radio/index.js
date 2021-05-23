@@ -32,14 +32,14 @@ const RadioComponent = props => {
           setValue(value)
           onChange({
             target: {
-              name: props.name,
+              name,
               value,
             },
           })
         },
       }}
     >
-      <Form {...rest}>{children}</Form>
+      <RadioWrapper {...rest}>{children}</RadioWrapper>
     </RadioContext.Provider>
   )
 }
@@ -82,6 +82,14 @@ RadioComponentItem.propTypes = {
   text: PropTypes.string.isRequired,
   Component: PropTypes.any,
 }
+
+const RadioWrapper = styled.div.attrs(() => ({
+  className: 'ui form',
+}))`
+  position: relative;
+  max-width: 100%;
+  font-size: 1rem;
+`
 
 RadioComponent.Item = RadioComponentItem
 

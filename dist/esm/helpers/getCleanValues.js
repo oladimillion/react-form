@@ -1,6 +1,5 @@
 import _defineProperty from "@babel/runtime/helpers/defineProperty";
 import _slicedToArray from "@babel/runtime/helpers/slicedToArray";
-import _get from "lodash/get";
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -9,11 +8,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 import check from 'check-types';
 import { isEmptyValue } from './isEmptyValue';
 import { getParentPath } from './getPath';
-
-var getDepend = function getDepend() {
-  return true;
-};
-
+import { getComputedDepend } from './getComputedDepend';
 export var getCleanValues = function getCleanValues(values, dependencies) {
   var getValue = function getValue(value, parentPath) {
     if (check.array(value)) {
@@ -27,8 +22,7 @@ export var getCleanValues = function getCleanValues(values, dependencies) {
           if (!k) return accum;
           var path = "".concat(parentPath, ".*.").concat(k);
           var fieldName = "".concat(parentPath, ".").concat(idx, ".").concat(k);
-
-          var depend = _get(dependencies, path, getDepend)(values, fieldName, idx);
+          var depend = getComputedDepend(dependencies, path)(values, fieldName, idx);
 
           if (depend && !isEmptyValue(v)) {
             return _objectSpread(_objectSpread({}, accum), {}, _defineProperty({}, k, v));
@@ -44,8 +38,7 @@ export var getCleanValues = function getCleanValues(values, dependencies) {
             v = _ref4[1];
 
         var path = "".concat(parentPath, ".").concat(k);
-
-        var depend = _get(dependencies, path, getDepend)(values, path);
+        var depend = getComputedDepend(dependencies, path)(values, path);
 
         if (depend && !isEmptyValue(v)) {
           return _objectSpread(_objectSpread({}, accum), {}, _defineProperty({}, k, v));
@@ -55,7 +48,7 @@ export var getCleanValues = function getCleanValues(values, dependencies) {
       }, {});
     }
 
-    var depend = _get(dependencies, parentPath, getDepend)(values);
+    var depend = getComputedDepend(dependencies, parentPath)(values);
 
     if (depend && !isEmptyValue(value)) {
       return value;
@@ -70,6 +63,6 @@ export var getCleanValues = function getCleanValues(values, dependencies) {
         value = _ref6[1];
 
     var fieldValue = getValue(value, parentPath);
-    return _objectSpread(_objectSpread({}, accum), fieldValue && _defineProperty({}, parentPath, fieldValue));
+    return _objectSpread(_objectSpread({}, accum), !isEmptyValue(fieldValue) && _defineProperty({}, parentPath, fieldValue));
   }, {});
 };

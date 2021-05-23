@@ -1,11 +1,14 @@
 import styled from 'styled-components'
-import hoistNonReactStatics from 'hoist-non-react-statics'
-import { Radio as SemanticRadio } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
+import { Radio as SemanticRadio } from 'semantic-ui-react'
+import hoistNonReactStatics from 'hoist-non-react-statics'
+import { withToggle } from '../../hoc/withToggle'
 
-export const Switchery = styled(SemanticRadio).attrs(() => ({
+const StyledSwitchery = styled(SemanticRadio).attrs(() => ({
   className: 'Switchery',
 }))``
+
+export const Switchery = withToggle(StyledSwitchery)
 
 Switchery.displayName = 'Switchery'
 
