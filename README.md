@@ -56,7 +56,7 @@ const MyForm = () => {
 
 ## API
 
-### <Form />
+### `<Form />`
 
 ```js 
 import { Form } from '@oladimillion/react-form'
@@ -107,27 +107,13 @@ Form handles the form's validation, change and submit events.
 
   form can be made read only by setting `readOnly` to `true`
 
-### <Field />
+### `<Field />`
 
 ```js 
 import { Field } from '@oladimillion/react-form'
 ```
 
 Field hooks up inputs to the form state using the name attribute.
-
-Field.propTypes = {
-  as: PropTypes.oneOfType([PropTypes.node, PropTypes.elementType]),
-  renderLabel: PropTypes.func,
-  renderErrorMessage: PropTypes.func,
-  label: PropTypes.string,
-  useFileLink: PropTypes.bool,
-  options: PropTypes.arrayOf(
-    PropTypes.shape({ 
-      text: PropTypes.string, 
-      value: PropTypes.any 
-    })
-  ),
-}
 
 ```js
     <Field type='password' label='Password' name='password' />
