@@ -1,16 +1,26 @@
-import _slicedToArray from "@babel/runtime/helpers/slicedToArray";
-import _get from "lodash/get";
-import check from 'check-types';
-export var getComputedDepend = function getComputedDepend(dependencies, path) {
+"use strict";
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getComputedDepend = void 0;
+
+var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
+
+var _get2 = _interopRequireDefault(require("lodash/get"));
+
+var _checkTypes = _interopRequireDefault(require("check-types"));
+
+var getComputedDepend = function getComputedDepend(dependencies, path) {
   var defaultEval = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-
-  var evaluate = _get(dependencies, path, defaultEval);
-
+  var evaluate = (0, _get2["default"])(dependencies, path, defaultEval);
   return function (values) {
     var fieldName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
     var fieldIndex = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
-    if (check["function"](evaluate)) {
+    if (_checkTypes["default"]["function"](evaluate)) {
       /*
        *  'fieldName': {
        *    validation: 'required',
@@ -24,7 +34,7 @@ export var getComputedDepend = function getComputedDepend(dependencies, path) {
        *  }
        */
       return evaluate(values, fieldName, fieldIndex);
-    } else if (check.string(evaluate)) {
+    } else if (_checkTypes["default"].string(evaluate)) {
       /*
        *  'fieldName': {
        *    validation: 'required',
@@ -34,8 +44,8 @@ export var getComputedDepend = function getComputedDepend(dependencies, path) {
        *    depend: 'anotherFieldName' // fieldName is dependent on anotherFieldName
        *  }
        */
-      return _get(values, evaluate, false);
-    } else if (check["boolean"](evaluate)) {
+      return (0, _get2["default"])(values, evaluate, false);
+    } else if (_checkTypes["default"]["boolean"](evaluate)) {
       /*
        *  'fieldName': {
        *    validation: 'required',
@@ -46,7 +56,7 @@ export var getComputedDepend = function getComputedDepend(dependencies, path) {
        *  }
        */
       return evaluate;
-    } else if (check.object(evaluate)) {
+    } else if (_checkTypes["default"].object(evaluate)) {
       /*
        *  'fieldName': {
        *    validation: 'required',
@@ -57,14 +67,16 @@ export var getComputedDepend = function getComputedDepend(dependencies, path) {
        *  }
        */
       return Object.entries(evaluate).every(function (_ref) {
-        var _ref2 = _slicedToArray(_ref, 2),
+        var _ref2 = (0, _slicedToArray2["default"])(_ref, 2),
             field = _ref2[0],
             evalValue = _ref2[1];
 
-        return _get(values, field) === evalValue;
+        return (0, _get2["default"])(values, field) === evalValue;
       });
     }
 
     return true;
   };
 };
+
+exports.getComputedDepend = getComputedDepend;

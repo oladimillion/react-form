@@ -227,6 +227,7 @@ FormComponent.defaultProps = {
 FormComponent.propTypes = {
   validationRules: PropTypes.shape({}),
   onSubmit: PropTypes.func,
+  readOnly: PropTypes.bool,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   render: PropTypes.func
 };

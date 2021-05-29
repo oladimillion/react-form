@@ -5,16 +5,16 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.fieldTypes = void 0;
 var fieldTypes = {
+  CHECKBOX: 'checkbox',
+  EMAIL: 'email',
+  FILE: 'file',
+  NUMBER: 'number',
+  PASSWORD: 'password',
+  RADIO: 'radio',
+  SELECT: 'select',
+  SWITCH: 'switch',
   TEXT: 'text',
   TEXTAREA: 'textarea',
-  SELECT: 'select',
-  CHECKBOX: 'checkbox',
-  RADIO: 'radio',
-  RADIO_ARRAY: 'radioArray',
-  EMAIL: 'email',
-  URL: 'url',
-  PASSWORD: 'password',
-  FILE: 'file',
-  NUMBER: 'number'
+  URL: 'url'
 };
 exports.fieldTypes = fieldTypes;

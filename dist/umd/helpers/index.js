@@ -51,6 +51,12 @@ Object.defineProperty(exports, "castArray", {
     return _castArray.castArray;
   }
 });
+Object.defineProperty(exports, "getComputedDepend", {
+  enumerable: true,
+  get: function get() {
+    return _getComputedDepend.getComputedDepend;
+  }
+});
 
 var _buildValidationMessages = require("./buildValidationMessages");
 
@@ -65,3 +71,5 @@ var _isEmptyValue = require("./isEmptyValue");
 var _fieldTypes = require("./fieldTypes");
 
 var _castArray = require("./castArray");
+
+var _getComputedDepend = require("./getComputedDepend");

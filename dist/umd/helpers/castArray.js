@@ -7,14 +7,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.castArray = void 0;
 
-var _typeof2 = _interopRequireDefault(require("@babel/runtime/helpers/typeof"));
-
 var _checkTypes = _interopRequireDefault(require("check-types"));
 
 var castArray = function castArray(value) {
   if (_checkTypes["default"].array(value)) {
     return value;
-  } else if ((0, _typeof2["default"])(value) === 'object') {
+  } else if (_checkTypes["default"].object(value)) {
     return Array.from(value);
   }
 

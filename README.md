@@ -1,26 +1,158 @@
-## Available Scripts
+# react-form
 
-In the project directory, you can run:
+Fast and easy way to create form in React
 
-### `npm start`
+## Installation
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Using npm
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+```bash
+npm install @oladimillion/react-form
+```
 
-### `npm test`
+### Using yarn
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+yarn add @oladimillion/react-form
+```
 
-### `npm run build`
+## Basic Usage
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```js
+import { Form Field, Action } from '@oladimillion/react-form'
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+const validationRules = {
+  text: {
+    validation: ['required'],
+    message: {
+      required: 'This text field is required'
+    }
+  }
+}
+
+const initialValues = {
+  text: 'react form',
+}
+
+const MyForm = () => {
+
+  const onSubmit = async ({ values, errors, submitting, resetForm, setFormError, setFormValue }) => {
+    // perform async action
+  }
+
+  return (
+    <Form 
+      onSubmit={onSubmit}
+      validationRules={validationRules}
+      initialValues={initialValues}
+    >
+      <Field type='text' label='Text Field' name='text' placeholder='Text field' />
+      <Action primary>Save</Action>
+    </Form>
+  )
+}
+```
+
+## API
+
+### <Form />
+
+```js 
+import { Form } from '@oladimillion/react-form'
+```
+
+Form handles the form's validation, change and submit events.
+
+```js
+    <Form 
+      onSubmit={onSubmit}
+      validationRules={validationRules}
+      initialValues={initialValues}
+      readOnly={false}
+    >
+      ...
+    </Form>
+```
+
+#### Form props
+
+- `onSubmit: function` **Required**
+
+  it's called when submit event is triggered 
+
+- `validationRules: object` 
+
+  form fields can have custom validation rules.
+
+  [Validatorjs](https://github.com/mikeerickson/validatorjs) is used under the hood for the form validation.
+
+  ```js
+    const validationRules = {
+      email: {
+        validation: ['required', 'email'],
+        message: {
+          required: 'The email field is required'
+          email: 'The email format is invalid'
+        }
+      }
+    }
+  ```
+
+- `initialValues: object` 
+
+  form fields can have initial value defined
+
+- `readOnly: boolean` 
+
+  form can be made read only by setting `readOnly` to `true`
+
+### <Field />
+
+```js 
+import { Field } from '@oladimillion/react-form'
+```
+
+Field hooks up inputs to the form state using the name attribute.
+
+Field.propTypes = {
+  as: PropTypes.oneOfType([PropTypes.node, PropTypes.elementType]),
+  renderLabel: PropTypes.func,
+  renderErrorMessage: PropTypes.func,
+  label: PropTypes.string,
+  useFileLink: PropTypes.bool,
+  options: PropTypes.arrayOf(
+    PropTypes.shape({ 
+      text: PropTypes.string, 
+      value: PropTypes.any 
+    })
+  ),
+}
+
+```js
+    <Field type='password' label='Password' name='password' />
+```
+
+#### Field props
+
+- `name: string` **Required**
+
+  field's name in the form state.
+
+- `type: string` 
+
+  input type, which can be `text`, `textarea`, `select`, `checkbox`, `radio`, `switch`, `email`, `url`, `password`, `file`, or `number`.
+
+
+- `placeholder: string` 
+
+  placeholder text for `text`, `textarea`, `email`, `url`, `password` and `number` input types.
+
+
+
+
+
+
+
+
+

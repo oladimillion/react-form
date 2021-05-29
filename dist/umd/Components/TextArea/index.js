@@ -66,8 +66,10 @@ TextArea.displayName = 'TextArea';
 TextArea.defaultProps = {
   p: 3,
   width: '100%',
-  error: false
+  error: false,
+  value: ''
 };
 TextArea.propTypes = _objectSpread(_objectSpread(_objectSpread({}, _styledSystem.space.propTypes), _styledSystem.layout.propTypes), {}, {
-  error: _propTypes["default"].oneOfType([_propTypes["default"].bool, _propTypes["default"].any])
+  error: _propTypes["default"].oneOfType([_propTypes["default"].bool, _propTypes["default"].any]),
+  value: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number])
 });

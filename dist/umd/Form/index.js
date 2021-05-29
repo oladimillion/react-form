@@ -97,23 +97,26 @@ var FormComponent = function FormComponent(props) {
       setSubmitting = _React$useState6[1]; // removing fields whose depend rule returns false
 
 
-  var cleanValues = _react["default"].useCallback((0, _getCleanValues.getCleanValues)(values, composedValidationDependencies), [values]);
-
-  var setFieldError = function setFieldError(fieldName, fieldError) {
-    var newErrors = (0, _set2["default"])((0, _cloneDeep2["default"])(errors), fieldName, fieldError);
-    setErrors(newErrors);
-  };
+  var cleanValues = (0, _getCleanValues.getCleanValues)(values, composedValidationDependencies);
 
   var setFormValue = function setFormValue() {
     var newValues = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     var useInitialValues = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-    setValues(_objectSpread(_objectSpread({}, useInitialValues && values), newValues));
+    setValues(function (state) {
+      return _objectSpread(_objectSpread({}, useInitialValues && state), newValues);
+    });
   };
 
   var setFormError = function setFormError() {
     var newErrors = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     var useInitialErrors = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-    setErrors(_objectSpread(_objectSpread({}, useInitialErrors && errors), newErrors));
+    setErrors(function (state) {
+      return _objectSpread(_objectSpread({}, useInitialErrors && state), newErrors);
+    });
+  };
+
+  var setFieldError = function setFieldError(fieldName, fieldError) {
+    setFormError((0, _set2["default"])((0, _cloneDeep2["default"])(errors), fieldName, fieldError));
   };
 
   var resetForm = function resetForm() {
@@ -135,8 +138,7 @@ var FormComponent = function FormComponent(props) {
       setFieldError(fieldName, validator.errors.get(fieldName));
     }
 
-    var newValues = (0, _set2["default"])((0, _cloneDeep2["default"])(values), fieldName, fieldValue);
-    setValues(newValues);
+    setFormValue((0, _set2["default"])((0, _cloneDeep2["default"])(values), fieldName, fieldValue));
   };
 
   var handleSubmit = /*#__PURE__*/function () {
@@ -153,7 +155,7 @@ var FormComponent = function FormComponent(props) {
                 validatorParams = [cleanValues, composedValidationRules, (0, _buildValidationMessages.buildFormValidationMessages)(validationRules, cleanValues)];
                 validator = (0, _construct2["default"])(_validatorjs["default"], validatorParams);
                 fails = validator.fails();
-                setErrors(validator.errors.all());
+                setFormError(validator.errors.all());
               }
 
               if (!(_checkTypes["default"].emptyObject(validationRules) || !fails)) {
@@ -191,7 +193,8 @@ var FormComponent = function FormComponent(props) {
     };
   }();
 
-  var handleChange = function handleChange(e, props) {
+  var handleChange = function handleChange(e) {
+    var props = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     var _e$target = e.target,
         files = _e$target.files,
         targetName = _e$target.name,
@@ -200,8 +203,8 @@ var FormComponent = function FormComponent(props) {
         propsValue = props.value,
         type = props.type,
         multiple = props.multiple;
-    var name = targetName || propsName;
-    var value = targetValue || propsValue;
+    var name = !(0, _isEmptyValue.isEmptyValue)(targetName) ? targetName : propsName;
+    var value = !(0, _isEmptyValue.isEmptyValue)(targetValue) ? targetValue : propsValue;
 
     if (type === _fieldTypes.fieldTypes.FILE && multiple) {
       setFieldValue(name, files);
@@ -254,6 +257,7 @@ FormComponent.defaultProps = {
 FormComponent.propTypes = {
   validationRules: _propTypes["default"].shape({}),
   onSubmit: _propTypes["default"].func,
+  readOnly: _propTypes["default"].bool,
   children: _propTypes["default"].oneOfType([_propTypes["default"].node, _propTypes["default"].func]),
   render: _propTypes["default"].func
 };

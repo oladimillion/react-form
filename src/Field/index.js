@@ -131,4 +131,11 @@ Field.propTypes = {
   useFileLink: PropTypes.bool,
   name: PropTypes.string.isRequired,
   type: PropTypes.string,
+  placeholder: PropTypes.string,
+  options: PropTypes.arrayOf(
+    PropTypes.shape({ 
+      text: PropTypes.string, 
+      value: PropTypes.any 
+    })
+  ),
 }
