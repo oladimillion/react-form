@@ -78,13 +78,13 @@ Form handles the form's validation, change and submit events.
 
 #### Form props
 
-- `onSubmit: function` **Required**
+- `onSubmit: function` **required**
 
   Called when submit event is triggered.
 
 - `validationRules: object` 
 
-  Custom validation rules for form fields.
+  Custom validation rules for the form fields.
 
   [Validatorjs](https://github.com/mikeerickson/validatorjs) is used under the hood for the form validation.
 
@@ -106,7 +106,7 @@ Form handles the form's validation, change and submit events.
 
 - `readOnly: boolean` 
 
-  form can be made read only by setting `readOnly` to `true`
+  `Form` can be made read only by setting `readOnly` prop to `true`
 
 ### `<Field />`
 
@@ -141,7 +141,7 @@ Form handles the form's validation, change and submit events.
 
 - `renderLabel: function` 
 
-  **Label** can be customized with `renderLabel` function.
+  `label` can be customized using the `renderLabel` prop.
 
   ```js
       <Field 
@@ -152,7 +152,7 @@ Form handles the form's validation, change and submit events.
 
 - `renderErrorMessage: function` 
 
-  **Error message** can be customized with `renderErrorMessage` function. It takes `errors: array` as argument.
+  `error message` can be customized using the `renderErrorMessage` prop. It takes `errors: array` as argument.
 
   ```js
       <Field 
@@ -239,7 +239,7 @@ Each `Field` in a `FieldArray` must have a name composed from the _parent name_,
 
 - `render: function` 
 
-  `render` function takes `values: array`, `add: function` and `remove: functon` arguments. `values` holds the items' value, `add` function adds a new item to the array items, and `remove` function removes a child from the array items using its index.
+  `render` function takes `values: array`, `add: function` and `remove: functon` arguments. `values` holds the items' value, `add` function adds a new item to the array fields, and `remove` function removes an item from the array fields using its index.
 
 ```js
     <FieldArray 
