@@ -111,7 +111,7 @@ export const Field = props => {
 }
 
 Field.defaultProps = {
-  useFileLink: true,
+  useFileLink: false,
   renderLabel: ({ label }) => {
     return label && <Label>{label}</Label>
   },
@@ -133,9 +133,13 @@ Field.propTypes = {
   type: PropTypes.string,
   placeholder: PropTypes.string,
   options: PropTypes.arrayOf(
-    PropTypes.shape({ 
-      text: PropTypes.string, 
-      value: PropTypes.any 
+    PropTypes.shape({
+      text: PropTypes.string,
+      value: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+        PropTypes.bool,
+      ]),
     })
   ),
 }

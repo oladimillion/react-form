@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form as BaseForm, Field, Action, FieldArray } from '@oladimillion/react-form'
+import { Form as BaseForm, Field, SubmitButton, FieldArray } from '@oladimillion/react-form'
 import { countries } from '../consts'
 
 
@@ -153,7 +153,7 @@ export const Form = ({ readOnly }) => {
         type='checkbox' 
         name='checkbox'
       />
-      <Action primary>Save</Action>
+      <SubmitButton>Save</SubmitButton>
     </BaseForm>
   )
 }

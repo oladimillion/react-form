@@ -125,7 +125,7 @@ var Field = function Field(props) {
 
 exports.Field = Field;
 Field.defaultProps = {
-  useFileLink: true,
+  useFileLink: false,
   renderLabel: function renderLabel(_ref) {
     var label = _ref.label;
     return label && /*#__PURE__*/_react["default"].createElement(_Components.Label, null, label);
@@ -150,6 +150,6 @@ Field.propTypes = {
   placeholder: _propTypes["default"].string,
   options: _propTypes["default"].arrayOf(_propTypes["default"].shape({
     text: _propTypes["default"].string,
-    value: _propTypes["default"].any
+    value: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number, _propTypes["default"].bool])
   }))
 };
