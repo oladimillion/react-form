@@ -147,6 +147,7 @@ const FormComponent = props => {
     formValidationDependencies: composedValidationDependencies,
     readOnly,
     setFormValue,
+    setFormError,
   }
 
   const renderChildren = React.useCallback(() => {

@@ -201,7 +201,8 @@ var FormComponent = function FormComponent(props) {
     formValidationRules: composedValidationRules,
     formValidationDependencies: composedValidationDependencies,
     readOnly: readOnly,
-    setFormValue: setFormValue
+    setFormValue: setFormValue,
+    setFormError: setFormError
   };
   var renderChildren = React.useCallback(function () {
     if (check["function"](children)) {
