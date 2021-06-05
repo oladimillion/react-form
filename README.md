@@ -111,7 +111,7 @@ Form handles the form's validation, change and submit events.
 
 - `validationRules: object` 
 
-  Allows form fields validation.
+  Allows form fields custom validation.
 
   [Validatorjs](https://github.com/mikeerickson/validatorjs) is used in the form validation.
 
@@ -155,7 +155,7 @@ Form handles the form's validation, change and submit events.
       }
     }
 
-    // depend as a object
+    // depend as an object
     const validationRules = {
       email: {
         ...
@@ -487,3 +487,6 @@ Each `Field` in a `FieldArray` must have a **name** composed from the _FieldArra
   
   Updates the form state with `errors`. 
 
+## License
+
+This project is licensed under the terms of the [MIT license](/LICENSE).
