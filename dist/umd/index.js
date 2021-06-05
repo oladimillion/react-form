@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 var _exportNames = {
   Form: true,
   Field: true,
-  Action: true
+  SubmitButton: true
 };
 Object.defineProperty(exports, "Form", {
   enumerable: true,
@@ -20,10 +20,10 @@ Object.defineProperty(exports, "Field", {
     return _Field.Field;
   }
 });
-Object.defineProperty(exports, "Action", {
+Object.defineProperty(exports, "SubmitButton", {
   enumerable: true,
   get: function get() {
-    return _Action.Action;
+    return _SubmitButton.SubmitButton;
   }
 });
 
@@ -33,7 +33,7 @@ var _Form = require("./Form");
 
 var _Field = require("./Field");
 
-var _Action = require("./Field/Components/Action");
+var _SubmitButton = require("./Field/Components/SubmitButton");
 
 var _hooks = require("./hooks");
 

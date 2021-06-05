@@ -19,23 +19,25 @@ var _react = _interopRequireDefault(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _semanticUiReact = require("semantic-ui-react");
-
-var _styledComponents = _interopRequireDefault(require("styled-components"));
-
 var _checkTypes = _interopRequireDefault(require("check-types"));
 
 var _hooks = require("../hooks");
 
 var _Components = require("../Components");
 
-var _RadioArray = require("./Components/RadioArray");
+var _Radio = require("./Components/Radio");
 
 var _helpers = require("../helpers");
 
+var _styled = require("./styled");
+
 var _InputComponentTypes;
 
-var InputComponentTypes = (_InputComponentTypes = {}, (0, _defineProperty2["default"])(_InputComponentTypes, _helpers.fieldTypes.TEXT, _Components.TextInput), (0, _defineProperty2["default"])(_InputComponentTypes, _helpers.fieldTypes.TEXTAREA, _Components.TextArea), (0, _defineProperty2["default"])(_InputComponentTypes, _helpers.fieldTypes.SELECT, _Components.Select), (0, _defineProperty2["default"])(_InputComponentTypes, _helpers.fieldTypes.CHECKBOX, _semanticUiReact.Checkbox), (0, _defineProperty2["default"])(_InputComponentTypes, _helpers.fieldTypes.RADIO, _Components.Radio), (0, _defineProperty2["default"])(_InputComponentTypes, _helpers.fieldTypes.RADIO_ARRAY, _RadioArray.RadioArray), (0, _defineProperty2["default"])(_InputComponentTypes, _helpers.fieldTypes.EMAIL, function (props) {
+var InputComponentTypes = (_InputComponentTypes = {}, (0, _defineProperty2["default"])(_InputComponentTypes, _helpers.fieldTypes.TEXT, _Components.TextInput), (0, _defineProperty2["default"])(_InputComponentTypes, _helpers.fieldTypes.TEXTAREA, _Components.TextArea), (0, _defineProperty2["default"])(_InputComponentTypes, _helpers.fieldTypes.SELECT, _Components.Select), (0, _defineProperty2["default"])(_InputComponentTypes, _helpers.fieldTypes.CHECKBOX, _Components.Checkbox), (0, _defineProperty2["default"])(_InputComponentTypes, _helpers.fieldTypes.RADIO, _Radio.Radio), (0, _defineProperty2["default"])(_InputComponentTypes, _helpers.fieldTypes.SWITCH, function (props) {
+  return /*#__PURE__*/_react["default"].createElement(_Components.Switchery, (0, _extends2["default"])({}, props, {
+    type: 'radio'
+  }));
+}), (0, _defineProperty2["default"])(_InputComponentTypes, _helpers.fieldTypes.EMAIL, function (props) {
   return /*#__PURE__*/_react["default"].createElement(_Components.TextInput, (0, _extends2["default"])({}, props, {
     type: 'email'
   }));
@@ -65,9 +67,10 @@ var Field = function Field(props) {
       disabled = props.disabled,
       renderLabel = props.renderLabel,
       renderErrorMessage = props.renderErrorMessage,
-      rest = (0, _objectWithoutProperties2["default"])(props, ["label", "type", "useFileLink", "as", "disabled", "renderLabel", "renderErrorMessage"]);
+      name = props.name,
+      rest = (0, _objectWithoutProperties2["default"])(props, ["label", "type", "useFileLink", "as", "disabled", "renderLabel", "renderErrorMessage", "name"]);
 
-  var _useField = (0, _hooks.useField)(props.name),
+  var _useField = (0, _hooks.useField)(name),
       error = _useField.error,
       value = _useField.value,
       onChange = _useField.onChange,
@@ -77,44 +80,43 @@ var Field = function Field(props) {
       depend = _useField.depend;
 
   var isReadOnly = readOnly || disabled;
-  var Component = as || (0, _get2["default"])(InputComponentTypes, type, _Components.Unsupported);
+  var Component = as || (0, _get2["default"])(InputComponentTypes, type, _Components.Unsupported); // eslint-disable-next-line react-hooks/exhaustive-deps
 
   var FieldComponent = _react["default"].useCallback(Component, []);
 
   var isFileField = type === _helpers.fieldTypes.FILE;
-
-  var fieldValue = _react["default"].useMemo(function () {
-    return isFileField ? {} : {
-      value: value || ''
-    };
-  }, [value, isFileField]);
-
+  var isBooleanField = type === _helpers.fieldTypes.SWITCH || type === _helpers.fieldTypes.CHECKBOX;
   var errors = (0, _helpers.castArray)(error); // redering nothing if depend rule is not met
 
   if (!depend) return null;
-  return /*#__PURE__*/_react["default"].createElement(_Components.FlexBox, {
+  return /*#__PURE__*/_react["default"].createElement(_styled.FieldWrapper, {
     flexDirection: 'column',
     my: 3,
-    width: '100%'
+    width: '100%',
+    isBooleanField: isBooleanField
   }, /*#__PURE__*/_react["default"].createElement(_Components.FlexBox, {
     mb: 2
   }, renderLabel({
     required: required,
     label: label
-  }), required && /*#__PURE__*/_react["default"].createElement(Required, {
+  }), required && /*#__PURE__*/_react["default"].createElement(_styled.Required, {
     as: 'span'
   }, "*"), isFileField && useFileLink && (0, _helpers.castArray)(value).map(function (link, index) {
-    return _checkTypes["default"].string(link) && /*#__PURE__*/_react["default"].createElement(FileLink, {
+    return _checkTypes["default"].string(link) && /*#__PURE__*/_react["default"].createElement(_styled.FileLink, {
       key: index,
       href: link,
       target: '_blank',
       rel: 'noopener noreferrer'
     }, link);
-  })), /*#__PURE__*/_react["default"].createElement(FieldComponent, (0, _extends2["default"])({}, rest, fieldValue, {
+  })), /*#__PURE__*/_react["default"].createElement(FieldComponent, (0, _extends2["default"])({}, rest, !isFileField && {
+    value: value
+  }, {
     disabled: isReadOnly,
+    name: name,
     type: type,
     onChange: onChange,
-    onBlur: onBlur,
+    onBlur: onBlur
+  }, !isBooleanField && {
     error: !(0, _helpers.isEmptyValue)(error)
   })), renderErrorMessage({
     errors: errors
@@ -122,18 +124,8 @@ var Field = function Field(props) {
 };
 
 exports.Field = Field;
-var Required = (0, _styledComponents["default"])(_Components.Text).withConfig({
-  displayName: "Field__Required",
-  componentId: "blzmvn-0"
-})(["font-size:1.3rem;color:#9f3a38;"]);
-
-var FileLink = _styledComponents["default"].a.withConfig({
-  displayName: "Field__FileLink",
-  componentId: "blzmvn-1"
-})(["margin-left:8px;"]);
-
 Field.defaultProps = {
-  useFileLink: true,
+  useFileLink: false,
   renderLabel: function renderLabel(_ref) {
     var label = _ref.label;
     return label && /*#__PURE__*/_react["default"].createElement(_Components.Label, null, label);
@@ -154,5 +146,10 @@ Field.propTypes = {
   label: _propTypes["default"].string,
   useFileLink: _propTypes["default"].bool,
   name: _propTypes["default"].string.isRequired,
-  type: _propTypes["default"].string
+  type: _propTypes["default"].string,
+  placeholder: _propTypes["default"].string,
+  options: _propTypes["default"].arrayOf(_propTypes["default"].shape({
+    text: _propTypes["default"].string,
+    value: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number, _propTypes["default"].bool])
+  }))
 };

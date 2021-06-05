@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Button } from '../../Components/Button'
 import { useFormContext } from '../../hooks'
 
-export const Action = props => {
+export const SubmitButton = props => {
   const { children, disabled, ...rest } = props
   const { submitting, readOnly } = useFormContext()
 
@@ -18,11 +18,12 @@ export const Action = props => {
   )
 }
 
-Action.defaultProps = {
+SubmitButton.defaultProps = {
   type: 'submit',
+  primary: true,
 }
 
-Action.propTypes = {
+SubmitButton.propTypes = {
   children: PropTypes.any,
   type: PropTypes.string,
 }

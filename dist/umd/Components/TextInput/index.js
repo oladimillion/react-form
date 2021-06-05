@@ -32,9 +32,12 @@ var TextInput = (0, _styledComponents["default"])(_semanticUiReact.Input).withCo
 exports.TextInput = TextInput;
 TextInput.displayName = 'TextInput';
 TextInput.defaultProps = {
-  width: '100%'
+  error: false,
+  width: '100%',
+  value: ''
 };
 TextInput.propTypes = _objectSpread(_objectSpread(_objectSpread({}, _styledSystem.space.propTypes), _styledSystem.layout.propTypes), {}, {
-  error: _propTypes["default"].oneOfType([_propTypes["default"].bool, _propTypes["default"].any])
+  error: _propTypes["default"].oneOfType([_propTypes["default"].bool, _propTypes["default"].any]),
+  value: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number])
 });
 (0, _hoistNonReactStatics["default"])(TextInput, _semanticUiReact.Input);

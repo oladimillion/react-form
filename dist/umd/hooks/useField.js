@@ -11,11 +11,9 @@ var _get2 = _interopRequireDefault(require("lodash/get"));
 
 var _getPath = require("../helpers/getPath");
 
-var _useFormContext2 = require("./useFormContext");
+var _getComputedDepend = require("../helpers/getComputedDepend");
 
-var getDepend = function getDepend() {
-  return true;
-};
+var _useFormContext2 = require("./useFormContext");
 
 var useField = function useField(fieldName) {
   var _useFormContext = (0, _useFormContext2.useFormContext)(),
@@ -27,17 +25,19 @@ var useField = function useField(fieldName) {
       formValidationRules = _useFormContext.formValidationRules,
       formValidationDependencies = _useFormContext.formValidationDependencies,
       readOnly = _useFormContext.readOnly,
-      submitting = _useFormContext.submitting; // setting field index for array fields
+      submitting = _useFormContext.submitting; // field index
 
 
   var fieldIndex = null;
 
   if (fieldName.includes('.')) {
     fieldIndex = parseInt(fieldName.split('.')[1]);
-  }
+  } // validation rules associated with fieldName
 
-  var fieldValidationRules = (0, _get2["default"])(formValidationRules, (0, _getPath.getPath)(fieldName), '');
-  var depend = (0, _get2["default"])(formValidationDependencies, (0, _getPath.getPath)(fieldName), getDepend)(values, fieldName, fieldIndex);
+
+  var fieldValidationRules = (0, _get2["default"])(formValidationRules, (0, _getPath.getPath)(fieldName), ''); // computing dependencies of fieldName
+
+  var depend = (0, _getComputedDepend.getComputedDepend)(formValidationDependencies, (0, _getPath.getPath)(fieldName))(values, fieldName, fieldIndex);
   var required = fieldValidationRules.includes('required');
   var value = (0, _get2["default"])(values, fieldName);
   var error = (0, _get2["default"])(errors, fieldName, []);

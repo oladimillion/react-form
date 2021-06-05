@@ -21,10 +21,16 @@ Object.defineProperty(exports, "Radio", {
     return _Radio.Radio;
   }
 });
-Object.defineProperty(exports, "RadioArray", {
+Object.defineProperty(exports, "Switchery", {
   enumerable: true,
   get: function get() {
-    return _Radio.RadioArray;
+    return _Switchery.Switchery;
+  }
+});
+Object.defineProperty(exports, "Checkbox", {
+  enumerable: true,
+  get: function get() {
+    return _Checkbox.Checkbox;
   }
 });
 Object.defineProperty(exports, "Select", {
@@ -99,6 +105,10 @@ var _Button = require("./Button");
 var _FlexBox = require("./FlexBox");
 
 var _Radio = require("./Radio");
+
+var _Switchery = require("./Switchery");
+
+var _Checkbox = require("./Checkbox");
 
 var _Select = require("./Select");
 

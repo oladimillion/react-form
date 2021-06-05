@@ -103,7 +103,7 @@ export var Field = function Field(props) {
   }));
 };
 Field.defaultProps = {
-  useFileLink: true,
+  useFileLink: false,
   renderLabel: function renderLabel(_ref) {
     var label = _ref.label;
     return label && /*#__PURE__*/React.createElement(Label, null, label);
@@ -124,5 +124,10 @@ Field.propTypes = {
   label: PropTypes.string,
   useFileLink: PropTypes.bool,
   name: PropTypes.string.isRequired,
-  type: PropTypes.string
+  type: PropTypes.string,
+  placeholder: PropTypes.string,
+  options: PropTypes.arrayOf(PropTypes.shape({
+    text: PropTypes.string,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool])
+  }))
 };

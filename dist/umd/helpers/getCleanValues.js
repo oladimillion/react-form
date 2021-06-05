@@ -11,21 +11,17 @@ var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/de
 
 var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
 
-var _get2 = _interopRequireDefault(require("lodash/get"));
-
 var _checkTypes = _interopRequireDefault(require("check-types"));
 
 var _isEmptyValue = require("./isEmptyValue");
 
 var _getPath = require("./getPath");
 
+var _getComputedDepend = require("./getComputedDepend");
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { (0, _defineProperty2["default"])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-var getDepend = function getDepend() {
-  return true;
-};
 
 var getCleanValues = function getCleanValues(values, dependencies) {
   var getValue = function getValue(value, parentPath) {
@@ -40,7 +36,7 @@ var getCleanValues = function getCleanValues(values, dependencies) {
           if (!k) return accum;
           var path = "".concat(parentPath, ".*.").concat(k);
           var fieldName = "".concat(parentPath, ".").concat(idx, ".").concat(k);
-          var depend = (0, _get2["default"])(dependencies, path, getDepend)(values, fieldName, idx);
+          var depend = (0, _getComputedDepend.getComputedDepend)(dependencies, path)(values, fieldName, idx);
 
           if (depend && !(0, _isEmptyValue.isEmptyValue)(v)) {
             return _objectSpread(_objectSpread({}, accum), {}, (0, _defineProperty2["default"])({}, k, v));
@@ -56,7 +52,7 @@ var getCleanValues = function getCleanValues(values, dependencies) {
             v = _ref4[1];
 
         var path = "".concat(parentPath, ".").concat(k);
-        var depend = (0, _get2["default"])(dependencies, path, getDepend)(values, path);
+        var depend = (0, _getComputedDepend.getComputedDepend)(dependencies, path)(values, path);
 
         if (depend && !(0, _isEmptyValue.isEmptyValue)(v)) {
           return _objectSpread(_objectSpread({}, accum), {}, (0, _defineProperty2["default"])({}, k, v));
@@ -66,7 +62,7 @@ var getCleanValues = function getCleanValues(values, dependencies) {
       }, {});
     }
 
-    var depend = (0, _get2["default"])(dependencies, parentPath, getDepend)(values);
+    var depend = (0, _getComputedDepend.getComputedDepend)(dependencies, parentPath)(values);
 
     if (depend && !(0, _isEmptyValue.isEmptyValue)(value)) {
       return value;
@@ -81,7 +77,7 @@ var getCleanValues = function getCleanValues(values, dependencies) {
         value = _ref6[1];
 
     var fieldValue = getValue(value, parentPath);
-    return _objectSpread(_objectSpread({}, accum), fieldValue && (0, _defineProperty2["default"])({}, parentPath, fieldValue));
+    return _objectSpread(_objectSpread({}, accum), !(0, _isEmptyValue.isEmptyValue)(fieldValue) && (0, _defineProperty2["default"])({}, parentPath, fieldValue));
   }, {});
 };
 

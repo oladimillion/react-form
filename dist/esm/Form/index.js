@@ -201,7 +201,8 @@ var FormComponent = function FormComponent(props) {
     formValidationRules: composedValidationRules,
     formValidationDependencies: composedValidationDependencies,
     readOnly: readOnly,
-    setFormValue: setFormValue
+    setFormValue: setFormValue,
+    setFormError: setFormError
   };
   var renderChildren = React.useCallback(function () {
     if (check["function"](children)) {
@@ -227,6 +228,7 @@ FormComponent.defaultProps = {
 FormComponent.propTypes = {
   validationRules: PropTypes.shape({}),
   onSubmit: PropTypes.func,
+  readOnly: PropTypes.bool,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   render: PropTypes.func
 };
