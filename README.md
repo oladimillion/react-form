@@ -111,7 +111,7 @@ Form handles the form's validation, change and submit events.
 
 - `validationRules: object` 
 
-  Allows validation form fields.
+  Allows form fields validation.
 
   [Validatorjs](https://github.com/mikeerickson/validatorjs) is used in the form validation.
 
