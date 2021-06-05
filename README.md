@@ -94,7 +94,7 @@ Form handles the form's validation, change and submit events.
 
   - `submitting: boolean`
     
-    `true` when form is submitting, and `false` when done.
+    `true` when form is submitting.
 
   - `setFormValue(values: object, useInitialValues: boolean): void`
     
@@ -111,26 +111,24 @@ Form handles the form's validation, change and submit events.
 
 - `validationRules: object` 
 
-  `validationRules` is an object with key-value pair of field names and rules. The rule is an object of `validation: array|string`, `message: object` and `depend: function|object|string|boolean` properties.
+  Allows validation form fields.
 
-  [Validatorjs](https://github.com/mikeerickson/validatorjs) is used under the hood for the form validation.
+  [Validatorjs](https://github.com/mikeerickson/validatorjs) is used in the form validation.
 
   ```js
-    // validation: string
     const validationRules = {
       email: {
-        validation: 'required|email',
+        validation: 'required|email', // validation in string format
       }
     }
 
-    // validation: array
     const validationRules = {
       email: {
-        validation: ['required', 'email'],
+        validation: ['required', 'email'], // validation in array format
       }
     }
 
-    // message
+    // custom validation message
     const validationRules = {
       email: {
         validation: ['required', 'email'],
@@ -142,7 +140,7 @@ Form handles the form's validation, change and submit events.
     }
 
     /* `depend` manages the dependency of a field on other fields */
-    // depend: function
+    // depend as a function
     const validationRules = {
       email: {
         ...
@@ -157,7 +155,7 @@ Form handles the form's validation, change and submit events.
       }
     }
 
-    // depend: object
+    // depend as a object
     const validationRules = {
       email: {
         ...
@@ -165,7 +163,7 @@ Form handles the form's validation, change and submit events.
       }
     }
 
-    // depend: string
+    // depend as a string
     const validationRules = {
       email: {
         ...
@@ -173,7 +171,7 @@ Form handles the form's validation, change and submit events.
       }
     }
 
-    // depend: boolean
+    // depend as a boolean
     const validationRules = {
       email: {
         ...
@@ -182,7 +180,7 @@ Form handles the form's validation, change and submit events.
     }
   ```
 
-  Validation rule for [`FieldArray`](#fieldarray-) using **dot** notation
+  Validation rule for a [`FieldArray`](#fieldarray-) using **dot** notation
 
   ```js
     const validationRules = {
@@ -242,7 +240,7 @@ Form handles the form's validation, change and submit events.
       />
   ```
 
-- `renderErrorMessage(Object: { errors: Array }): ReactComponent<array>` 
+- `renderErrorMessage(Object: { errors: array }): ReactComponent<array>` 
 
   Field's error messages can be customized using the `renderErrorMessage` prop.
 
@@ -255,7 +253,7 @@ Form handles the form's validation, change and submit events.
 
 - `options: array` 
 
-  `radio` and `select` input types recieves `options` props to render choices. `options` is a list of objects containing `text: String` and `value: Number|Boolean|String`.
+  `radio` and `select` input types recieves `options` prop to render choices. `options` is a list of `text: string` and `value: number|boolean|string` object.
 
   ```js
       // radio input type
@@ -296,7 +294,7 @@ Form handles the form's validation, change and submit events.
 
 Groups of `Field` can be rendered using `FieldArray`.
 
-Each `Field` in a `FieldArray` must have a name composed from the _FieldArray name_, _field index_ and _field name_. eg. `group.1.email`
+Each `Field` in a `FieldArray` must have a **name** composed from the _FieldArray name_, _field index_ and _field name_. eg. `group.1.email`
 
 ```js
     import { Field, FieldArray } from '@oladimillion/react-form'
