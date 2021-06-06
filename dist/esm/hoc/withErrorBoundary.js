@@ -13,7 +13,8 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 import React from 'react';
 import styled from 'styled-components';
 import { FlexBox } from '../Components';
-import { getDisplayName } from 'helpers';
+import { getDisplayName } from '../helpers';
+import hoistNonReactStatics from 'hoist-non-react-statics';
 var Info = styled.i.withConfig({
   displayName: "withErrorBoundary__Info",
   componentId: "sc-1s4yr21-0"
@@ -64,7 +65,7 @@ export var withErrorBoundary = function withErrorBoundary(WrappedComponent) {
           return /*#__PURE__*/React.createElement(FlexBox, {
             flexDirection: "column",
             p: 1
-          }, /*#__PURE__*/React.createElement("h3", null, "Something went wrong: ", /*#__PURE__*/React.createElement(Info, null, error === null || error === void 0 ? void 0 : error.message)), /*#__PURE__*/React.createElement("pre", null, this.isDev ? errorInfo === null || errorInfo === void 0 ? void 0 : errorInfo.componentStack : 'We don\'t know what it is'));
+          }, /*#__PURE__*/React.createElement("h3", null, "Something went wrong: ", /*#__PURE__*/React.createElement(Info, null, error === null || error === void 0 ? void 0 : error.message)), /*#__PURE__*/React.createElement("pre", null, this.isDev ? errorInfo === null || errorInfo === void 0 ? void 0 : errorInfo.componentStack : "We don't know what it is"));
         }
 
         return /*#__PURE__*/React.createElement(WrappedComponent, this.props);
