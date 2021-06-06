@@ -57,6 +57,12 @@ Object.defineProperty(exports, "getComputedDepend", {
     return _getComputedDepend.getComputedDepend;
   }
 });
+Object.defineProperty(exports, "getDisplayName", {
+  enumerable: true,
+  get: function get() {
+    return _getDisplayName.getDisplayName;
+  }
+});
 
 var _buildValidationMessages = require("./buildValidationMessages");
 
@@ -73,3 +79,5 @@ var _fieldTypes = require("./fieldTypes");
 var _castArray = require("./castArray");
 
 var _getComputedDepend = require("./getComputedDepend");
+
+var _getDisplayName = require("./getDisplayName");

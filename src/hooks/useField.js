@@ -1,9 +1,12 @@
 import { get } from 'lodash'
+import check from 'check-types'
 import { getPath } from '../helpers/getPath'
 import { getComputedDepend } from '../helpers/getComputedDepend'
 import { useFormContext } from './useFormContext'
 
 export const useField = fieldName => {
+  check.assert.string(fieldName, 'fieldName must be provided')
+
   const {
     values,
     errors,
@@ -18,7 +21,7 @@ export const useField = fieldName => {
 
   // field index
   let fieldIndex = null
-  if (fieldName.includes('.')) {
+  if ((fieldName || '').includes('.')) {
     fieldIndex = parseInt(fieldName.split('.')[1])
   }
 

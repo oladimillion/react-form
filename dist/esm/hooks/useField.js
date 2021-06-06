@@ -1,8 +1,11 @@
 import _get from "lodash/get";
+import check from 'check-types';
 import { getPath } from '../helpers/getPath';
 import { getComputedDepend } from '../helpers/getComputedDepend';
 import { useFormContext } from './useFormContext';
 export var useField = function useField(fieldName) {
+  check.assert.string(fieldName, 'fieldName must be provided');
+
   var _useFormContext = useFormContext(),
       values = _useFormContext.values,
       errors = _useFormContext.errors,
@@ -17,7 +20,7 @@ export var useField = function useField(fieldName) {
 
   var fieldIndex = null;
 
-  if (fieldName.includes('.')) {
+  if ((fieldName || '').includes('.')) {
     fieldIndex = parseInt(fieldName.split('.')[1]);
   } // validation rules associated with fieldName
 

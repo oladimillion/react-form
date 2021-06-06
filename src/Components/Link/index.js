@@ -1,21 +1,23 @@
 import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { Link as BaseLink, withRouter, BrowserRouter } from 'react-router-dom'
+import { Link as BaseLink, withRouter } from 'react-router-dom'
 import { Text } from '../Text'
 
-const RouterLink = styled(BaseLink).attrs(props => ({
+const StyledRouterLink = styled(BaseLink).attrs(props => ({
   className: 'RouterLink',
 }))`
   ${Text} {
   } ;
 `
 
-RouterLink.displayName = 'RouterLink'
+StyledRouterLink.displayName = 'RouterLink'
 
-RouterLink.defaultProps = {
+StyledRouterLink.defaultProps = {
   to: '',
 }
+
+const RouterLink = withRouter(StyledRouterLink)
 
 const StyledLink = styled(Text).attrs(props => ({
   as: 'a',
@@ -41,16 +43,12 @@ const LinkComponent = withRouter(props => {
     </StyledLink>
   ) : (
     <RouterLink to={to} {...rest}>
-      {children}
+      {children || to}
     </RouterLink>
   )
 })
 
-export const Link = props => (
-  <BrowserRouter>
-    <LinkComponent {...props} />
-  </BrowserRouter>
-)
+export const Link = styled(LinkComponent)``
 
 Link.defaultProps = {
   href: null,

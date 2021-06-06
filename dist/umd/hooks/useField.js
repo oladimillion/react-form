@@ -9,6 +9,8 @@ exports.useField = void 0;
 
 var _get2 = _interopRequireDefault(require("lodash/get"));
 
+var _checkTypes = _interopRequireDefault(require("check-types"));
+
 var _getPath = require("../helpers/getPath");
 
 var _getComputedDepend = require("../helpers/getComputedDepend");
@@ -16,6 +18,8 @@ var _getComputedDepend = require("../helpers/getComputedDepend");
 var _useFormContext2 = require("./useFormContext");
 
 var useField = function useField(fieldName) {
+  _checkTypes["default"].assert.string(fieldName, 'fieldName must be provided');
+
   var _useFormContext = (0, _useFormContext2.useFormContext)(),
       values = _useFormContext.values,
       errors = _useFormContext.errors,
@@ -30,7 +34,7 @@ var useField = function useField(fieldName) {
 
   var fieldIndex = null;
 
-  if (fieldName.includes('.')) {
+  if ((fieldName || '').includes('.')) {
     fieldIndex = parseInt(fieldName.split('.')[1]);
   } // validation rules associated with fieldName
 
