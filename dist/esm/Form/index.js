@@ -204,15 +204,17 @@ var FormComponent = function FormComponent(props) {
     setFormValue: setFormValue,
     setFormError: setFormError
   };
-  var renderChildren = React.useCallback(function () {
+
+  var renderChildren = function renderChildren() {
     if (check["function"](children)) {
       return children(contextValue);
     } else if (check["function"](render)) {
       return render(contextValue);
     }
 
-    return children; // eslint-disble-next-line
-  }, []);
+    return children;
+  };
+
   return /*#__PURE__*/React.createElement(FormContext.Provider, {
     value: contextValue
   }, /*#__PURE__*/React.createElement(StyledForm, _extends({}, rest, {

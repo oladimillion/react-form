@@ -31,11 +31,14 @@ StyledLink.displayName = 'Link';
 StyledLink.defaultProps = {
   href: null
 };
-var LinkComponent = withRouter(function (props) {
+
+var LinkComponent = function LinkComponent(props) {
+  // eslint-disable-next-line no-unused-vars
   var href = props.href,
       to = props.to,
       children = props.children,
-      rest = _objectWithoutProperties(props, ["href", "to", "children"]);
+      staticContext = props.staticContext,
+      rest = _objectWithoutProperties(props, ["href", "to", "children", "staticContext"]);
 
   return href ? /*#__PURE__*/React.createElement(StyledLink, _extends({
     target: '_blank',
@@ -45,7 +48,8 @@ var LinkComponent = withRouter(function (props) {
   }, rest), children || href) : /*#__PURE__*/React.createElement(RouterLink, _extends({
     to: to
   }, rest), children || to);
-});
+};
+
 export var Link = styled(LinkComponent).withConfig({
   displayName: "Link",
   componentId: "sc-8bva6j-2"

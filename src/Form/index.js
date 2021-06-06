@@ -150,16 +150,15 @@ const FormComponent = props => {
     setFormError,
   }
 
-  const renderChildren = React.useCallback(() => {
+  const renderChildren = () => {
     if (check.function(children)) {
       return children(contextValue)
     } else if (check.function(render)) {
       return render(contextValue)
     }
     return children
+  }
 
-    // eslint-disble-next-line
-  }, [])
 
   return (
     <FormContext.Provider value={contextValue}>

@@ -30,8 +30,10 @@ StyledLink.defaultProps = {
   href: null,
 }
 
-const LinkComponent = withRouter(props => {
-  const { href, to, children, ...rest } = props
+const LinkComponent = (props) => {
+
+  // eslint-disable-next-line no-unused-vars
+  const { href, to, children, staticContext, ...rest } = props
   return href ? (
     <StyledLink
       target={'_blank'}
@@ -46,7 +48,7 @@ const LinkComponent = withRouter(props => {
       {children || to}
     </RouterLink>
   )
-})
+}
 
 export const Link = styled(LinkComponent)``
 
