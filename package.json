@@ -1,6 +1,6 @@
 {
   "name": "@oladimillion/react-form",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Fast and easy way to create form in React",
   "author": {
     "name": "Oladimeji Akande",
@@ -11,7 +11,12 @@
   "main": "dist/esm/index.js",
   "module": "dist/esm/index.js",
   "source": "src/index.js",
-  "files": ["dist"],
+  "files": [
+    "LICENSE",
+    "README.md",
+    "dist/",
+    "src/"
+  ],
   "scripts": {
     "dev": "nodemon --exec \"npm run build-js-esm\"",
     "build": "npm run build-js-all",
@@ -56,12 +61,6 @@
     "styled-system": "^5.1.5",
     "validatorjs": "^3.22.1"
   },
-  "files": [
-    "LICENSE",
-    "README.md",
-    "dist/",
-    "src/"
-  ],
   "peerDependencies": {
     "react": "^16.3.1",
     "react-dom": "^16.3.1"
