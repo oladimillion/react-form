@@ -27,7 +27,9 @@ var _styledComponents = _interopRequireDefault(require("styled-components"));
 
 var _Components = require("../Components");
 
-var _helpers = require("helpers");
+var _helpers = require("../helpers");
+
+var _hoistNonReactStatics = _interopRequireDefault(require("hoist-non-react-statics"));
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = (0, _getPrototypeOf2["default"])(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = (0, _getPrototypeOf2["default"])(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return (0, _possibleConstructorReturn2["default"])(this, result); }; }
 
@@ -81,7 +83,7 @@ var withErrorBoundary = function withErrorBoundary(WrappedComponent) {
           return /*#__PURE__*/_react["default"].createElement(_Components.FlexBox, {
             flexDirection: "column",
             p: 1
-          }, /*#__PURE__*/_react["default"].createElement("h3", null, "Something went wrong: ", /*#__PURE__*/_react["default"].createElement(Info, null, error === null || error === void 0 ? void 0 : error.message)), /*#__PURE__*/_react["default"].createElement("pre", null, this.isDev ? errorInfo === null || errorInfo === void 0 ? void 0 : errorInfo.componentStack : 'We don\'t know what it is'));
+          }, /*#__PURE__*/_react["default"].createElement("h3", null, "Something went wrong: ", /*#__PURE__*/_react["default"].createElement(Info, null, error === null || error === void 0 ? void 0 : error.message)), /*#__PURE__*/_react["default"].createElement("pre", null, this.isDev ? errorInfo === null || errorInfo === void 0 ? void 0 : errorInfo.componentStack : "We don't know what it is"));
         }
 
         return /*#__PURE__*/_react["default"].createElement(WrappedComponent, this.props);
@@ -98,7 +100,7 @@ var withErrorBoundary = function withErrorBoundary(WrappedComponent) {
   }(_react["default"].Component);
 
   ErrorBoundary.displayName = "withErrorBoundary(".concat((0, _helpers.getDisplayName)(WrappedComponent), ")");
-  return hoistNonReactStatics(ErrorBoundary, WrappedComponent);
+  return (0, _hoistNonReactStatics["default"])(ErrorBoundary, WrappedComponent);
 };
 
 exports.withErrorBoundary = withErrorBoundary;

@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { FlexBox } from '../Components'
-import { getDisplayName } from 'helpers'
+import { getDisplayName } from '../helpers'
+import hoistNonReactStatics from 'hoist-non-react-statics'
 
 const Info = styled.i`
   text-decoration: underline;
