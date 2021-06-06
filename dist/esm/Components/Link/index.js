@@ -3,20 +3,21 @@ import _objectWithoutProperties from "@babel/runtime/helpers/objectWithoutProper
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { Link as BaseLink, withRouter, BrowserRouter } from 'react-router-dom';
+import { Link as BaseLink, withRouter } from 'react-router-dom';
 import { Text } from '../Text';
-var RouterLink = styled(BaseLink).attrs(function (props) {
+var StyledRouterLink = styled(BaseLink).attrs(function (props) {
   return {
     className: 'RouterLink'
   };
 }).withConfig({
-  displayName: "Link__RouterLink",
+  displayName: "Link__StyledRouterLink",
   componentId: "sc-8bva6j-0"
 })(["", "{};"], Text);
-RouterLink.displayName = 'RouterLink';
-RouterLink.defaultProps = {
+StyledRouterLink.displayName = 'RouterLink';
+StyledRouterLink.defaultProps = {
   to: ''
 };
+var RouterLink = withRouter(StyledRouterLink);
 var StyledLink = styled(Text).attrs(function (props) {
   return {
     as: 'a',
@@ -43,11 +44,12 @@ var LinkComponent = withRouter(function (props) {
     href: href
   }, rest), children || href) : /*#__PURE__*/React.createElement(RouterLink, _extends({
     to: to
-  }, rest), children);
+  }, rest), children || to);
 });
-export var Link = function Link(props) {
-  return /*#__PURE__*/React.createElement(BrowserRouter, null, /*#__PURE__*/React.createElement(LinkComponent, props));
-};
+export var Link = styled(LinkComponent).withConfig({
+  displayName: "Link",
+  componentId: "sc-8bva6j-2"
+})([""]);
 Link.defaultProps = {
   href: null,
   to: '',

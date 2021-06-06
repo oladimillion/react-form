@@ -6,3 +6,4 @@ export { isEmptyValue } from './isEmptyValue';
 export { fieldTypes } from './fieldTypes';
 export { castArray } from './castArray';
 export { getComputedDepend } from './getComputedDepend';
+export { getDisplayName } from './getDisplayName';

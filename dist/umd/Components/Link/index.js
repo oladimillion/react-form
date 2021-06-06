@@ -21,18 +21,19 @@ var _reactRouterDom = require("react-router-dom");
 
 var _Text = require("../Text");
 
-var RouterLink = (0, _styledComponents["default"])(_reactRouterDom.Link).attrs(function (props) {
+var StyledRouterLink = (0, _styledComponents["default"])(_reactRouterDom.Link).attrs(function (props) {
   return {
     className: 'RouterLink'
   };
 }).withConfig({
-  displayName: "Link__RouterLink",
+  displayName: "Link__StyledRouterLink",
   componentId: "sc-8bva6j-0"
 })(["", "{};"], _Text.Text);
-RouterLink.displayName = 'RouterLink';
-RouterLink.defaultProps = {
+StyledRouterLink.displayName = 'RouterLink';
+StyledRouterLink.defaultProps = {
   to: ''
 };
+var RouterLink = (0, _reactRouterDom.withRouter)(StyledRouterLink);
 var StyledLink = (0, _styledComponents["default"])(_Text.Text).attrs(function (props) {
   return {
     as: 'a',
@@ -58,13 +59,12 @@ var LinkComponent = (0, _reactRouterDom.withRouter)(function (props) {
     href: href
   }, rest), children || href) : /*#__PURE__*/_react["default"].createElement(RouterLink, (0, _extends2["default"])({
     to: to
-  }, rest), children);
+  }, rest), children || to);
 });
-
-var Link = function Link(props) {
-  return /*#__PURE__*/_react["default"].createElement(_reactRouterDom.BrowserRouter, null, /*#__PURE__*/_react["default"].createElement(LinkComponent, props));
-};
-
+var Link = (0, _styledComponents["default"])(LinkComponent).withConfig({
+  displayName: "Link",
+  componentId: "sc-8bva6j-2"
+})([""]);
 exports.Link = Link;
 Link.defaultProps = {
   href: null,
