@@ -233,15 +233,15 @@ var FormComponent = function FormComponent(props) {
     setFormError: setFormError
   };
 
-  var renderChildren = _react["default"].useCallback(function () {
+  var renderChildren = function renderChildren() {
     if (_checkTypes["default"]["function"](children)) {
       return children(contextValue);
     } else if (_checkTypes["default"]["function"](render)) {
       return render(contextValue);
     }
 
-    return children; // eslint-disble-next-line
-  }, []);
+    return children;
+  };
 
   return /*#__PURE__*/_react["default"].createElement(_Context.FormContext.Provider, {
     value: contextValue

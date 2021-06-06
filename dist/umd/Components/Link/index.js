@@ -47,11 +47,14 @@ StyledLink.displayName = 'Link';
 StyledLink.defaultProps = {
   href: null
 };
-var LinkComponent = (0, _reactRouterDom.withRouter)(function (props) {
+
+var LinkComponent = function LinkComponent(props) {
+  // eslint-disable-next-line no-unused-vars
   var href = props.href,
       to = props.to,
       children = props.children,
-      rest = (0, _objectWithoutProperties2["default"])(props, ["href", "to", "children"]);
+      staticContext = props.staticContext,
+      rest = (0, _objectWithoutProperties2["default"])(props, ["href", "to", "children", "staticContext"]);
   return href ? /*#__PURE__*/_react["default"].createElement(StyledLink, (0, _extends2["default"])({
     target: '_blank',
     rel: 'noreferrer noopener'
@@ -60,7 +63,8 @@ var LinkComponent = (0, _reactRouterDom.withRouter)(function (props) {
   }, rest), children || href) : /*#__PURE__*/_react["default"].createElement(RouterLink, (0, _extends2["default"])({
     to: to
   }, rest), children || to);
-});
+};
+
 var Link = (0, _styledComponents["default"])(LinkComponent).withConfig({
   displayName: "Link",
   componentId: "sc-8bva6j-2"
