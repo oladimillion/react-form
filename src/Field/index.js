@@ -98,7 +98,7 @@ export const Field = props => {
 }
 
 Field.defaultProps = {
-  useFileLink: false,
+  useFileLink: true,
   renderLabel: ({ label }) => {
     return label && <Label>{label}</Label>
   },

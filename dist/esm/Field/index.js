@@ -104,7 +104,7 @@ export var Field = function Field(props) {
   }));
 };
 Field.defaultProps = {
-  useFileLink: false,
+  useFileLink: true,
   renderLabel: function renderLabel(_ref) {
     var label = _ref.label;
     return label && /*#__PURE__*/React.createElement(Label, null, label);
