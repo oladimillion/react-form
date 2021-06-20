@@ -3,64 +3,46 @@ import _objectWithoutProperties from "@babel/runtime/helpers/objectWithoutProper
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { Link as BaseLink, withRouter } from 'react-router-dom';
+import { Link as BaseLink } from 'react-router-dom';
 import { Text } from '../Text';
-var StyledRouterLink = styled(BaseLink).attrs(function (props) {
-  return {
-    className: 'RouterLink'
-  };
-}).withConfig({
-  displayName: "Link__StyledRouterLink",
+var RouterLink = styled(BaseLink).withConfig({
+  displayName: "Link__RouterLink",
   componentId: "sc-8bva6j-0"
 })(["", "{};"], Text);
-StyledRouterLink.displayName = 'RouterLink';
-StyledRouterLink.defaultProps = {
+RouterLink.displayName = 'RouterLink';
+RouterLink.defaultProps = {
   to: ''
 };
-var RouterLink = withRouter(StyledRouterLink);
-var StyledLink = styled(Text).attrs(function (props) {
-  return {
-    as: 'a',
-    className: 'Link'
-  };
-}).withConfig({
-  displayName: "Link__StyledLink",
+var ExternalLink = styled(Text).withConfig({
+  displayName: "Link__ExternalLink",
   componentId: "sc-8bva6j-1"
 })([""]);
-StyledLink.displayName = 'Link';
-StyledLink.defaultProps = {
-  href: null
+ExternalLink.displayName = 'ExternalLink';
+ExternalLink.defaultProps = {
+  href: null,
+  as: 'a',
+  target: '_blank',
+  rel: 'noreferrer noopener'
 };
-
-var LinkComponent = function LinkComponent(props) {
-  // eslint-disable-next-line no-unused-vars
-  var href = props.href,
-      to = props.to,
+export var Link = function Link(props) {
+  var to = props.to,
       children = props.children,
-      staticContext = props.staticContext,
-      rest = _objectWithoutProperties(props, ["href", "to", "children", "staticContext"]);
+      external = props.external,
+      rest = _objectWithoutProperties(props, ["to", "children", "external"]);
 
-  return href ? /*#__PURE__*/React.createElement(StyledLink, _extends({
-    target: '_blank',
-    rel: 'noreferrer noopener'
-  }, href && {
-    href: href
-  }, rest), children || href) : /*#__PURE__*/React.createElement(RouterLink, _extends({
+  return external ? /*#__PURE__*/React.createElement(ExternalLink, rest, children || href) : /*#__PURE__*/React.createElement(RouterLink, _extends({
     to: to
   }, rest), children || to);
 };
-
-export var Link = styled(LinkComponent).withConfig({
-  displayName: "Link",
-  componentId: "sc-8bva6j-2"
-})([""]);
 Link.defaultProps = {
   href: null,
   to: '',
-  children: null
+  children: null,
+  external: false
 };
 Link.propTypes = {
   href: PropTypes.string,
   to: PropTypes.string,
-  children: PropTypes.any
+  children: PropTypes.any,
+  external: PropTypes.bool
 };

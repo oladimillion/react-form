@@ -22,6 +22,9 @@ var Unsupported = function Unsupported(_ref) {
 };
 
 exports.Unsupported = Unsupported;
+Unsupported.defaultProps = {
+  type: 'unknown'
+};
 Unsupported.propTypes = {
-  type: _propTypes["default"].string.isRequired
+  type: _propTypes["default"].string
 };

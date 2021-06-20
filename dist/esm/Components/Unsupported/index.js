@@ -8,6 +8,9 @@ export var Unsupported = function Unsupported(_ref) {
     as: 'div'
   }, "Field Type ", /*#__PURE__*/React.createElement("b", null, type), " not supported");
 };
+Unsupported.defaultProps = {
+  type: 'unknown'
+};
 Unsupported.propTypes = {
-  type: PropTypes.string.isRequired
+  type: PropTypes.string
 };

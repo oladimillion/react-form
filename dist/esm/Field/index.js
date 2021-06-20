@@ -11,8 +11,9 @@ import check from 'check-types';
 import { useField } from '../hooks';
 import { FlexBox, Switchery, Select, TextArea, TextInput, Unsupported, Checkbox, ErrorMessage, Label } from '../Components';
 import { Radio } from './Components/Radio';
+import { FileLinks } from './Components/FileLinks';
 import { isEmptyValue, fieldTypes, castArray } from '../helpers';
-import { Required, FieldWrapper, FileLink } from './styled';
+import { Required, FieldWrapper } from './styled';
 var InputComponentTypes = (_InputComponentTypes = {}, _defineProperty(_InputComponentTypes, fieldTypes.TEXT, TextInput), _defineProperty(_InputComponentTypes, fieldTypes.TEXTAREA, TextArea), _defineProperty(_InputComponentTypes, fieldTypes.SELECT, Select), _defineProperty(_InputComponentTypes, fieldTypes.CHECKBOX, Checkbox), _defineProperty(_InputComponentTypes, fieldTypes.RADIO, Radio), _defineProperty(_InputComponentTypes, fieldTypes.SWITCH, function (props) {
   return /*#__PURE__*/React.createElement(Switchery, _extends({}, props, {
     type: 'radio'
@@ -36,6 +37,10 @@ var InputComponentTypes = (_InputComponentTypes = {}, _defineProperty(_InputComp
 }), _defineProperty(_InputComponentTypes, fieldTypes.NUMBER, function (props) {
   return /*#__PURE__*/React.createElement(TextInput, _extends({}, props, {
     type: 'text'
+  }));
+}), _defineProperty(_InputComponentTypes, fieldTypes.DATE, function (props) {
+  return /*#__PURE__*/React.createElement(TextInput, _extends({}, props, {
+    type: 'date'
   }));
 }), _InputComponentTypes);
 export var Field = function Field(props) {
@@ -75,19 +80,15 @@ export var Field = function Field(props) {
     width: '100%',
     isBooleanField: isBooleanField
   }, /*#__PURE__*/React.createElement(FlexBox, {
-    mb: 2
+    mb: 2,
+    flexWrap: "wrap"
   }, renderLabel({
     required: required,
     label: label
   }), required && /*#__PURE__*/React.createElement(Required, {
     as: 'span'
-  }, "*"), isFileField && useFileLink && castArray(value).map(function (link, index) {
-    return check.string(link) && /*#__PURE__*/React.createElement(FileLink, {
-      key: index,
-      href: link,
-      target: '_blank',
-      rel: 'noopener noreferrer'
-    }, link);
+  }, "*"), isFileField && useFileLink && /*#__PURE__*/React.createElement(FileLinks, {
+    value: value
   })), /*#__PURE__*/React.createElement(FieldComponent, _extends({}, rest, !isFileField && {
     value: value
   }, {
@@ -103,7 +104,7 @@ export var Field = function Field(props) {
   }));
 };
 Field.defaultProps = {
-  useFileLink: false,
+  useFileLink: true,
   renderLabel: function renderLabel(_ref) {
     var label = _ref.label;
     return label && /*#__PURE__*/React.createElement(Label, null, label);

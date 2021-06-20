@@ -2,9 +2,7 @@ import styled from 'styled-components'
 import { border, background, layout } from 'styled-system'
 import { Image as SemanticImage } from 'semantic-ui-react'
 
-export const Image = styled(SemanticImage).attrs(() => ({
-  className: 'Image',
-}))`
+export const Image = styled(SemanticImage)`
   ${border};
   ${layout};
   ${background};

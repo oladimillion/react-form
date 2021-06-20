@@ -7,8 +7,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Switchery = void 0;
 
-var _styledComponents = _interopRequireDefault(require("styled-components"));
-
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _semanticUiReact = require("semantic-ui-react");
@@ -17,15 +15,7 @@ var _hoistNonReactStatics = _interopRequireDefault(require("hoist-non-react-stat
 
 var _withToggle = require("../../hoc/withToggle");
 
-var StyledSwitchery = (0, _styledComponents["default"])(_semanticUiReact.Radio).attrs(function () {
-  return {
-    className: 'Switchery'
-  };
-}).withConfig({
-  displayName: "Switchery__StyledSwitchery",
-  componentId: "sc-1rqgb9k-0"
-})([""]);
-var Switchery = (0, _withToggle.withToggle)(StyledSwitchery);
+var Switchery = (0, _withToggle.withToggle)(_semanticUiReact.Radio);
 exports.Switchery = Switchery;
 Switchery.displayName = 'Switchery';
 Switchery.defaultProps = {

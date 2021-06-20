@@ -15,8 +15,9 @@ import {
   Label,
 } from '../Components'
 import { Radio } from './Components/Radio'
+import { FileLinks } from './Components/FileLinks'
 import { isEmptyValue, fieldTypes, castArray } from '../helpers'
-import { Required, FieldWrapper, FileLink } from './styled'
+import { Required, FieldWrapper } from './styled'
 
 const InputComponentTypes = {
   [fieldTypes.TEXT]: TextInput,
@@ -30,6 +31,7 @@ const InputComponentTypes = {
   [fieldTypes.PASSWORD]: props => <TextInput {...props} type={'password'} />,
   [fieldTypes.FILE]: props => <TextInput {...props} type={'file'} />,
   [fieldTypes.NUMBER]: props => <TextInput {...props} type={'text'} />,
+  [fieldTypes.DATE]: props => <TextInput {...props} type={'date'} />,
 }
 
 export const Field = props => {
@@ -75,25 +77,10 @@ export const Field = props => {
       width={'100%'}
       isBooleanField={isBooleanField}
     >
-      <FlexBox mb={2}>
+      <FlexBox mb={2} flexWrap="wrap">
         {renderLabel({ required, label })}
         {required && <Required as={'span'}>*</Required>}
-        {isFileField &&
-          useFileLink &&
-          castArray(value).map((link, index) => {
-            return (
-              check.string(link) && (
-                <FileLink
-                  key={index}
-                  href={link}
-                  target={'_blank'}
-                  rel={'noopener noreferrer'}
-                >
-                  {link}
-                </FileLink>
-              )
-            )
-          })}
+        {isFileField && useFileLink && <FileLinks value={value} />}
       </FlexBox>
       <FieldComponent
         {...rest}
@@ -111,7 +98,7 @@ export const Field = props => {
 }
 
 Field.defaultProps = {
-  useFileLink: false,
+  useFileLink: true,
   renderLabel: ({ label }) => {
     return label && <Label>{label}</Label>
   },

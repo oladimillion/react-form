@@ -49,6 +49,9 @@ const validationRules = {
       return number === '2'
     }
   },
+  date: {
+    validation: 'required'
+  },
 }
 
 export const Form = ({ readOnly }) => {
@@ -81,8 +84,8 @@ export const Form = ({ readOnly }) => {
       <Field type='password' label='Confirm Password Field' name='confirm_password' />
       <Field type='url' label='Url Field' name='url' />
       <Field type='email' label='Email Field' name='email' />
-      <Field type='file' label='File Field' name='file' />
-      <Field type='file' label='Multi-File Field' name='file_multiple' multiple />
+      <Field useFileLink type='file' label='File Field' name='file' />
+      <Field useFileLink type='file' label='Multi-File Field' name='file_multiple' multiple />
       <FieldArray name='fieldArray' label='Field Array'>
         {({ values, add, remove }) => (
           <FieldArray.Item mb={2}>
@@ -152,6 +155,11 @@ export const Form = ({ readOnly }) => {
         label='Checkbox Field'
         type='checkbox' 
         name='checkbox'
+      />
+      <Field 
+        label='Date Field'
+        type='date' 
+        name='date'
       />
       <SubmitButton>Save</SubmitButton>
     </BaseForm>

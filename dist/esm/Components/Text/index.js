@@ -6,12 +6,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 import styled from 'styled-components';
 import { shadow, layout, space, typography, color } from 'styled-system';
-export var Text = styled.div.attrs(function (props) {
-  return {
-    className: 'Text',
-    as: props.as
-  };
-}).withConfig({
+export var Text = styled.div.withConfig({
   displayName: "Text",
   componentId: "sc-1lncnwv-0"
 })(["", ";", ";", ";", ";", ";"], space, layout, color, typography, shadow);

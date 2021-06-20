@@ -18,6 +18,8 @@ yarn add @oladimillion/react-form
 
 ## Basic Usage
 
+[Example](https://codesandbox.io/s/oladimillionreact-form-dkr6b)
+
 ```js
 import { Form, Field, SubmitButton } from '@oladimillion/react-form'
 
@@ -134,7 +136,7 @@ Form handles the form's validation, change and submit events.
         validation: ['required', 'email'],
         message: {
           required: 'Email field is required',
-          email: 'Email is provided is invalid',
+          email: 'Email provided is invalid',
         }
       }
     }
