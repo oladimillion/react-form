@@ -21,62 +21,46 @@ var _reactRouterDom = require("react-router-dom");
 
 var _Text = require("../Text");
 
-var StyledRouterLink = (0, _styledComponents["default"])(_reactRouterDom.Link).attrs(function (props) {
-  return {
-    className: 'RouterLink'
-  };
-}).withConfig({
-  displayName: "Link__StyledRouterLink",
+var RouterLink = (0, _styledComponents["default"])(_reactRouterDom.Link).withConfig({
+  displayName: "Link__RouterLink",
   componentId: "sc-8bva6j-0"
 })(["", "{};"], _Text.Text);
-StyledRouterLink.displayName = 'RouterLink';
-StyledRouterLink.defaultProps = {
+RouterLink.displayName = 'RouterLink';
+RouterLink.defaultProps = {
   to: ''
 };
-var RouterLink = (0, _reactRouterDom.withRouter)(StyledRouterLink);
-var StyledLink = (0, _styledComponents["default"])(_Text.Text).attrs(function (props) {
-  return {
-    as: 'a',
-    className: 'Link'
-  };
-}).withConfig({
-  displayName: "Link__StyledLink",
+var ExternalLink = (0, _styledComponents["default"])(_Text.Text).withConfig({
+  displayName: "Link__ExternalLink",
   componentId: "sc-8bva6j-1"
 })([""]);
-StyledLink.displayName = 'Link';
-StyledLink.defaultProps = {
-  href: null
+ExternalLink.displayName = 'ExternalLink';
+ExternalLink.defaultProps = {
+  href: null,
+  as: 'a',
+  target: '_blank',
+  rel: 'noreferrer noopener'
 };
 
-var LinkComponent = function LinkComponent(props) {
-  // eslint-disable-next-line no-unused-vars
-  var href = props.href,
-      to = props.to,
+var Link = function Link(props) {
+  var to = props.to,
       children = props.children,
-      staticContext = props.staticContext,
-      rest = (0, _objectWithoutProperties2["default"])(props, ["href", "to", "children", "staticContext"]);
-  return href ? /*#__PURE__*/_react["default"].createElement(StyledLink, (0, _extends2["default"])({
-    target: '_blank',
-    rel: 'noreferrer noopener'
-  }, href && {
-    href: href
-  }, rest), children || href) : /*#__PURE__*/_react["default"].createElement(RouterLink, (0, _extends2["default"])({
+      external = props.external,
+      rest = (0, _objectWithoutProperties2["default"])(props, ["to", "children", "external"]);
+  return external ? /*#__PURE__*/_react["default"].createElement(ExternalLink, rest, children || href) : /*#__PURE__*/_react["default"].createElement(RouterLink, (0, _extends2["default"])({
     to: to
   }, rest), children || to);
 };
 
-var Link = (0, _styledComponents["default"])(LinkComponent).withConfig({
-  displayName: "Link",
-  componentId: "sc-8bva6j-2"
-})([""]);
 exports.Link = Link;
 Link.defaultProps = {
   href: null,
   to: '',
-  children: null
+  children: null,
+  external: false
 };
 Link.propTypes = {
   href: _propTypes["default"].string,
   to: _propTypes["default"].string,
-  children: _propTypes["default"].any
+  children: _propTypes["default"].any,
+  external: _propTypes["default"].bool
 };

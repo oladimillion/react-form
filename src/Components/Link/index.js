@@ -1,48 +1,35 @@
 import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import { Link as BaseLink, withRouter } from 'react-router-dom'
+import { Link as BaseLink } from 'react-router-dom'
 import { Text } from '../Text'
 
-const StyledRouterLink = styled(BaseLink).attrs(props => ({
-  className: 'RouterLink',
-}))`
+const RouterLink = styled(BaseLink)`
   ${Text} {
   } ;
 `
 
-StyledRouterLink.displayName = 'RouterLink'
+RouterLink.displayName = 'RouterLink'
 
-StyledRouterLink.defaultProps = {
+RouterLink.defaultProps = {
   to: '',
 }
 
-const RouterLink = withRouter(StyledRouterLink)
+const ExternalLink = styled(Text)``
 
-const StyledLink = styled(Text).attrs(props => ({
-  as: 'a',
-  className: 'Link',
-}))``
+ExternalLink.displayName = 'ExternalLink'
 
-StyledLink.displayName = 'Link'
-
-StyledLink.defaultProps = {
+ExternalLink.defaultProps = {
   href: null,
+  as: 'a',
+  target: '_blank',
+  rel: 'noreferrer noopener',
 }
 
-const LinkComponent = (props) => {
-
-  // eslint-disable-next-line no-unused-vars
-  const { href, to, children, staticContext, ...rest } = props
-  return href ? (
-    <StyledLink
-      target={'_blank'}
-      rel={'noreferrer noopener'}
-      {...(href && { href })}
-      {...rest}
-    >
-      {children || href}
-    </StyledLink>
+export const Link = props => {
+  const { to, children, external, ...rest } = props
+  return external ? (
+    <ExternalLink {...rest}>{children || href}</ExternalLink>
   ) : (
     <RouterLink to={to} {...rest}>
       {children || to}
@@ -50,16 +37,16 @@ const LinkComponent = (props) => {
   )
 }
 
-export const Link = styled(LinkComponent)``
-
 Link.defaultProps = {
   href: null,
   to: '',
   children: null,
+  external: false,
 }
 
 Link.propTypes = {
   href: PropTypes.string,
   to: PropTypes.string,
   children: PropTypes.any,
+  external: PropTypes.bool,
 }

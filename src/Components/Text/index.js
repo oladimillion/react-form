@@ -1,10 +1,7 @@
 import styled from 'styled-components'
 import { shadow, layout, space, typography, color } from 'styled-system'
 
-export const Text = styled.div.attrs(props => ({
-  className: 'Text',
-  as: props.as,
-}))`
+export const Text = styled.div`
   ${space};
   ${layout};
   ${color};

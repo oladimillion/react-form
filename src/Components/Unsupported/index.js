@@ -8,6 +8,10 @@ export const Unsupported = ({ type }) => (
   </Text>
 )
 
+Unsupported.defaultProps = {
+  type: 'unknown',
+}
+
 Unsupported.propTypes = {
-  type: PropTypes.string.isRequired,
+  type: PropTypes.string,
 }

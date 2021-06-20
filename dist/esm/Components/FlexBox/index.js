@@ -6,11 +6,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 import styled from 'styled-components';
 import { background, layout, space, flexbox } from 'styled-system';
-export var FlexBox = styled.div.attrs(function () {
-  return {
-    className: 'FlexBox'
-  };
-}).withConfig({
+export var FlexBox = styled.div.withConfig({
   displayName: "FlexBox",
   componentId: "vzim0i-0"
 })(["", ";", ";", ";", ";"], space, layout, flexbox, background);

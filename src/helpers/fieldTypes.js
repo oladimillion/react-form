@@ -10,4 +10,5 @@ export const fieldTypes = {
   TEXT: 'text',
   TEXTAREA: 'textarea',
   URL: 'url',
+  DATE: 'date',
 }

@@ -9,8 +9,7 @@ var RadioContext = /*#__PURE__*/React.createContext({
   value: null,
   onChange: function onChange() {}
 });
-
-var RadioComponent = function RadioComponent(props) {
+export var Radio = function Radio(props) {
   var children = props.children,
       _onChange = props.onChange,
       name = props.name,
@@ -42,13 +41,19 @@ var RadioComponent = function RadioComponent(props) {
     }
   }, /*#__PURE__*/React.createElement(RadioWrapper, rest, children));
 };
-
-RadioComponent.defaultProps = {
+Radio.defaultProps = {
   onChange: function onChange() {},
   children: null,
   value: null,
   name: null
 };
+Radio.propTypes = {
+  value: PropTypes.any,
+  onChange: PropTypes.func,
+  name: PropTypes.string.isRequired,
+  children: PropTypes.any
+};
+Radio.displayName = 'Radio';
 
 var RadioComponentItem = function RadioComponentItem(props) {
   var _React$useContext = React.useContext(RadioContext),
@@ -91,20 +96,4 @@ var RadioWrapper = styled.div.attrs(function () {
   displayName: "Radio__RadioWrapper",
   componentId: "vegcz3-0"
 })(["position:relative;max-width:100%;font-size:1rem;"]);
-RadioComponent.Item = RadioComponentItem;
-export var Radio = styled(RadioComponent).attrs(function () {
-  return {
-    className: 'Radio'
-  };
-}).withConfig({
-  displayName: "Radio",
-  componentId: "vegcz3-1"
-})([""]);
-Radio.propTypes = {
-  value: PropTypes.any,
-  onChange: PropTypes.func,
-  name: PropTypes.string.isRequired,
-  children: PropTypes.any
-};
-Radio.displayName = 'Radio';
-hoistNonReactStatics(Radio, RadioComponent);
+Radio.Item = RadioComponentItem;

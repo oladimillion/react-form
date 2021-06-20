@@ -1,9 +1,7 @@
 import styled from 'styled-components'
 import { background, layout, space, flexbox } from 'styled-system'
 
-export const FlexBox = styled.div.attrs(() => ({
-  className: 'FlexBox',
-}))`
+export const FlexBox = styled.div`
   ${space};
   ${layout};
   ${flexbox};

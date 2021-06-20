@@ -9,5 +9,6 @@ export var fieldTypes = {
   SWITCH: 'switch',
   TEXT: 'text',
   TEXTAREA: 'textarea',
-  URL: 'url'
+  URL: 'url',
+  DATE: 'date'
 };

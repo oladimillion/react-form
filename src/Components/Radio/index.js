@@ -9,7 +9,7 @@ const RadioContext = React.createContext({
   onChange: () => {},
 })
 
-const RadioComponent = props => {
+export const Radio = props => {
   const {
     children,
     onChange,
@@ -44,12 +44,21 @@ const RadioComponent = props => {
   )
 }
 
-RadioComponent.defaultProps = {
+Radio.defaultProps = {
   onChange: () => {},
   children: null,
   value: null,
   name: null,
 }
+
+Radio.propTypes = {
+  value: PropTypes.any,
+  onChange: PropTypes.func,
+  name: PropTypes.string.isRequired,
+  children: PropTypes.any,
+}
+
+Radio.displayName = 'Radio'
 
 const RadioComponentItem = props => {
   const { value, name, onChange, disabled } = React.useContext(RadioContext)
@@ -91,19 +100,4 @@ const RadioWrapper = styled.div.attrs(() => ({
   font-size: 1rem;
 `
 
-RadioComponent.Item = RadioComponentItem
-
-export const Radio = styled(RadioComponent).attrs(() => ({
-  className: 'Radio',
-}))``
-
-Radio.propTypes = {
-  value: PropTypes.any,
-  onChange: PropTypes.func,
-  name: PropTypes.string.isRequired,
-  children: PropTypes.any,
-}
-
-Radio.displayName = 'Radio'
-
-hoistNonReactStatics(Radio, RadioComponent)
+Radio.Item = RadioComponentItem

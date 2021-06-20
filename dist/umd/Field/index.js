@@ -27,6 +27,8 @@ var _Components = require("../Components");
 
 var _Radio = require("./Components/Radio");
 
+var _FileLinks = require("./Components/FileLinks");
+
 var _helpers = require("../helpers");
 
 var _styled = require("./styled");
@@ -56,6 +58,10 @@ var InputComponentTypes = (_InputComponentTypes = {}, (0, _defineProperty2["defa
 }), (0, _defineProperty2["default"])(_InputComponentTypes, _helpers.fieldTypes.NUMBER, function (props) {
   return /*#__PURE__*/_react["default"].createElement(_Components.TextInput, (0, _extends2["default"])({}, props, {
     type: 'text'
+  }));
+}), (0, _defineProperty2["default"])(_InputComponentTypes, _helpers.fieldTypes.DATE, function (props) {
+  return /*#__PURE__*/_react["default"].createElement(_Components.TextInput, (0, _extends2["default"])({}, props, {
+    type: 'date'
   }));
 }), _InputComponentTypes);
 
@@ -95,19 +101,15 @@ var Field = function Field(props) {
     width: '100%',
     isBooleanField: isBooleanField
   }, /*#__PURE__*/_react["default"].createElement(_Components.FlexBox, {
-    mb: 2
+    mb: 2,
+    flexWrap: "wrap"
   }, renderLabel({
     required: required,
     label: label
   }), required && /*#__PURE__*/_react["default"].createElement(_styled.Required, {
     as: 'span'
-  }, "*"), isFileField && useFileLink && (0, _helpers.castArray)(value).map(function (link, index) {
-    return _checkTypes["default"].string(link) && /*#__PURE__*/_react["default"].createElement(_styled.FileLink, {
-      key: index,
-      href: link,
-      target: '_blank',
-      rel: 'noopener noreferrer'
-    }, link);
+  }, "*"), isFileField && useFileLink && /*#__PURE__*/_react["default"].createElement(_FileLinks.FileLinks, {
+    value: value
   })), /*#__PURE__*/_react["default"].createElement(FieldComponent, (0, _extends2["default"])({}, rest, !isFileField && {
     value: value
   }, {
